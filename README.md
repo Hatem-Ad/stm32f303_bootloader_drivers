@@ -6,3 +6,4 @@ Develop a custom bootloader and drivers for STM32F303
 2- Drivers
 
 *Modif in linker (memory mapping)
+* modif in makefile
