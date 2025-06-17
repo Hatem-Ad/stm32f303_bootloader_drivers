@@ -3,6 +3,7 @@
 #include "../drivers/uart/uart.h"
 
 int main(void) {
+    //gpio init function
     gpio_init();
     uart_init();
     bootloader_init();
