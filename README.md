@@ -1,11 +1,18 @@
-# stm32f303_bootloader_drivers
+# STM32F303 Bootloader & Drivers 🚀
 
-Develop a custom bootloader and drivers for STM32F303
+A lightweight, bare-metal bootloader and hardware drivers written in C for the STM32F303 Discovery board.
 
-1- Bootloader
-2- Drivers
+---
 
-*Modif in linker (memory mapping)
-* modif in makefile
+## 🔧 Features
 
-*test phase
+- Custom bootloader startup sequence
+- GPIO and UART drivers (no HAL)
+- Memory-map separation for bootloader and application
+- Makefile-based build system (no IDE lock-in)
+- OpenOCD + ST-Link ready for flashing/debugging
+
+---
+
+## 📁 Folder Structure
+

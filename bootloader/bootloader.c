@@ -1,8 +1,8 @@
 #include "bootloader.h"
-#include "gpio.h"  // Example: if using GPIO pin to trigger bootloader
-#include "uart.h"  // Example: if receiving firmware over UART
+#include "gpio.h"  // Use GPIO pin to trigger bootloader
+#include "uart.h"  // Receive firmware over UART
 
-#define APP_START_ADDRESS 0x08004000U  // Example app start address after bootloader
+#define APP_START_ADDRESS 0x08004000U  // App start address after bootloader
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
@@ -11,7 +11,7 @@ void Bootloader_Init(void) {
 }
 
 uint8_t Bootloader_CheckForUpdate(void) {
-    // Example: Check if a specific pin is low to enter update mode
+    // Check if a specific pin is low to enter update mode
     if (GPIO_ReadPin(0) == 0) {
         return 1;  // Enter bootloader
     }
