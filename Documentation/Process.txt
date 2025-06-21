@@ -1,0 +1,14 @@
+ Summary of What We Did
+
+ To create a bootloader for STM32F303:
+ 1) Created main.c in the bootloader/ folder to control the boot process.
+ 2) Implemented a bootloader.c/ .h module containing ;
+    * Bootloader_Init() for peripheral setup
+    * Bootloader_CheckForUpdate() using GPIO
+    * Bootloader_JumpToApp() to jump the application
+3) Created gpio.c/ .h to read a pin that triggers bootloader mode.
+4) Created uart.c/ .h to print debug messages and (later) receive firmware.
+5) Prepared flash.c/ .h to :
+    * Unlock flash memory
+    * Erase old application
+    * Write new firmware
