@@ -14,7 +14,7 @@ OBJCOPY = arm-none-eabi-objcopy
 CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
          -IDrivers/GPIO \
          -IDrivers/UART \
-         -IBootloader
+         -IBootloader \
          -Ilib/CMSIS/Core/Include
 LDFLAGS = -T linker/linker.ld
 
