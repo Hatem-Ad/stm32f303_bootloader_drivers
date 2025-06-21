@@ -1,4 +1,4 @@
-#include "uart.h"
+#include "UART.h"
 
 void UART_Init(void) {
     // TODO: Init USART1 or USART2

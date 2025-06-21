@@ -12,9 +12,10 @@ OBJCOPY = arm-none-eabi-objcopy
 # ===========================
 
 CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
-         -Idrivers/gpio \
-         -Idrivers/uart \
-         -Ibootloader
+         -IDrivers/GPIO \
+         -IDrivers/UART \
+         -IBootloader
+         -Ilib/CMSIS/Core/Include
 LDFLAGS = -T linker/linker.ld
 
 # ===========================
@@ -22,10 +23,10 @@ LDFLAGS = -T linker/linker.ld
 # ===========================
 
 SRCS = \
-    bootloader/main.c \
-    bootloader/bootloader.c \
-    drivers/gpio/gpio.c \
-    drivers/uart/uart.c \
+    Bootloader/Main.c \
+    Bootloader/Bootloader.c \
+    Drivers/GPIO/GPIO.c \
+    Drivers/UART/UART.c \
     startup/system_stm32f3xx.c
 
 STARTUP = startup/startup_stm32f303.s
@@ -34,8 +35,8 @@ STARTUP = startup/startup_stm32f303.s
 # Output names
 # ===========================
 
-OUT = build/bootloader.elf
-BIN = build/bootloader.bin
+OUT = build/Bootloader.elf
+BIN = build/Bootloader.bin
 
 # ===========================
 # Build rules

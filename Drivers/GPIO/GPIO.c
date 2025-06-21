@@ -1,5 +1,5 @@
-#include "gpio.h"
+#include "GPIO.h"
 
-void gpio_init(void) {
+void GPIO_Init(void) {
     // TODO: Configure LED or boot pin if needed
 }

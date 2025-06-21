@@ -1,6 +1,7 @@
-#include "bootloader.h"
-#include "gpio.h"  // Use GPIO pin to trigger bootloader
-#include "uart.h"  // Receive firmware over UART
+#include <core_cm4.h>  // For __set_MSP()
+#include "Bootloader.h"
+#include "GPIO.h"  // Use GPIO pin to trigger bootloader
+#include "UART.h"  // Receive firmware over UART
 
 #define APP_START_ADDRESS 0x08004000U  // App start address after bootloader
 
