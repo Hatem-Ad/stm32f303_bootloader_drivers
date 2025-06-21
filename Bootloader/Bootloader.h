@@ -26,4 +26,4 @@ void Bootloader_ReceiveFirmware(void);
  */
 void Bootloader_JumpToApp(void);
 
-#endif /* BOOTLOADER_H */
+#endif 

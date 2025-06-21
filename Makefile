@@ -2,59 +2,55 @@
 # Toolchain commands
 # ===========================
 
-CC = arm-none-eabi-gcc       # The compiler for ARM Cortex-M
-AS = arm-none-eabi-as        # Assembler (not used here, but could be)
-LD = arm-none-eabi-ld        # Linker (optional if not using gcc to link)
-OBJCOPY = arm-none-eabi-objcopy  # Converts ELF to binary
+CC = arm-none-eabi-gcc
+AS = arm-none-eabi-as
+LD = arm-none-eabi-ld
+OBJCOPY = arm-none-eabi-objcopy
 
 # ===========================
 # Compiler flags
 # ===========================
 
-CFLAGS = -mcpu=cortex-m4     # Target CPU: Cortex-M4 core
-         -mthumb             # Use Thumb instruction set
-         -Wall               # Enable all compiler warnings
-         -O0                 # No optimization (good for debug)
-         -g                  # Include debug information
-
-LDFLAGS = -T linker/linker.ld  # Linker script to control memory layout
+CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
+         -Idrivers/gpio \
+         -Idrivers/uart \
+         -Ibootloader
+LDFLAGS = -T linker/linker.ld
 
 # ===========================
-# Project source files
+# Source files
 # ===========================
 
 SRCS = \
-    bootloader/main.c \        # Main bootloader code
-    bootloader/bootloader.c \  # Bootloader logic
-    drivers/gpio/gpio.c \      # GPIO driver
-    drivers/uart/uart.c \      # UART driver
-    startup/system_stm32f3xx.c # System init file
+    bootloader/main.c \
+    bootloader/bootloader.c \
+    drivers/gpio/gpio.c \
+    drivers/uart/uart.c \
+    startup/system_stm32f3xx.c
 
-STARTUP = startup/startup_stm32f303.s  # Startup assembly file with vector table
+STARTUP = startup/startup_stm32f303.s
 
 # ===========================
 # Output names
 # ===========================
 
-OUT = build/bootloader.elf     # The final ELF executable (for debug/load)
-BIN = build/bootloader.bin     # The binary file for flashing
+OUT = build/bootloader.elf
+BIN = build/bootloader.bin
 
 # ===========================
 # Build rules
 # ===========================
 
-all: $(OUT) $(BIN)             # Default rule: build ELF and BIN
+all: $(OUT) $(BIN)
 
 build:
-	mkdir -p build             # Ensure build directory exists
+	mkdir -p build
 
 $(OUT): build $(SRCS) $(STARTUP)
-	$(CC) $(CFLAGS) $(SRCS) $(STARTUP) $(LDFLAGS) -o $(OUT)  
-        # Compile and link everything into an ELF
+	$(CC) $(CFLAGS) $(SRCS) $(STARTUP) $(LDFLAGS) -o $(OUT)
 
 $(BIN): $(OUT)
-	$(OBJCOPY) -O binary $(OUT) $(BIN)  
-        # Convert ELF to binary format for flashing
+	$(OBJCOPY) -O binary $(OUT) $(BIN)
 
 clean:
-	rm -rf build               # Remove build directory and files
+	rm -rf build
