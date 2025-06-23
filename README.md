@@ -7,7 +7,7 @@ A lightweight, bare-metal bootloader and hardware drivers written in C for the S
 ## 🔧 Features
 
 - Custom bootloader startup sequence
-- GPIO and UART drivers (no HAL)
+- GPIO and UART drivers (no HAL), flash memory management 
 - Memory-map separation for bootloader and application
 - Makefile-based build system (no IDE lock-in)
 - OpenOCD + ST-Link ready for flashing/debugging
