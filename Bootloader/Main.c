@@ -7,7 +7,7 @@ int main(void) {
     if (Bootloader_CheckForUpdate()) {
         Bootloader_ReceiveFirmware();
     }
-
+//jump to the apps 
     Bootloader_JumpToApp();
 
     while (1);
