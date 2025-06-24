@@ -34,6 +34,7 @@ void Bootloader_JumpToApp(void) {
     // Disable interrupts if necessary
     
     // Set main stack pointer
+// very importante part .. so much problems
     __set_MSP(*(volatile uint32_t *)APP_START_ADDRESS);
     
     // Set reset handler address
