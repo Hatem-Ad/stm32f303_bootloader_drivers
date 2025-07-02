@@ -1,4 +1,4 @@
-#include <Core_CortexM4.h>  // For __set_MSP()
+#include <Core_CortexM4.h>  // For Main Stack Pointer 
 #include "Bootloader.h"
 #include "GPIO.h"  // Use GPIO pin to trigger bootloader
 #include "UART.h"  // Receive firmware over UART
@@ -28,18 +28,17 @@ void Bootloader_ReceiveFirmware(void) {
 
 void Bootloader_JumpToApp(void) {
     // Function pointer to application's reset handler
-    void (*app_reset_handler)(void);
+    void (*App_reset_handler)(void);
     
-    // De-initialize peripherals if needed
-    // Disable interrupts if necessary
+    // Disable interrupts if needed
+    __disable_irq();
     
-    // Set main stack pointer
-// very importante part .. so much problems
+    // Set MSP from app's vector table
     __set_MSP(*(volatile uint32_t *)APP_START_ADDRESS);
     
     // Set reset handler address
-    app_reset_handler = (void (*)(void)) (*(volatile uint32_t *)(APP_START_ADDRESS + 4));
+    App_reset_handler = (void (*)(void)) (*(volatile uint32_t *)(APP_START_ADDRESS + 4));
     
     // Jump to application
-    app_reset_handler();
+    App_reset_handler();
 }
