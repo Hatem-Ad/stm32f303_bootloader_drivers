@@ -1,4 +1,4 @@
-#include <core_cm4.h>  // For __set_MSP()
+#include <Core_CortexM4.h>  // For __set_MSP()
 #include "Bootloader.h"
 #include "GPIO.h"  // Use GPIO pin to trigger bootloader
 #include "UART.h"  // Receive firmware over UART
