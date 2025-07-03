@@ -42,3 +42,16 @@ void Bootloader_JumpToApp(void) {
     // Jump to application
     App_reset_handler();
 }
+
+void Bootloader_run() {
+    //Init phase 
+    Bootloader_Init();
+    
+    //Check the bootloader update
+    if (Bootloader_CheckForUpdate()) {
+        Bootloader_ReceiveFirmware(); // Reciever a new firmware UART
+    }
+    
+    Bootloader_JumpToApp(); //Jump to user application in flash
+}
+

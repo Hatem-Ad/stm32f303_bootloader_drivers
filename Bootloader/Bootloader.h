@@ -26,4 +26,12 @@ void Bootloader_ReceiveFirmware(void);
  */
 void Bootloader_JumpToApp(void);
 
+/**
+ * @brief Executes the main bootloader logic.
+ *
+ * Initializes peripherals, checks for firmware update trigger,
+ * receives new firmware if needed, and jumps to the user application.
+ */
+void Bootloader_run(void);
+
 #endif 
