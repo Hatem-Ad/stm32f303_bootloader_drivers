@@ -15,7 +15,8 @@ CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
          -IDrivers/GPIO \
          -IDrivers/UART \
          -IBootloader \
-         -Ilib/CMSIS/Core/Include
+         -Ilib/CMSIS/Core/Include \
+         -IDrivers/Flash
 LDFLAGS = -T linker/linker.ld
 
 # ===========================
@@ -27,7 +28,8 @@ SRCS = \
     Bootloader/Bootloader.c \
     Drivers/GPIO/GPIO.c \
     Drivers/UART/UART.c \
-    startup/system_stm32f3xx.c
+    startup/system_stm32f3xx.c \
+    Drivers/Flash/flash.c
 
 STARTUP = startup/startup_stm32f303.s
 
