@@ -16,7 +16,7 @@ uint8_t Bootloader_CheckForUpdate(void) {
     if (GPIO_ReadPin(0) == 0) {
         return 1;  // Enter bootloader
     }
-    return 0;
+    return 0; //Jump to app
 }
 
 void Bootloader_ReceiveFirmware(void) {
