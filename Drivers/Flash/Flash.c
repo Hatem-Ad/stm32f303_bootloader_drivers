@@ -16,3 +16,4 @@ void Flash_Lock(void)
 {
     FLASH->CR|= FLASH_CR_LOCK;
 }
+
