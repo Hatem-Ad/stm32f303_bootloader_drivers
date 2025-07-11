@@ -17,3 +17,8 @@ void Flash_Lock(void)
     FLASH->CR|= FLASH_CR_LOCK;
 }
 
+void Flash_Erase(uint32_t addr)
+{
+    FLASH->CR|= FLASH_CR_PER;
+    FLASH->AR = addr;
+}
