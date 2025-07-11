@@ -11,3 +11,8 @@ void Flash_Unlock(void)
         FLASH->KEYR = 0xCDEF89AB;
     }
 }
+
+void Flash_Lock(void)
+{
+    FLASH->CR|= FLASH_CR_LOCK;
+}
