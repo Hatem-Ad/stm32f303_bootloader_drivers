@@ -21,4 +21,7 @@ void Flash_Erase(uint32_t addr)
 {
     FLASH->CR|= FLASH_CR_PER;
     FLASH->AR = addr;
+    FLASH->CR|= FLASH_CR_START;
+    while(FLASH_SR & FLASH_SR_BSY);
+    FLASH->CR &= ~FLASH_CR_PER;
 }
