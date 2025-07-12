@@ -19,9 +19,14 @@ void Flash_Lock(void)
 
 void Flash_Erase(uint32_t addr)
 {
+    //Set the Page Erase bit (PER) to configure the the flash memory for the page erase mode.
     FLASH->CR|= FLASH_CR_PER;
+    //Write the target address in the flash address register for specifie the which flash page should be erase.
     FLASH->AR = addr;
+    //Sets the start bit in the flash control register to begin erase operation.
     FLASH->CR|= FLASH_CR_START;
+    //This loop block the CPU until erase finishes (hardware clears BSY)
     while(FLASH_SR & FLASH_SR_BSY);
+    //Clear the Page Erase bit in CR to exit the erase mode.
     FLASH->CR &= ~FLASH_CR_PER;
 }
