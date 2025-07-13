@@ -20,7 +20,7 @@ uint8_t Bootloader_CheckForUpdate(void) {
 }
 
 void Bootloader_ReceiveFirmware(void) {
-    // Placeholder: Receive and write firmware to flash
+    // Receive and write firmware to flash
     // Implement UART receive, flash erase/write here
     UART_SendString("Receiving firmware...\r\n");
     // TODO: Add code to receive and program flash
