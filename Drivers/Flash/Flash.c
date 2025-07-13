@@ -14,6 +14,7 @@ void Flash_Unlock(void)
 
 void Flash_Lock(void)
 {
+    // Set the lock bit
     FLASH->CR|= FLASH_CR_LOCK;
 }
 
