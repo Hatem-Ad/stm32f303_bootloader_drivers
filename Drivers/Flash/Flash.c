@@ -32,3 +32,13 @@ void Flash_Erase(uint32_t addr)
     //Clear the Page Erase bit in CR to exit the erase mode.
     FLASH->CR &= ~FLASH_CR_PER;
 }
+
+void Flash_Write(uint32_t addr, uint8_t *data, uint32_t len)
+{
+    for (uint32_t i = 0; i < len; i +=2)
+    {
+        FLASH->CR |= FLASH_CR_PG;
+        *
+    }
+    
+}
