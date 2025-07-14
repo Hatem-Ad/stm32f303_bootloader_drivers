@@ -7,7 +7,7 @@ void Flash_Unlock(void)
     if (FLASH->CR & FLASH_CR_LOCK)
     {
         //Write the two key values to unclock flash programming
-// Hard coded values
+// Hard coded values, set by the st engineers 
         FLASH->KEYR = 0x45670123;
         FLASH->KEYR = 0xCDEF89AB;
     }
