@@ -37,8 +37,14 @@ void Flash_Write(uint32_t addr, uint8_t *data, uint32_t len)
 {
     for (uint32_t i = 0; i < len; i +=2)
     {
+        // Set programming mode 
         FLASH->CR |= FLASH_CR_PG;
-        *
+        // Write 16 bits
+        *(volatile uint16_t *)(addr + i) = *(uint16_t *)(data +i);
+        // wait until write completes
+        while(FLASH->SR & FLASH_SR_BSY);
+        //Exit programming mode
+        FLASH->CR &= ~FLASH_CR_PG;  
     }
     
 }
