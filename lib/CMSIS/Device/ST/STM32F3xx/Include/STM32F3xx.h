@@ -27,12 +27,12 @@ typedef struct {
 } FLASH_typeDef;
 
 //FLASH_CR bits
-#define FLASH_CR_LOCK (1U << 7)
-#define FLASH_CR_PER (1U << 1)
-#define FLASH_CR_PG (1U << 0)
+#define FLASH_CR_LOCK  (1U << 7)
+#define FLASH_CR_PER   (1U << 1)
+#define FLASH_CR_PG    (1U << 0)
 #define FLASH_CR_START (1U << 6)
 
 // FLASH_SR bits
-#define FLASH_SR_BSY (1U << 0)
+#define FLASH_SR_BSY   (1U << 0)
 
 #endif

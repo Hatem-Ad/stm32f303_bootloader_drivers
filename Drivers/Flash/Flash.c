@@ -1,5 +1,5 @@
 #include "Flash.h"
-#include "stm32f3xx.h" // needed for Flash erase, give the access to flash registers via CMSIS
+#include "STM32F3xx.h" // needed for Flash erase, give the access to flash registers via CMSIS
 
 void Flash_Unlock(void)
 {
@@ -8,8 +8,8 @@ void Flash_Unlock(void)
     {
         //Write the two key values to unclock flash programming
 // Hard coded values, set by the st engineers 
-        FLASH->KEYR = 0x45670123;
-        FLASH->KEYR = 0xCDEF89AB;
+        FLASH->KEYR = FLASH_KEY1;
+        FLASH->KEYR = FLASH_KEY2;
     }
 }
 
