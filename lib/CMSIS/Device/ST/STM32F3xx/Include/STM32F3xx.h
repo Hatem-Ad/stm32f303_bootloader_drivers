@@ -4,14 +4,7 @@
 #include <stdint.h> // required for uint32_t
 
 //Flash peripheral base address
-#define FLASH_BASE (0x40022000UL)
-
-//Flash pointer
-#define FLASH ((FLASH_TypeDef *) FLASH_BASE)
-
-//Flash keys
-#define FLASH_KEY1 0x45670123UL
-#define FLASH_KEY2 0xCDEF89ABUL
+#define FLASH_BASE 0x40022000UL
 
 //Flash register structre
 typedef struct {
@@ -26,6 +19,9 @@ typedef struct {
     volatile uint32_t WRPR;    // 0x20: Write protection register
 } FLASH_typeDef;
 
+//Flash pointer
+#define FLASH ((FLASH_TypeDef *) FLASH_BASE)
+
 //FLASH_CR bits
 #define FLASH_CR_LOCK  (1U << 7)
 #define FLASH_CR_PER   (1U << 1)
@@ -34,5 +30,9 @@ typedef struct {
 
 // FLASH_SR bits
 #define FLASH_SR_BSY   (1U << 0)
+
+//Flash keys
+#define FLASH_KEY1 0x45670123UL
+#define FLASH_KEY2 0xCDEF89ABUL
 
 #endif
