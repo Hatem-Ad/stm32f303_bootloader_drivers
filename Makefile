@@ -30,7 +30,7 @@ SRCS = \
     Drivers/GPIO/GPIO.c \
     Drivers/UART/UART.c \
     startup/system_stm32f3xx.c \
-    Drivers/Flash/flash.c 
+    Drivers/Flash/Flash.c 
 
 STARTUP = startup/startup_stm32f303.s
 
