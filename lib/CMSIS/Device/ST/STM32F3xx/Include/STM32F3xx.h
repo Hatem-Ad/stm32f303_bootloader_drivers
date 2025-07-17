@@ -4,7 +4,7 @@
 #include <stdint.h> // required for uint32_t
 
 //Flash peripheral base address
-#define FLASH_BASE 0x40022000UL
+#define FLASH_BASE (0x40022000UL)
 
 //Flash pointer
 #define FLASH ((FLASH_TypeDef *) FLASH_BASE)
