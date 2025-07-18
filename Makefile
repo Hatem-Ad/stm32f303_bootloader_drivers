@@ -16,8 +16,8 @@ CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
          -IDrivers/UART \
          -IBootloader \
          -Ilib/CMSIS/Core/Include \
-         -IDrivers/Flash \
-         -Ilib/CMSIS/Device/ST/STM32F3xx/Include
+         -Ilib/CMSIS/Device/ST/STM32F3xx/Include \
+         -IDrivers/Flash
 LDFLAGS = -T linker/linker.ld
 
 # ===========================

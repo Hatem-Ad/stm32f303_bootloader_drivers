@@ -1,5 +1,5 @@
 #include "Flash.h"
-#include "STM32F3xx.h" // needed for Flash erase, give the access to flash registers via CMSIS
+#include "STM32F3xx.h" // needed for Flash operations, give the access to flash registers via CMSIS
 
 void Flash_Unlock(void)
 {

@@ -3,9 +3,6 @@
 
 #include <stdint.h> // required for uint32_t
 
-//Flash peripheral base address
-#define FLASH_BASE 0x40022000UL
-
 //Flash register structre
 typedef struct {
     volatile uint32_t ACR;     // 0x00: Access control register
@@ -18,6 +15,9 @@ typedef struct {
     volatile uint32_t OBR;     // 0x1C: Option byte register
     volatile uint32_t WRPR;    // 0x20: Write protection register
 } FLASH_typeDef;
+
+//Flash peripheral base address
+#define FLASH_BASE 0x40022000UL
 
 //Flash pointer
 #define FLASH ((FLASH_TypeDef *) FLASH_BASE)
