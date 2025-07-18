@@ -14,7 +14,7 @@ typedef struct {
     uint32_t RESERVED;
     volatile uint32_t OBR;     // 0x1C: Option byte register
     volatile uint32_t WRPR;    // 0x20: Write protection register
-} FLASH_typeDef;
+} FLASH_TypeDef;
 
 //Flash peripheral base address
 #define FLASH_BASE 0x40022000UL

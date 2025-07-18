@@ -28,7 +28,7 @@ void Flash_Erase(uint32_t addr)
     //Sets the start bit in the flash control register to begin erase operation.
     FLASH->CR|= FLASH_CR_START;
     //This loop block the CPU until erase finishes (hardware clears BSY)
-    while(FLASH_SR & FLASH_SR_BSY);
+    while(FLASH->SR & FLASH_SR_BSY);
     //Clear the Page Erase bit in CR to exit the erase mode.
     FLASH->CR &= ~FLASH_CR_PER;
 }
