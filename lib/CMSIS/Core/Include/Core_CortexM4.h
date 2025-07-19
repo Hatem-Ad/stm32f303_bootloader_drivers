@@ -9,6 +9,7 @@ static inline void __set_MSP(uint32_t TopOfMainStack)
     __asm volatile ("msr msp, %0" : : "r" (TopOfMainStack):);
 }
 
+// to desiable intrrupts when the jump to apps
 static inline void _disable_irq(void)
 {
     __asm volatile ("cpsid i");
