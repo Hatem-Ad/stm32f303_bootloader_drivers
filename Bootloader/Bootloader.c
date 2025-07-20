@@ -22,10 +22,16 @@ uint8_t Bootloader_CheckForUpdate(void) {
 }
 
 void Bootloader_ReceiveFirmware(void) {
-    // Receive and write firmware to flash
-    // Implement UART receive, flash erase/write here
-    UART_SendString("Receiving firmware...\r\n");
-    // TODO: Add code to receive and program flash
+    
+    uint8_t buffer[FW_CHUNK_SIZE];
+    uint32_t addr = APP_START_ADDRESS;
+    uint32_t received;
+
+
+
+
+
+
 }
 
 void Bootloader_JumpToApp(void) {
