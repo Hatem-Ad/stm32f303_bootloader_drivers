@@ -36,9 +36,20 @@ void Bootloader_ReceiveFirmware(void) {
         Flash_Erase(pageAddr); //Erase one page (0x800 = 2KB for STM32f3)
     }
 
+    //2. Received data chunks and write to flash
+    while (1)
+    {
+        received = UART_Received(buffer, FW_CHUNK_SIZE); // Blocking read
+        if (received == 0) break; //assume 0 bytes means "End of transmission"
 
+        Flash_Write(addr, buffer, received);
+        addr += received; // update address
 
-
+        UART_SendString("Chunk written. \r\n");
+    }    
+    
+    FLASH_Lock(); // Disable Flash programming
+    UART_SendString("Firmware update complete. \r\n");
 }
 
 void Bootloader_JumpToApp(void) {
