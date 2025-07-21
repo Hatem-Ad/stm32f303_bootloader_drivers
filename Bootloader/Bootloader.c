@@ -27,7 +27,14 @@ void Bootloader_ReceiveFirmware(void) {
     uint32_t addr = APP_START_ADDRESS;
     uint32_t received;
 
+    UART_SendString("Starting firmware update ...\r\n");
 
+    //1. Erase the application aera before writing 
+    FLASH_Unlock();
+    for(uint32_t pageAddr = APP_START_ADDRESS; pageAddr < (APP_START_ADDRESS + 0x2000); pageAddr += 0x800)
+    {
+        Flash_Erase(pageAddr); //Erase one page (0x800 = 2KB for STM32f3)
+    }
 
 
 
