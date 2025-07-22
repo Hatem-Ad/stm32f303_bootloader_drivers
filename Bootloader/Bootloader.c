@@ -5,7 +5,7 @@
 #include "Flash.h" // For Flash memory
 
 #define APP_START_ADDRESS 0x08004000U  // App start address after bootloader
-#define FW_CHUNK_SIZE 256 //Bute per chunk
+#define FW_CHUNK_SIZE 256 //Byte per chunk
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
@@ -31,9 +31,9 @@ void Bootloader_ReceiveFirmware(void) {
 
     //1. Erase the application aera before writing 
     FLASH_Unlock();
-    for(uint32_t pageAddr = APP_START_ADDRESS; pageAddr < (APP_START_ADDRESS + 0x2000); pageAddr += 0x800)
+    for(uint32_t currentAddress = APP_START_ADDRESS; currentAddress < (APP_START_ADDRESS + 0x2000); currentAddress += 0x800)
     {
-        Flash_Erase(pageAddr); //Erase one page (0x800 = 2KB for STM32f3)
+        Flash_Erase(currentAddress); //Erase one page (0x800 = 2KB for STM32f3)
     }
 
     //2. Received data chunks and write to flash
