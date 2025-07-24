@@ -9,6 +9,7 @@ void Flash_Unlock(void)
         //Write the two key values to unclock flash programming
 // Hard coded values, set by the st engineers 
 // Key1 : 0x45670123
+// Key2 : 0xCDEF89AB
         FLASH->KEYR = FLASH_KEY1;
         FLASH->KEYR = FLASH_KEY2;
     }
