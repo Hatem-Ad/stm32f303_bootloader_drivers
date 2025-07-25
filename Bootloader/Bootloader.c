@@ -22,7 +22,7 @@ uint8_t Bootloader_CheckForUpdate(void) {
 }
 
 void Bootloader_ReceiveFirmware(void) {
-    
+    // Local declaration
     uint8_t buffer[FW_CHUNK_SIZE];
     uint32_t addr = APP_START_ADDRESS;
     uint32_t received;
