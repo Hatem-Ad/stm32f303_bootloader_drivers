@@ -27,23 +27,13 @@ void UART_SendString(const char *str) {
     }
 }
 
-// Read a chnik of at most len bytes
-char UART_Received(uint8_t *buffer, uint32_t len) {
-    uint32_t count = 0;
-
-    while (count < len)
-    {
-        if (UART_Available())
-        {
-            //Verifiy if one bytes is dispo
-            buffer[count++] = UART_ReadByte();
-        }
-        else
-        {
-            break; // No more data
-        }
+// Read a chnuk of at most len bytes
+uint32_t UART_Received(uint8_t *buffer, uint32_t len) {
+    uint32_t i = 0;
+    while (i < len) {
+        while (!(USART1->ISR & USART_ISR_RXNE));
+        buffer[i++] = USART1->RDR;
     }
-    
-
-    return 0;
+    return i;
 }
+    
