@@ -1,8 +1,18 @@
 #ifndef STM32F3xx_H
 #define STM32F3xx_H
 
-#include <stdint.h> // required for uint32_t
+#include <stdint.h> // required for uint32_t etc ...
 
+
+#define PERIPH_BASE            ((uint32_t) 0x40000000)
+#define AHBPERIPH_BASE         (PERIPH_BASE + 0x20000)
+#define APB1PERIPH_BASE        (PERIPH_BASE + 0x00000)
+#define APB2PERIPH_BASE        (PERIPH_BASE + 0x10000)
+
+#define RCC_BASE               (AHBPERIPH_BASE + 0x1000)
+
+//Pointers to devices
+#define RCC                    ((RCC_TypeDef *) RCC_BASE)
 
 
 
@@ -13,6 +23,9 @@
 //--------------------//
 //       Flash        //
 //--------------------//
+
+//Flash peripheral base address
+#define FLASH_BASE 0x40022000UL
 
 //Flash register structre
 typedef struct {
@@ -27,8 +40,6 @@ typedef struct {
     volatile uint32_t WRPR;    // 0x20: Write protection register
 } FLASH_TypeDef;
 
-//Flash peripheral base address
-#define FLASH_BASE 0x40022000UL
 
 //Flash pointer
 #define FLASH ((FLASH_TypeDef *) FLASH_BASE)
@@ -50,6 +61,22 @@ typedef struct {
 //        GPIO        //
 //--------------------//
 
+//GPIO peripheral base address
+#define GPIOA_BASE             (AHBPERIPH_BASE + 0x0000)
+
+//GPIO register structre
+typedef struct{
+    volatile uint32_t MODER;
+    volatile uint32_t OTYPER;
+    volatile uint32_t OSPEEDR;
+    volatile uint32_t PUPDR;
+    volatile uint32_t IDR;
+    volatile uint32_t ODR;
+    volatile uint32_t BSRR;
+    volatile uint32_t LCKR;
+    volatile uint32_t AFR[2];
+} GPIO_TypeDef;
+
 
 
 
@@ -61,7 +88,7 @@ typedef struct {
 //        UART        //
 //--------------------//
 
-
+#define USART1_BASE            (APB2PERIPH_BASE + 0x3800)
 
 
 
