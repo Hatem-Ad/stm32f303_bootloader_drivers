@@ -3,6 +3,17 @@
 
 #include <stdint.h> // required for uint32_t
 
+
+
+
+
+
+
+
+//--------------------//
+//       Flash        //
+//--------------------//
+
 //Flash register structre
 typedef struct {
     volatile uint32_t ACR;     // 0x00: Access control register
@@ -34,5 +45,24 @@ typedef struct {
 //Flash keys
 #define FLASH_KEY1 0x45670123UL
 #define FLASH_KEY2 0xCDEF89ABUL
+
+//--------------------//
+//        GPIO        //
+//--------------------//
+
+
+
+
+
+
+
+
+//--------------------//
+//        UART        //
+//--------------------//
+
+
+
+
 
 #endif
