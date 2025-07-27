@@ -14,7 +14,23 @@
 //Pointers to devices
 #define RCC                    ((RCC_TypeDef *) RCC_BASE)
 
-
+//RCC register structre
+typedef struct {
+    volatile uint32_t CR;
+    volatile uint32_t CFGR;
+    volatile uint32_t CIR;
+    volatile uint32_t APB2RSTR;
+    volatile uint32_t APB1RSTR;
+    volatile uint32_t AHBENR;
+    volatile uint32_t APB2ENR;
+    volatile uint32_t APB1ENR;
+    volatile uint32_t BDCR;
+    volatile uint32_t CSR;
+    volatile uint32_t AHBRSTR;
+    volatile uint32_t CFGR2;
+    volatile uint32_t CFGR3;
+    volatile uint32_t CR2;
+} RCC_TypeDef;
 
 
 
@@ -88,8 +104,19 @@ typedef struct{
 //        UART        //
 //--------------------//
 
+//UASRT peripheral base address
 #define USART1_BASE            (APB2PERIPH_BASE + 0x3800)
 
+//USART register structre
+typedef struct{
+    volatile uint32_t SR;
+    volatile uint32_t DR;
+    volatile uint32_t BRR;
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t CR3;
+    volatile uint32_t GTPR;
+} USART_TypeDef;
 
 
 #endif
