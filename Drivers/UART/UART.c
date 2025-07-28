@@ -1,5 +1,5 @@
+#include <stdint.h>
 #include "UART.h"
-#include "stdint.h"
 #include "STM32F3xx.h"
 
 void UART_Init(void) {

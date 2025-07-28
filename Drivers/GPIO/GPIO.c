@@ -1,5 +1,5 @@
-#include "GPIO.h"
 #include <stdint.h>
+#include "GPIO.h"
 #include "STM32F3xx.h"
 
 void GPIO_Init(void) {
