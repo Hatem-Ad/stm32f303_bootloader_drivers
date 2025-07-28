@@ -9,7 +9,17 @@
 #define APB1PERIPH_BASE        (PERIPH_BASE + 0x00000)
 #define APB2PERIPH_BASE        (PERIPH_BASE + 0x10000)
 
+
+
+//--------------------//
+//        RCC         //
+//--------------------//
+
+//RCC base address
 #define RCC_BASE               (AHBPERIPH_BASE + 0x1000)
+
+// Peripheral activition bit
+#define RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
 
 //Pointers to devices
 #define RCC                    ((RCC_TypeDef *) RCC_BASE)
@@ -32,7 +42,8 @@ typedef struct {
     volatile uint32_t CR2;
 } RCC_TypeDef;
 
-
+//RCC AHBENR bits
+#define RCC_AHBENR_GPIOAEN   (1U << 17) // Bit 17: IO port A clock enable 
 
 
 
@@ -93,6 +104,8 @@ typedef struct{
     volatile uint32_t AFR[2];
 } GPIO_TypeDef;
 
+//GPIOA pointer
+#define GPIOA ((GPIO_TypeDef *) GPIOA_BASE)
 
 
 
@@ -109,14 +122,30 @@ typedef struct{
 
 //USART register structre
 typedef struct{
-    volatile uint32_t SR;
-    volatile uint32_t DR;
-    volatile uint32_t BRR;
-    volatile uint32_t CR1;
-    volatile uint32_t CR2;
-    volatile uint32_t CR3;
-    volatile uint32_t GTPR;
+    volatile uint32_t CR1;     // Control register 1
+    volatile uint32_t CR2;     // Control register 2
+    volatile uint32_t CR3;     // Control register 3
+    volatile uint32_t BRR;     // Baud rate register
+    volatile uint32_t GTPR;    // Guard time and prescaler
+    volatile uint32_t RTOR;    // Receiver timeout
+    volatile uint32_t RQR;     // Request register
+    volatile uint32_t ISR;     // Interrupt and status register
+    volatile uint32_t ICR;     // Interrupt flag clear register
+    volatile uint32_t RDR;     // Receive data register
+    volatile uint32_t TDR;     // Transmit data register
 } USART_TypeDef;
+
+//USART1 pointer
+#define USART1 ((USART_TypeDef *) USART1_BASE)
+
+//Controle register bits (CR)
+#define USART_CR_TE         (1U << 3)
+#define USART_CR_RE         (1U << 2)
+#define USART_CR_UE         (1U << 13)
+
+//Interrupt register status bits (ISR)
+#define USART_ISR_TXE       (1U << 7)
+#define USART_ISR_RXNE      (1U << 5)
 
 
 #endif

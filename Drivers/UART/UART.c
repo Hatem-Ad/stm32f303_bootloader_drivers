@@ -1,5 +1,6 @@
 #include "UART.h"
 #include "stdint.h"
+#include "STM32F3xx.h"
 
 void UART_Init(void) {
     
@@ -27,7 +28,7 @@ void UART_SendString(const char *str) {
     }
 }
 
-// Read a chnuk of at most len bytes
+// Read a chnuk of at most len bytesUSART1 ...
 uint32_t UART_Received(uint8_t *buffer, uint32_t len) {
     uint32_t i = 0;
     while (i < len) {
