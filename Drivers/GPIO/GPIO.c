@@ -15,6 +15,9 @@ void GPIO_Init(void) {
     GPIOA->MODER &= ~(1U << (5 * 2 + 1));
 }
 
+
+//This function reads the input data register (IDR) of GPIO Port A and checks the state
+//of the requested pin. It returns the logical state (1 or 0) of the pin.
 uint8_t GPIO_ReadPin(uint8_t pin_number){
     return (GPIOA->IDR & (1 << pin_number)) ? 1 : 0;
 }
