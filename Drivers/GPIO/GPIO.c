@@ -23,10 +23,10 @@ void GPIO_Init(GPIO_TypeDef *port, uint8_t pin, uint8_t mode) {
 }
 
 
-//This function reads the input data register (IDR) of GPIO Port A and checks the state
+//This function reads the input data register (IDR) of X Port  and checks the state
 //of the requested pin. It returns the logical state (1 or 0) of the pin.
-uint8_t GPIO_ReadPin(uint8_t pin_number){
-    return (GPIOA->IDR & (1 << pin_number)) ? 1 : 0;
+uint8_t GPIO_ReadPin(GPIO_TypeDef *port, uint8_t pin_number){
+    return (port->IDR & (1 << pin_number)) ? 1 : 0;
 }
 
 void GPIO_WritePin(uint8_t pin_number, uint8_t state)
