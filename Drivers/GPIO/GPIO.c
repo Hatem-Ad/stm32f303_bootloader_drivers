@@ -2,17 +2,18 @@
 #include "GPIO.h"
 #include "STM32F3xx.h"
 
-void GPIO_Init(void) {
+void GPIO_Init(GPIO_TypeDef *port, uint8_t pin, uint8_t mode) {
     
-    //Enable the GPIO clock
-    RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
+    //Enable Clock for selcted port
+    if (port == GPIOA) RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
+    else if (port == GPIOB) RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
+    else if (port == GPIOC) RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
+    else if (port == GPIOD) RCC->AHBENR |= RCC_AHBENR_GPIODEN;
+    else if (port == GPIOE) RCC->AHBENR |= RCC_AHBENR_GPIOEEN;
+    else if (port == GPIOF) RCC->AHBENR |= RCC_AHBENR_GPIOFEN;
 
-    //Configure PA0 as input(for a button)
-    GPIOA->MODER &= ~(3U << (0 * 2)); // 00: Input
-
-    //Configure an output LED : PA5
-    GPIOA->MODER |= (1U << (5 * 2)); //01: Output
-    GPIOA->MODER &= ~(1U << (5 * 2 + 1));
+    //Clear mode bits 
+    port->MODER &= ~(3U << (pin * 2));
 }
 
 

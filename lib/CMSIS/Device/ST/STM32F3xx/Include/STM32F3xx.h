@@ -44,6 +44,12 @@ typedef struct {
 
 //RCC AHBENR bits
 #define RCC_AHBENR_GPIOAEN   (1U << 17) // Bit 17: IO port A clock enable 
+#define RCC_AHBENR_GPIOBEN   (1U << 18) // Bit 17: IO port A clock enable 
+#define RCC_AHBENR_GPIOCEN   (1U << 19) // Bit 17: IO port A clock enable 
+#define RCC_AHBENR_GPIODEN   (1U << 20) // Bit 17: IO port A clock enable 
+#define RCC_AHBENR_GPIOEEN   (1U << 21) // Bit 17: IO port A clock enable 
+#define RCC_AHBENR_GPIOFEN   (1U << 22) // Bit 17: IO port A clock enable 
+
 
 
 
@@ -90,6 +96,11 @@ typedef struct {
 
 //GPIO peripheral base address
 #define GPIOA_BASE             (AHBPERIPH_BASE + 0x0000)
+#define GPIOB_BASE             (AHBPERIPH_BASE + 0x0400)
+#define GPIOC_BASE             (AHBPERIPH_BASE + 0x0800)
+#define GPIOD_BASE             (AHBPERIPH_BASE + 0x0C00)
+#define GPIOE_BASE             (AHBPERIPH_BASE + 0x1000)
+#define GPIOF_BASE             (AHBPERIPH_BASE + 0x1400)
 
 //GPIO register structre
 typedef struct{
@@ -106,6 +117,11 @@ typedef struct{
 
 //GPIOA pointer
 #define GPIOA ((GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOB ((GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOC ((GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOD ((GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOE ((GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOF ((GPIO_TypeDef *) GPIOA_BASE)
 
 
 
