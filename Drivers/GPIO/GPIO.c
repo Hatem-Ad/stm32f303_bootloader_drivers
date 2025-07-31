@@ -14,6 +14,12 @@ void GPIO_Init(GPIO_TypeDef *port, uint8_t pin, uint8_t mode) {
 
     //Clear mode bits 
     port->MODER &= ~(3U << (pin * 2));
+
+    if (mode == 1){
+        port->MODER |= (1U << (pin * 2)); //output mode
+    } else {
+        //Input mode: already cleared above
+    }
 }
 
 
