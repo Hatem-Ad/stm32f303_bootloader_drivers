@@ -39,6 +39,6 @@ void GPIO_WritePin(GPIO_TypeDef *port, uint8_t pin_number, uint8_t state)
 }
 
 //This function toggles the state of a given output pin on GPIOA.
-void GPIO_TogglePin(uint8_t pin_number){
-    GPIOA->ODR ^= (1U << pin_number);
+void GPIO_TogglePin(GPIO_TypeDef *port, int8_t pin_number){
+    port->ODR ^= (1U << pin_number);
 }
