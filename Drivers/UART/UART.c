@@ -9,7 +9,7 @@ void UART_Init(void) {
     RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 
     //Configure PA9 (TX) and PA10(RX)
-    GPIOA->MODER &= ~((3U << (9 *2)) | (3U << (10 *2)));
+    GPIOA->MODER &= ~((3U << (9 * 2)) | (3U << (10 * 2)));
     GPIOA->MODER |= (2U << (9 * 2)) | (2U << (10 * 2)); //Alternate function
 
     GPIOA->AFR[1] |= (7U << ((9 - 8) * 4)) | (7U << ((10 - 8) * 4)); // AF7
