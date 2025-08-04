@@ -37,4 +37,3 @@ uint32_t UART_Received(uint8_t *buffer, uint32_t len) {
     }
     return i;
 }
-    
