@@ -37,3 +37,9 @@ uint32_t UART_Received(uint8_t *buffer, uint32_t len) {
     }
     return i;
 }
+
+void UART_send_char(char c)
+{
+    while (!(USART1->ISR & USART_ISR_TXE));
+    USART1->TDR = c;
+}
