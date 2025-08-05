@@ -44,12 +44,18 @@ uint32_t UART_Received(uint8_t *buffer, uint32_t len)
 
 void UART_send_char(char c)
 {
+    // Wait until the transmit data register is empty (TXE = 1)
     while (!(USART1->ISR & USART_ISR_TXE));
+
+    // Write the character to the Transmit Data Register to send it
     USART1->TDR = c;
 }
 
 char UART_receive_char(void) 
 {
+    // Wait until the receive data register is not empty (RXNE = 1)
     while (!(USART1->ISR & USART_ISR_RXNE));
+
+    // Read and return the received character from Receive Data Register
     return USART1->RDR;
 }
