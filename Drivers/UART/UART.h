@@ -2,9 +2,29 @@
 #define UART_H
 
 void UART_Init(void);
-void uart_send_char(char c);
-char uart_receive_char(void);
-uint32_t UART_Received(uint8_t *buffer, uint32_t len);
+
 void UART_SendString(const char *str);
+
+uint32_t UART_Received(uint8_t *buffer, uint32_t len);
+
+/**
+ * @brief Transmit a single character over UART (USART1).
+ * 
+ * This function waits until the transmit data register (TDR) is empty,
+ * then writes the character to the TDR, which sends it over the UART.
+ * 
+ * @param c The character to transmit.
+ */
+void UART_send_char(char c);
+
+/**
+ * @brief Receive a single character from UART (USART1).
+ * 
+ * This function waits until data is received and ready to be read
+ * (RXNE = 1), then returns the received character from the RDR.
+ * 
+ * @return The received character.
+ */
+char UART_receive_char(void);
 
 #endif

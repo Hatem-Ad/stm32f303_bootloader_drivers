@@ -2,7 +2,8 @@
 #include "UART.h"
 #include "STM32F3xx.h"
 
-void UART_Init(void) {
+void UART_Init(void) 
+{
     
     //Enble USART1 clock and GPIOA
     RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
@@ -20,7 +21,8 @@ void UART_Init(void) {
 
 }
 
-void UART_SendString(const char *str) {
+void UART_SendString(const char *str) 
+{
     
     while(*str){
         while (!(USART1->ISR & USART_ISR_TXE));
@@ -29,7 +31,8 @@ void UART_SendString(const char *str) {
 }
 
 // Read a chnuk of at most len bytesUSART1 ...
-uint32_t UART_Received(uint8_t *buffer, uint32_t len) {
+uint32_t UART_Received(uint8_t *buffer, uint32_t len) 
+{
     uint32_t i = 0;
     while (i < len) {
         while (!(USART1->ISR & USART_ISR_RXNE));
@@ -45,7 +48,8 @@ void UART_send_char(char c)
     USART1->TDR = c;
 }
 
-char UART_receive_char(void) {
+char UART_receive_char(void) 
+{
     while (!(USART1->ISR & USART_ISR_RXNE));
     return USART1->RDR;
 }
