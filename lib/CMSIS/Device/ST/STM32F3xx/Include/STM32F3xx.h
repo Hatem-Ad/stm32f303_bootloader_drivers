@@ -1,7 +1,7 @@
 #ifndef STM32F3xx_H
 #define STM32F3xx_H
 
-#include <stdint.h> // required for uint32_t etc ...
+#include <stdint.h>
 
 
 #define PERIPH_BASE            ((uint32_t) 0x40000000)
