@@ -19,6 +19,7 @@ A clean, modular, and register-level embedded project for the STM32F303 Discover
 ## 📁 Project Structure
 
 stm32f303_bootloader_drivers/
+<<<<<<< HEAD
 │
 ├── **bootloader/ # Bootloader source (starts at 0x08000000)
 │ ├── **bootloader.c/h # Bootloader jump and validity checks
@@ -38,3 +39,33 @@ stm32f303_bootloader_drivers/
 │
 ├── -Makefile # Builds bootloader or user app
 └── -README.md # This file
+=======
+
+    bootloader/ — Bootloader source (starts at 0x08000000)
+
+        bootloader.c/h — Bootloader jump and validity checks
+
+        startup_stm32f303.s — Reset handler and vector table
+
+        linker.ld — Bootloader linker script
+
+    drivers/ — Bare-metal drivers (no HAL)
+
+        gpio.c/h — GPIO input/output/toggle
+
+        uart.c/h — UART init, send/receive
+
+        flash.c/h — Internal FLASH write/erase
+
+    user_app/ — Sample user application (starts at 0x08004000)
+
+    main.c — Blink LED + send UART message
+
+    linker.ld — App-specific linker script
+
+    include/ — Shared headers (e.g., STM32F3xx.h)
+
+    Makefile — Builds bootloader or user app
+
+    README.md — This file
+>>>>>>> 34ae3a9 (update Readme)
