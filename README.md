@@ -19,7 +19,7 @@ A clean, modular, and register-level embedded project for the STM32F303 Discover
 ## 📁 Project Structure
 
 stm32f303_bootloader_drivers/
-<<<<<<< HEAD
+
 │
 ├── **bootloader/ # Bootloader source (starts at 0x08000000)
 │ ├── **bootloader.c/h # Bootloader jump and validity checks
@@ -40,16 +40,19 @@ stm32f303_bootloader_drivers/
 ├── -Makefile # Builds bootloader or user app
 └── -README.md # This file
 =======
+=======
+- **stm32f303_bootloader_drivers/**
+>>>>>>> c87f290 (update Readme)
 
-    bootloader/ — Bootloader source (starts at 0x08000000)
+    **bootloader/** — Bootloader source (starts at 0x08000000)
 
         bootloader.c/h — Bootloader jump and validity checks
 
-        startup_stm32f303.s — Reset handler and vector table
+        startup_stm32f303.s* — Reset handler and vector table
 
         linker.ld — Bootloader linker script
 
-    drivers/ — Bare-metal drivers (no HAL)
+    *drivers/* — Bare-metal drivers (no HAL)
 
         gpio.c/h — GPIO input/output/toggle
 
@@ -57,15 +60,19 @@ stm32f303_bootloader_drivers/
 
         flash.c/h — Internal FLASH write/erase
 
-    user_app/ — Sample user application (starts at 0x08004000)
+    *user_app/* — Sample user application (starts at 0x08004000)
 
-    main.c — Blink LED + send UART message
+        main.c — Blink LED + send UART message
 
-    linker.ld — App-specific linker script
+        linker.ld — App-specific linker script
 
-    include/ — Shared headers (e.g., STM32F3xx.h)
+    *include/* — Shared headers (e.g., STM32F3xx.h)
 
-    Makefile — Builds bootloader or user app
+    *Makefile* — Builds bootloader or user app
 
+<<<<<<< HEAD
     README.md — This file
 >>>>>>> 34ae3a9 (update Readme)
+=======
+    *README.md* — This file
+>>>>>>> c87f290 (update Readme)
