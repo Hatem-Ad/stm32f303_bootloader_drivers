@@ -20,10 +20,10 @@ A clean, modular, and register-level embedded project for the STM32F303 Discover
 
 stm32f303_bootloader_drivers/
 │
-├── -bootloader/ # Bootloader source (starts at 0x08000000)
-│ ├── -bootloader.c/h # Bootloader jump and validity checks
-│ ├── -startup_stm32f303.s # Reset handler and vector table
-│ └── -linker.ld # Bootloader linker script
+├── **bootloader/ # Bootloader source (starts at 0x08000000)
+│ ├── **bootloader.c/h # Bootloader jump and validity checks
+│ ├── **startup_stm32f303.s # Reset handler and vector table
+│ └── **linker.ld # Bootloader linker script
 │
 ├── -drivers/ # Bare-metal drivers
 │ ├── -gpio.c/h # GPIO input/output/toggle
