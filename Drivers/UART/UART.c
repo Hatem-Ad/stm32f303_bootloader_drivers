@@ -23,7 +23,7 @@ void UART_Init(void)
 
 void UART_SendString(const char *str) 
 {
-    
+    // string still found
     while(*str){
         while (!(USART1->ISR & USART_ISR_TXE));
         USART1->TDR = *str++;
