@@ -2,6 +2,7 @@
 #include "GPIO.h"
 #include "STM32F3xx.h"
 
+
 void GPIO_Init(GPIO_TypeDef *port, uint8_t pin, uint8_t mode) {
     
     //Enable Clock for selcted port
