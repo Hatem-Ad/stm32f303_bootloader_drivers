@@ -3,7 +3,13 @@
 #include "STM32F3xx.h"
 
 
-void GPIO_Init(GPIO_TypeDef *port, uint8_t pin, uint8_t mode) {
+void GPIO_Init(GPIO_TypeDef   *port, 
+               uint8_t         pin, 
+               GPIO_mode_t     mode,
+               GPIO_otype_t    otype,
+               GPIO_speed_t    speed,
+               GPIO_pull_t     pull) 
+{
     
     //Enable Clock for selcted port
     if (port == GPIOA) RCC->AHBENR |= RCC_AHBENR_GPIOAEN;

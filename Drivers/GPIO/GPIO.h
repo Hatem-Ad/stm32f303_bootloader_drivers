@@ -19,7 +19,7 @@ typedef enum {
     GPIO_SPEED_LOW    = 0,
     GPIO_SPEED_MEDIUM = 1,
     GPIO_SPEED_HIGH   = 2
-} GPPIO_speed_t;
+} GPIO_speed_t;
 
 typedef enum {
     GPIO_NPULL    = 0,
@@ -28,7 +28,12 @@ typedef enum {
 } GPIO_pull_t;
 
 
-void GPIO_Init(GPIO_TypeDef *port, uint8_t pin, uint8_t mode);
+void GPIO_Init(GPIO_TypeDef   *port, 
+               uint8_t         pin, 
+               GPIO_mode_t     mode,
+               GPIO_otype_t    otype,
+               GPIO_speed_t    speed,
+               GPIO_pull_t     pull);
 void GPIO_Write(GPIO_TypeDef *port, uint8_t pin, uint8_t state);
 void GPIO_Toggle(GPIO_TypeDef *port, uint8_t pin);
 void GPIO_Set_AF(GPIO_TypeDef *port, uint8_t pin);
