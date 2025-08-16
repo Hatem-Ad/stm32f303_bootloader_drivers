@@ -10,7 +10,12 @@
 /*Ensures 16-bit thumb instructions are used (required for cortex-M)*/
 .thumb 
 
-/* Start of the vector table */
+
+/*-----------------------------------------------------------
+ *  Section : Vector Table
+ *----------------------------------------------------------*/
+
 .section .isr_vector,"a",%progbits
 .global g_pfnVectors
 .type g_pfnVectors, %object
+
