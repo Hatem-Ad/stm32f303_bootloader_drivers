@@ -1,3 +1,8 @@
+/*-----------------------------------------------------------
+ *  Startup file for STM32F303 (Cortex-M4)
+ *----------------------------------------------------------*/
+
+
 /*Tells Assembly to accept modern ARM syntax */
 .syntax unified
 /*Selects the architecture */
