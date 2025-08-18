@@ -31,3 +31,8 @@ g_pfnVectors:
   .word 0                       /* 8 : Reserved */
   .word 0                       /* 9 : Reserved */
   .word 0                       /* 10: Reserved */
+  .word SVC_Handler             /* 11: SVCall */
+  .word DebugMon_Handler        /* 12: Debug Monitor */
+  .word 0                       /* 13: Reserved */
+  .word PendSV_Handler          /* 14: PendSV */
+  .word SysTick_Handler         /* 15: SysTick */
