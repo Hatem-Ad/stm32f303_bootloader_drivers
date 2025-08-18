@@ -19,3 +19,9 @@
 .global g_pfnVectors
 .type g_pfnVectors, %object
 
+g_pfnVectors:
+  .word _estack                 /* 0: Top of Stack */
+  .word Reset_Handler           /* 1: Reset Handler */
+  .word NMI_Handler             /* 2: NMI */
+  .word HardFault_Handler       /* 3: Hard Fault */
+  .word MemManage_Handler       /* 4: MPU Fault */
