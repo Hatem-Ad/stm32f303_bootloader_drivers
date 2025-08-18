@@ -20,8 +20,14 @@
 .type g_pfnVectors, %object
 
 g_pfnVectors:
-  .word _estack                 /* 0: Top of Stack */
-  .word Reset_Handler           /* 1: Reset Handler */
-  .word NMI_Handler             /* 2: NMI */
-  .word HardFault_Handler       /* 3: Hard Fault */
-  .word MemManage_Handler       /* 4: MPU Fault */
+  .word _estack                 /* 0 : Top of Stack */
+  .word Reset_Handler           /* 1 : Reset Handler */
+  .word NMI_Handler             /* 2 : NMI */
+  .word HardFault_Handler       /* 3 : Hard Fault */
+  .word MemManage_Handler       /* 4 : MPU Fault */
+  .word BusFault_Hanfler        /* 5 : Bus Fault */
+  .word UsageFault_Handler      /* 6 : Usage Fault */
+  .word 0                       /* 7 : Reserved */
+  .word 0                       /* 8 : Reserved */
+  .word 0                       /* 9 : Reserved */
+  .word 0                       /* 10: Reserved */
