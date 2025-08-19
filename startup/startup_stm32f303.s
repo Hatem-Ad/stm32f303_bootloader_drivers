@@ -50,3 +50,12 @@ g_pfnVectors:
   .word EXTI3_IRQHandler
   .word EXTI4_IRQHandler
   /* ... */
+
+  /*-----------------------------------------------------------
+ *  Default Handlers (Fake Infinite Loop)
+ *----------------------------------------------------------*/
+
+ .section .text.Default_Handler,"ax",%progbits
+ Default_Handler:
+ Infinite_Loop:
+   b Infinite_Loop
