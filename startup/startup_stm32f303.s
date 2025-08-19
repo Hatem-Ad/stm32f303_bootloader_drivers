@@ -36,3 +36,9 @@ g_pfnVectors:
   .word 0                       /* 13: Reserved */
   .word PendSV_Handler          /* 14: PendSV */
   .word SysTick_Handler         /* 15: SysTick */
+
+  /* === Specific Interrupts for STM32F303 */
+  .word WWDG_IRQHandler         /* Window Watchdog */
+  .word PDV_IRQHandler          /* PDV throught EXIT line detect */
+  .word TAMP_STAMP_IRQHandler
+  .word RTC_WKUPHandler
