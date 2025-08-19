@@ -39,6 +39,14 @@ g_pfnVectors:
 
   /* === Specific Interrupts for STM32F303 */
   .word WWDG_IRQHandler         /* Window Watchdog */
-  .word PDV_IRQHandler          /* PDV throught EXIT line detect */
+  .word PDV_IRQHandler          /* PDV throught EXITI line detect */
   .word TAMP_STAMP_IRQHandler
   .word RTC_WKUPHandler
+  .word FLASH_IRQHandler
+  .word RCC_IRQHandler
+  .word EXTI0_IRQHandler
+  .word EXTI1_IRQHandler
+  .word EXTI2_TSC_IRQHandler
+  .word EXTI3_IRQHandler
+  .word EXTI4_IRQHandler
+  /* ... */
