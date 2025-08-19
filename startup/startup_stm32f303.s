@@ -59,3 +59,14 @@ g_pfnVectors:
  Default_Handler:
  Infinite_Loop:
    b Infinite_Loop
+
+/* Definition of weak Handlers (can be redefined in C) */
+.weak NMI_Handler
+.weak HardFault_Handler
+.weak MemManage_Handler
+.weak BusFault_Hanfler
+.weak UsageFault_Handler
+.weak SVC_Handler
+.weak DebugMon_Handler
+.weak PendSV_Handler
+.weak SysTick_Handler
