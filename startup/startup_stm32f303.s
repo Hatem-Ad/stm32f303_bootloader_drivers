@@ -83,6 +83,16 @@ g_pfnVectors:
 .weak EXTI3_IRQHandler
 .weak EXTI4_IRQHandler
 
+/* All point to Default_Handler if not defined elsewhere */
+NMI_Handler:        b Default_Handler
+HardFault_Handler:  b Default_Handler
+MemManage_Handler:  b Default_Handler
+BusFault_Hanfler:   b Default_Handler
+UsageFault_Handler: b Default_Handler
+SVC_Handler:        b Default_Handler
+DebugMon_Handler:   b Default_Handler
+PendSV_Handler:     b Default_Handler
+SysTick_Handler:    b Default_Handler
 
 
 
