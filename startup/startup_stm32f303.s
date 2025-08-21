@@ -84,16 +84,27 @@ g_pfnVectors:
 .weak EXTI4_IRQHandler
 
 /* All point to Default_Handler if not defined elsewhere */
-NMI_Handler:        b Default_Handler
-HardFault_Handler:  b Default_Handler
-MemManage_Handler:  b Default_Handler
-BusFault_Hanfler:   b Default_Handler
-UsageFault_Handler: b Default_Handler
-SVC_Handler:        b Default_Handler
-DebugMon_Handler:   b Default_Handler
-PendSV_Handler:     b Default_Handler
-SysTick_Handler:    b Default_Handler
+NMI_Handler:           b Default_Handler
+HardFault_Handler:     b Default_Handler
+MemManage_Handler:     b Default_Handler
+BusFault_Hanfler:      b Default_Handler
+UsageFault_Handler:    b Default_Handler
+SVC_Handler:           b Default_Handler
+DebugMon_Handler:      b Default_Handler
+PendSV_Handler:        b Default_Handler
+SysTick_Handler:       b Default_Handler
 
+WWDG_IRQHandler:       b Default_Handler
+PDV_IRQHandler:        b Default_Handler
+TAMP_STAMP_IRQHandler: b Default_Handler
+RTC_WKUPHandler:       b Default_Handler
+FLASH_IRQHandler:      b Default_Handler
+RCC_IRQHandler:        b Default_Handler
+EXTI0_IRQHandler:      b Default_Handler
+EXTI1_IRQHandler:      b Default_Handler
+EXTI2_TSC_IRQHandler:  b Default_Handler
+EXTI3_IRQHandler:      b Default_Handler
+EXTI4_IRQHandler:      b Default_Handler
 
 
 
