@@ -70,3 +70,22 @@ g_pfnVectors:
 .weak DebugMon_Handler
 .weak PendSV_Handler
 .weak SysTick_Handler
+
+.weak WWDG_IRQHandler
+.weak PDV_IRQHandler
+.weak TAMP_STAMP_IRQHandler
+.weak RTC_WKUPHandler
+.weak FLASH_IRQHandler
+.weak RCC_IRQHandler
+.weak EXTI0_IRQHandler
+.weak EXTI1_IRQHandler
+.weak EXTI2_IRQHandler
+.weak EXTI3_IRQHandler
+.weak EXTI4_IRQHandler
+
+
+
+
+
+
+
