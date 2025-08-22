@@ -2,14 +2,12 @@
  *  Startup file for STM32F303 (Cortex-M4)
  *----------------------------------------------------------*/
 
-
 /*Tells Assembly to accept modern ARM syntax */
 .syntax unified
 /*Selects the architecture */
 .cpu cortex-m4
 /*Ensures 16-bit thumb instructions are used (required for cortex-M)*/
 .thumb 
-
 
 /*-----------------------------------------------------------
  *  Section : Vector Table
@@ -105,7 +103,6 @@ EXTI1_IRQHandler:      b Default_Handler
 EXTI2_TSC_IRQHandler:  b Default_Handler
 EXTI3_IRQHandler:      b Default_Handler
 EXTI4_IRQHandler:      b Default_Handler
-
 
 /*-----------------------------------------------------------
 * Reset Handler: Initializes memory and jumps to main()
