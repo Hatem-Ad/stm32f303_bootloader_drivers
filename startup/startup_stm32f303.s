@@ -107,7 +107,9 @@ EXTI4_IRQHandler:      b Default_Handler
 /*-----------------------------------------------------------
 * Reset Handler: Initializes memory and jumps to main()
 *----------------------------------------------------------*/
-
+.section .text.Reset_Handler, "ax",%progbits
+.global Reset_Handler
+.type Reset_Handler, %function
 
 
 
