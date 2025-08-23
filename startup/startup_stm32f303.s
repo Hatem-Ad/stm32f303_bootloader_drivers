@@ -111,6 +111,14 @@ EXTI4_IRQHandler:      b Default_Handler
 .global Reset_Handler
 .type Reset_Handler, %function
 
+Reset_Handler:
+  /* Initialize .data and .bss (simplified) */
+  ldr r0, =_sidata
+  ldr r1, =_sidata
+  ldr r2, =_edata
+1:
+  cmp r1, r2
+
 
 
 
