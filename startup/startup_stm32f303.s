@@ -127,6 +127,13 @@ Reset_Handler:
   ldr r1, =_sbss
   movs r2, #0
 
+  2:
+  cmp r0, r1
+  it lt
+  strlt r2, r[0], #4
+  blt 2b
+  
+
 
 
 
