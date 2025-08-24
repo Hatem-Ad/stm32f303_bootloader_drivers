@@ -118,6 +118,14 @@ Reset_Handler:
   ldr r2, =_edata
 1:
   cmp r1, r2
+  ittt lt
+  ldrlt r3, [r0], #4
+  strlt r3, [r1], #4
+  blt 1b
+
+  ldr r0, =_sbss
+  ldr r1, =_sbss
+  movs r2, #0
 
 
 
