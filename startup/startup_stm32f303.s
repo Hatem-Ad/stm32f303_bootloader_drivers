@@ -132,9 +132,12 @@ Reset_Handler:
   it lt
   strlt r2, r[0], #4
   blt 2b
-  
 
+  /* Call main() */
+bl main
 
+/* If main returns → infinite loop */
+b .
 
 
 
