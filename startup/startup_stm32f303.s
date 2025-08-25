@@ -139,5 +139,6 @@ bl main
 /* If main returns → infinite loop */
 b .
 
+size Reset_Handler, .-Reset_Handler
 
 
