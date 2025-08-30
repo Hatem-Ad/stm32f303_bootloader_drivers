@@ -39,10 +39,8 @@ stm32f303_bootloader_drivers/
 │
 ├── -Makefile # Builds bootloader or user app
 └── -README.md # This file
-=======
-=======
+
 - **stm32f303_bootloader_drivers/**
->>>>>>> c87f290 (update Readme)
 
     **bootloader/** — Bootloader source (starts at 0x08000000)
 
@@ -70,9 +68,5 @@ stm32f303_bootloader_drivers/
 
     *Makefile* — Builds bootloader or user app
 
-<<<<<<< HEAD
-    README.md — This file
->>>>>>> 34ae3a9 (update Readme)
-=======
     *README.md* — This file
->>>>>>> c87f290 (update Readme)
+
