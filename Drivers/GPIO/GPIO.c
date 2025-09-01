@@ -9,8 +9,7 @@ void GPIO_Init(GPIO_TypeDef   *port,
                GPIO_otype_t    otype,
                GPIO_speed_t    speed,
                GPIO_pull_t     pull) 
-{
-    
+{ 
     //Enable Clock for selcted port
     if (port == GPIOA) RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
     else if (port == GPIOB) RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
@@ -31,20 +30,25 @@ void GPIO_Init(GPIO_TypeDef   *port,
 
 //This function reads the input data register (IDR) of X Port  and checks the state
 //of the requested pin. It returns the logical state (1 or 0) of the pin.
-uint8_t GPIO_ReadPin(GPIO_TypeDef *port, uint8_t pin_number){
-    return (port->IDR & (1 << pin_number)) ? 1 : 0;
+uint8_t GPIO_Read(GPIO_TypeDef *port, 
+                  uint8_t       pin)
+{
+    return (port->IDR & (1 << pin)) ? 1 : 0;
 }
 
-void GPIO_WritePin(GPIO_TypeDef *port, uint8_t pin_number, uint8_t state)
+void GPIO_Write(GPIO_TypeDef *port, 
+                uint8_t       pin, 
+                uint8_t       state)
 {
     if(state){
-        port->ODR |= (1U << pin_number); //Set pin hihg
+        port->ODR |= (1U << pin); //Set pin hihg
     } else {
-        port->ODR &= ~(1U << pin_number); // set pin low
+        port->ODR &= ~(1U << pin); // set pin low
     }
 }
 
 //This function toggles the state of a given output pin on GPIOA.
-void GPIO_TogglePin(GPIO_TypeDef *port, int8_t pin_number){
-    port->ODR ^= (1U << pin_number);
+void GPIO_Toggle(GPIO_TypeDef *port, 
+                 int8_t        pin){
+    port->ODR ^= (1U << pin);
 }
