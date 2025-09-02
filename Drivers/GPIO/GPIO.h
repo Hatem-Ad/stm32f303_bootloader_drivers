@@ -43,8 +43,9 @@ void GPIO_Toggle(GPIO_TypeDef  *port,
                  uint8_t        pin);
 
 void GPIO_Set_AF(GPIO_TypeDef  *port, 
-                 uint8_t        pin);
-                 
+                 uint8_t        pin,
+                 uint8_t        af);
+
 uint8_t GPIO_Read(GPIO_TypeDef *port, 
                   uint8_t       pin);
 

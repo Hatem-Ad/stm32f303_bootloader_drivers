@@ -10,6 +10,8 @@ void GPIO_Init(GPIO_TypeDef   *port,
                GPIO_speed_t    speed,
                GPIO_pull_t     pull) 
 { 
+    if (pin > 15) return; // Safety check
+
     //Enable Clock for selcted port
     if (port == GPIOA) RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
     else if (port == GPIOB) RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
@@ -18,8 +20,9 @@ void GPIO_Init(GPIO_TypeDef   *port,
     else if (port == GPIOE) RCC->AHBENR |= RCC_AHBENR_GPIOEEN;
     else if (port == GPIOF) RCC->AHBENR |= RCC_AHBENR_GPIOFEN;
 
-    //Clear mode bits 
+    // -------- Mode (MODER) --------
     port->MODER &= ~(3U << (pin * 2));
+    port->MODER |= ((mode & 0x3U) << (pin * 2));
 
     if (mode == 1){
         port->MODER |= (1U << (pin * 2)); //output mode
