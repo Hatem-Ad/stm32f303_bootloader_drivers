@@ -49,6 +49,7 @@ void GPIO_Write(GPIO_TypeDef *port,
 
 //This function toggles the state of a given output pin on GPIOA.
 void GPIO_Toggle(GPIO_TypeDef *port, 
-                 int8_t        pin){
+                 int8_t        pin)
+{
     port->ODR ^= (1U << pin);
 }
