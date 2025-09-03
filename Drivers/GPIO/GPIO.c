@@ -3,12 +3,12 @@
 #include "STM32F3xx.h"
 
 
-void GPIO_Init(GPIO_TypeDef   *port, 
-               uint8_t         pin, 
-               GPIO_mode_t     mode,
-               GPIO_otype_t    otype,
-               GPIO_speed_t    speed,
-               GPIO_pull_t     pull) 
+void GPIO_Init(GPIO_TypeDef      *port, 
+               uint8_t            pin, 
+               TE_GPIO_mode_t     mode,
+               TE_GPIO_otype_t    otype,
+               TE_GPIO_speed_t    speed,
+               TE_GPIO_pull_t     pull) 
 { 
     if (pin > 15) return; // Safety check
 
@@ -21,8 +21,9 @@ void GPIO_Init(GPIO_TypeDef   *port,
     else if (port == GPIOF) RCC->AHBENR |= RCC_AHBENR_GPIOFEN;
 
     // -------- Mode (MODER) --------
-    port->MODER &= ~(3U << (pin * 2));
+    port->MODER &= ~(C_GPIO_MODER_MASK << (pin * C_GPIO_MODER_BITS_PER_PIN));
     port->MODER |= ((mode & 0x3U) << (pin * 2));
+
 
     if (mode == 1){
         port->MODER |= (1U << (pin * 2)); //output mode

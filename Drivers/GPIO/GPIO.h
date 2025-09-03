@@ -1,6 +1,19 @@
 #ifndef GPIO_H
 #define GPIO_H
 
+// Bits definitions for GPIO registers
+#define C_GPIO_MODER_BITS_PER_PIN     0x2U
+#define C_GPIO_MODER_MASK             0x3U // Two bits per pin (11b)
+
+#define C_GPIO_OTYPER_BITS_PER_PIN    0x1U
+#define C_GPIO_OTYPER_MASK            0x1U // One bit per pin
+
+#define C_GPIO_OSPEEDER_BITS_PER_PIN  0x2U
+#define C_GPIO_OSPEEDER_MASK          0x3U // Two bits per pin (11b)
+
+#define C_GPIO_PUPDR_BITS_PER_PIN     0x2U
+#define C_GPIO_PUPDR_MASK             0x3U // Two bits per pin (11b)
+
 //GPIO Modes
 typedef enum{
     GPIO_MODE_INPUT  = 0x0,
