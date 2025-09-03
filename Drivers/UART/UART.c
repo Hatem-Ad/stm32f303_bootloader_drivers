@@ -6,8 +6,8 @@ void UART_Init(void)
 {
     
     //Enble USART1 clock and GPIOA
-    RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
-    RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
+    RCC->APB2ENR |= C_RCC_APB2ENR_USART1EN;
+    RCC->AHBENR |= C_RCC_AHBENR_GPIOAEN;
 
     //Configure PA9 (TX) and PA10(RX)
     GPIOA->MODER &= ~((3U << (9 * 2)) | (3U << (10 * 2)));
@@ -17,14 +17,14 @@ void UART_Init(void)
 
     //Configure USART1 (9600 bauds, 8N1)
     USART1->BRR = 8000000 / 9600;
-    USART1->CR1 = USART_CR_TE | USART_CR_RE | USART_CR_UE;
+    USART1->CR1 = C_USART_CR_TE | C_USART_CR_RE | C_USART_CR_UE;
 
 }
 
 void UART_SendString(const char *str) 
 {
     while(*str){
-        while (!(USART1->ISR & USART_ISR_TXE));
+        while (!(USART1->ISR & C_USART_ISR_TXE));
         USART1->TDR = *str++;
     }
 }
@@ -35,7 +35,7 @@ uint32_t UART_Received(uint8_t *buffer, uint32_t len)
     uint32_t i = 0;
 
     while (i < len) {
-        while (!(USART1->ISR & USART_ISR_RXNE));
+        while (!(USART1->ISR & C_USART_ISR_RXNE));
         buffer[i++] = USART1->RDR;
     }
     return i;
@@ -45,7 +45,7 @@ uint32_t UART_Received(uint8_t *buffer, uint32_t len)
 void UART_send_char(char c)
 {
     // Wait until the transmit data register is empty (TXE = 1)
-    while (!(USART1->ISR & USART_ISR_TXE));
+    while (!(USART1->ISR & C_USART_ISR_TXE));
 
     // Write the character to the Transmit Data Register to send it
     USART1->TDR = c;
@@ -54,7 +54,7 @@ void UART_send_char(char c)
 char UART_receive_char(void) 
 {
     // Wait until the receive data register is not empty (RXNE = 1)
-    while (!(USART1->ISR & USART_ISR_RXNE));
+    while (!(USART1->ISR & C_USART_ISR_RXNE));
 
     // Read and return the received character from Receive Data Register
     return USART1->RDR;

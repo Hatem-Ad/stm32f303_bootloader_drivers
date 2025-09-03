@@ -3,7 +3,7 @@
 #include "STM32F3xx.h"
 
 
-void GPIO_Init(GPIO_TypeDef      *port, 
+void GPIO_Init(TS_GPIO_TypeDef      *port, 
                uint8_t            pin, 
                TE_GPIO_mode_t     mode,
                TE_GPIO_otype_t    otype,
@@ -13,12 +13,12 @@ void GPIO_Init(GPIO_TypeDef      *port,
     if (pin > 15) return; // Safety check
 
     //Enable Clock for selcted port
-    if (port == GPIOA) RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-    else if (port == GPIOB) RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
-    else if (port == GPIOC) RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
-    else if (port == GPIOD) RCC->AHBENR |= RCC_AHBENR_GPIODEN;
-    else if (port == GPIOE) RCC->AHBENR |= RCC_AHBENR_GPIOEEN;
-    else if (port == GPIOF) RCC->AHBENR |= RCC_AHBENR_GPIOFEN;
+    if (port == GPIOA) RCC->AHBENR |= C_RCC_AHBENR_GPIOAEN;
+    else if (port == GPIOB) RCC->AHBENR |= C_RCC_AHBENR_GPIOBEN;
+    else if (port == GPIOC) RCC->AHBENR |= C_RCC_AHBENR_GPIOCEN;
+    else if (port == GPIOD) RCC->AHBENR |= C_RCC_AHBENR_GPIODEN;
+    else if (port == GPIOE) RCC->AHBENR |= C_RCC_AHBENR_GPIOEEN;
+    else if (port == GPIOF) RCC->AHBENR |= C_RCC_AHBENR_GPIOFEN;
 
     // -------- Mode (MODER) --------
     port->MODER &= ~(C_GPIO_MODER_MASK << (pin * C_GPIO_MODER_BITS_PER_PIN));
@@ -34,13 +34,13 @@ void GPIO_Init(GPIO_TypeDef      *port,
 
 //This function reads the input data register (IDR) of X Port  and checks the state
 //of the requested pin. It returns the logical state (1 or 0) of the pin.
-uint8_t GPIO_Read(GPIO_TypeDef *port, 
+uint8_t GPIO_Read(TS_GPIO_TypeDef *port, 
                   uint8_t       pin)
 {
     return (port->IDR & (1 << pin)) ? 1 : 0;
 }
 
-void GPIO_Write(GPIO_TypeDef *port, 
+void GPIO_Write(TS_GPIO_TypeDef *port, 
                 uint8_t       pin, 
                 uint8_t       state)
 {
@@ -52,7 +52,7 @@ void GPIO_Write(GPIO_TypeDef *port,
 }
 
 //This function toggles the state of a given output pin on GPIOA.
-void GPIO_Toggle(GPIO_TypeDef *port, 
+void GPIO_Toggle(TS_GPIO_TypeDef *port, 
                  int8_t        pin)
 {
     port->ODR ^= (1U << pin);

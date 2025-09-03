@@ -4,10 +4,10 @@
 #include <stdint.h>
 
 
-#define PERIPH_BASE            ((uint32_t) 0x40000000)
-#define AHBPERIPH_BASE         (PERIPH_BASE + 0x20000)
-#define APB1PERIPH_BASE        (PERIPH_BASE + 0x00000)
-#define APB2PERIPH_BASE        (PERIPH_BASE + 0x10000)
+#define C_PERIPH_BASE            ((uint32_t) 0x40000000)
+#define C_AHBPERIPH_BASE         (C_PERIPH_BASE + 0x20000)
+#define C_APB1PERIPH_BASE        (C_PERIPH_BASE + 0x00000)
+#define C_APB2PERIPH_BASE        (C_PERIPH_BASE + 0x10000)
 
 
 
@@ -16,13 +16,13 @@
 //--------------------//
 
 //RCC base address
-#define RCC_BASE               (AHBPERIPH_BASE + 0x1000)
+#define C_RCC_BASE               (C_AHBPERIPH_BASE + 0x1000)
 
 // Peripheral activition bit
-#define RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
+#define C_RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
 
 //Pointers to devices
-#define RCC                    ((RCC_TypeDef *) RCC_BASE)
+#define RCC                    ((TS_RCC_TypeDef *) C_RCC_BASE)
 
 //RCC register structre
 typedef struct {
@@ -40,15 +40,15 @@ typedef struct {
     volatile uint32_t CFGR2;
     volatile uint32_t CFGR3;
     volatile uint32_t CR2;
-} RCC_TypeDef;
+} TS_RCC_TypeDef;
 
 //RCC AHBENR bits
-#define RCC_AHBENR_GPIOAEN   (1U << 17) // Bit 17: IO port A clock enable 
-#define RCC_AHBENR_GPIOBEN   (1U << 18) // Bit 17: IO port A clock enable 
-#define RCC_AHBENR_GPIOCEN   (1U << 19) // Bit 17: IO port A clock enable 
-#define RCC_AHBENR_GPIODEN   (1U << 20) // Bit 17: IO port A clock enable 
-#define RCC_AHBENR_GPIOEEN   (1U << 21) // Bit 17: IO port A clock enable 
-#define RCC_AHBENR_GPIOFEN   (1U << 22) // Bit 17: IO port A clock enable 
+#define C_RCC_AHBENR_GPIOAEN   (1U << 17) // Bit 17: IO port A clock enable 
+#define C_RCC_AHBENR_GPIOBEN   (1U << 18) // Bit 17: IO port A clock enable 
+#define C_RCC_AHBENR_GPIOCEN   (1U << 19) // Bit 17: IO port A clock enable 
+#define C_RCC_AHBENR_GPIODEN   (1U << 20) // Bit 17: IO port A clock enable 
+#define C_RCC_AHBENR_GPIOEEN   (1U << 21) // Bit 17: IO port A clock enable 
+#define C_RCC_AHBENR_GPIOFEN   (1U << 22) // Bit 17: IO port A clock enable 
 
 
 
@@ -58,7 +58,7 @@ typedef struct {
 //--------------------//
 
 //Flash peripheral base address
-#define FLASH_BASE 0x40022000UL
+#define C_FLASH_BASE 0x40022000UL
 
 //Flash register structre
 typedef struct {
@@ -71,36 +71,36 @@ typedef struct {
     uint32_t RESERVED;
     volatile uint32_t OBR;     // 0x1C: Option byte register
     volatile uint32_t WRPR;    // 0x20: Write protection register
-} FLASH_TypeDef;
+} TS_FLASH_TypeDef;
 
 
 //Flash pointer
-#define FLASH ((FLASH_TypeDef *) FLASH_BASE)
+#define FLASH ((TS_FLASH_TypeDef *) C_FLASH_BASE)
 
 //FLASH_CR bits
-#define FLASH_CR_LOCK  (1U << 7)
-#define FLASH_CR_PER   (1U << 1)
-#define FLASH_CR_PG    (1U << 0)
-#define FLASH_CR_START (1U << 6)
+#define C_FLASH_CR_LOCK  (1U << 7)
+#define C_FLASH_CR_PER   (1U << 1)
+#define C_FLASH_CR_PG    (1U << 0)
+#define C_FLASH_CR_START (1U << 6)
 
 // FLASH_SR bits
-#define FLASH_SR_BSY   (1U << 0)
+#define C_FLASH_SR_BSY   (1U << 0)
 
 //Flash keys
-#define FLASH_KEY1 0x45670123UL
-#define FLASH_KEY2 0xCDEF89ABUL
+#define C_FLASH_KEY1 0x45670123UL
+#define C_FLASH_KEY2 0xCDEF89ABUL
 
 //--------------------//
 //        GPIO        //
 //--------------------//
 
 //GPIO peripheral base address
-#define GPIOA_BASE             (AHBPERIPH_BASE + 0x0000)
-#define GPIOB_BASE             (AHBPERIPH_BASE + 0x0400)
-#define GPIOC_BASE             (AHBPERIPH_BASE + 0x0800)
-#define GPIOD_BASE             (AHBPERIPH_BASE + 0x0C00)
-#define GPIOE_BASE             (AHBPERIPH_BASE + 0x1000)
-#define GPIOF_BASE             (AHBPERIPH_BASE + 0x1400)
+#define GPIOA_BASE             (C_AHBPERIPH_BASE + 0x0000)
+#define GPIOB_BASE             (C_AHBPERIPH_BASE + 0x0400)
+#define GPIOC_BASE             (C_AHBPERIPH_BASE + 0x0800)
+#define GPIOD_BASE             (C_AHBPERIPH_BASE + 0x0C00)
+#define GPIOE_BASE             (C_AHBPERIPH_BASE + 0x1000)
+#define GPIOF_BASE             (C_AHBPERIPH_BASE + 0x1400)
 
 //GPIO register structre
 typedef struct{
@@ -113,15 +113,15 @@ typedef struct{
     volatile uint32_t BSRR;
     volatile uint32_t LCKR;
     volatile uint32_t AFR[2];
-} GPIO_TypeDef;
+} TS_GPIO_TypeDef;
 
 //GPIOA pointer
-#define GPIOA ((GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOB ((GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOC ((GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOD ((GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOE ((GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOF ((GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOA ((TS_GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOB ((TS_GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOC ((TS_GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOD ((TS_GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOE ((TS_GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOF ((TS_GPIO_TypeDef *) GPIOA_BASE)
 
 
 
@@ -134,7 +134,7 @@ typedef struct{
 //--------------------//
 
 //UASRT peripheral base address
-#define USART1_BASE            (APB2PERIPH_BASE + 0x3800)
+#define C_USART1_BASE            (C_APB2PERIPH_BASE + 0x3800)
 
 //USART register structre
 typedef struct{
@@ -149,19 +149,19 @@ typedef struct{
     volatile uint32_t ICR;     // Interrupt flag clear register
     volatile uint32_t RDR;     // Receive data register
     volatile uint32_t TDR;     // Transmit data register
-} USART_TypeDef;
+} TS_USART_TypeDef;
 
 //USART1 pointer
-#define USART1 ((USART_TypeDef *) USART1_BASE)
+#define USART1 ((TS_USART_TypeDef *) USART1_BASE)
 
 //Controle register bits (CR)
-#define USART_CR_TE         (1U << 3)
-#define USART_CR_RE         (1U << 2)
-#define USART_CR_UE         (1U << 13)
+#define C_USART_CR_TE         (1U << 3)
+#define C_USART_CR_RE         (1U << 2)
+#define C_USART_CR_UE         (1U << 13)
 
 //Interrupt register status bits (ISR)
-#define USART_ISR_TXE       (1U << 7)
-#define USART_ISR_RXNE      (1U << 5)
+#define C_USART_ISR_TXE       (1U << 7)
+#define C_USART_ISR_RXNE      (1U << 5)
 
 
 #endif
