@@ -152,7 +152,7 @@ typedef struct{
 } TS_USART_TypeDef;
 
 //USART1 pointer
-#define USART1 ((TS_USART_TypeDef *) USART1_BASE)
+#define USART1 ((TS_USART_TypeDef *) C_USART1_BASE)
 
 //Controle register bits (CR)
 #define C_USART_CR_TE         (1U << 3)
