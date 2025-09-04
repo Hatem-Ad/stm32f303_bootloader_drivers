@@ -14,6 +14,10 @@
 #define C_GPIO_PUPDR_BITS_PER_PIN     0x2U
 #define C_GPIO_PUPDR_MASK             0x3U // Two bits per pin (11b)
 
+#define C_GPIO_AFR_BITS_PER_PIN       0x4U // 4 bits per pin in AFR
+#define C_GPIO_AFR_MASK               0xFU // Mask = 4 bits
+#define C_GPIO_AFR_PINS_PER_REG       0x8U // AFRL = pins 0-7, AFRH = pins 8-15
+
 //GPIO Modes
 typedef enum{
     GPIO_MODE_INPUT  = 0x0,
