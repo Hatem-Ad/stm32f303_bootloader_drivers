@@ -4,11 +4,7 @@
 
 
 void GPIO_Init(TS_GPIO_TypeDef   *port, 
-               uint8_t            pin, 
-               TE_GPIO_mode_t     mode,
-               TE_GPIO_otype_t    otype,
-               TE_GPIO_speed_t    speed,
-               TE_GPIO_pull_t     pull) 
+               uint8_t            pin) 
 { 
     if (pin > 15) return; // Safety check
 
@@ -19,7 +15,15 @@ void GPIO_Init(TS_GPIO_TypeDef   *port,
     else if (port == GPIOD) RCC->AHBENR |= C_RCC_AHBENR_GPIODEN;
     else if (port == GPIOE) RCC->AHBENR |= C_RCC_AHBENR_GPIOEEN;
     else if (port == GPIOF) RCC->AHBENR |= C_RCC_AHBENR_GPIOFEN;
+}
 
+void GPIO_Config(TS_GPIO_TypeDef   *port, 
+                 uint8_t            pin, 
+                 TE_GPIO_mode_t     mode,
+                 TE_GPIO_otype_t    otype,
+                 TE_GPIO_speed_t    speed,
+                 TE_GPIO_pull_t     pull)
+{ 
     // -------- Mode (MODER) --------
     port->MODER &= ~(C_GPIO_MODER_MASK << (pin * C_GPIO_MODER_BITS_PER_PIN)); // Clear the 2 bits for the pin
     port->MODER |= ((mode & 0x3U) << (pin * 2)); // Set the mode
