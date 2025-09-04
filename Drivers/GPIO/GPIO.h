@@ -58,11 +58,11 @@ void GPIO_Set_AF(TS_GPIO_TypeDef  *port,
 uint8_t GPIO_Read(TS_GPIO_TypeDef *port, 
                   uint8_t          pin);
 
- void GPIO_Config(TS_GPIO_TypeDef   *port, 
-                  uint8_t            pin, 
-                  TE_GPIO_mode_t     mode,
-                  TE_GPIO_otype_t    otype,
-                  TE_GPIO_speed_t    speed,
-                  TE_GPIO_pull_t     pull);
+void GPIO_Config(TS_GPIO_TypeDef   *port, 
+                 uint8_t            pin, 
+                 TE_GPIO_mode_t     mode,
+                 TE_GPIO_otype_t    otype,
+                 TE_GPIO_speed_t    speed,
+                 TE_GPIO_pull_t     pull);
 
 #endif
