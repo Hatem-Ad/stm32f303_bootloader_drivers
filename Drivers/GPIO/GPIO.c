@@ -21,27 +21,21 @@ void GPIO_Init(TS_GPIO_TypeDef   *port,
     else if (port == GPIOF) RCC->AHBENR |= C_RCC_AHBENR_GPIOFEN;
 
     // -------- Mode (MODER) --------
-    port->MODER &= ~(C_GPIO_MODER_MASK << (pin * C_GPIO_MODER_BITS_PER_PIN));
-    port->MODER |= ((mode & 0x3U) << (pin * 2));
+    port->MODER &= ~(C_GPIO_MODER_MASK << (pin * C_GPIO_MODER_BITS_PER_PIN)); // Clear the 2 bits for the pin
+    port->MODER |= ((mode & 0x3U) << (pin * 2)); // Set the mode
 
     // -------- Output Type (OTYPER) --------
-    port->OTYPER &= ~(C_GPIO_OTYPER_MASK << pin);
-    port->OTYPER |= ((otype & C_GPIO_OTYPER_MASK) << pin);
+    port->OTYPER &= ~(C_GPIO_OTYPER_MASK << pin); // Clear the bit for the pin
+    port->OTYPER |= ((otype & C_GPIO_OTYPER_MASK) << pin); // Set Push-pull (0) or Open-drain (1)
 
     // -------- Output Speed (OSPEEDR) --------
-    port->OSPEEDR &=(C_GPIO_OSPEEDER_MASK << (pin * C_GPIO_OSPEEDER_BITS_PER_PIN));
-    port->OSPEEDR |=((speed & C_GPIO_OSPEEDER_MASK) << (pin * C_GPIO_OSPEEDER_BITS_PER_PIN));
+    port->OSPEEDR &=(C_GPIO_OSPEEDER_MASK << (pin * C_GPIO_OSPEEDER_BITS_PER_PIN)); // Clear 2 bits
+    port->OSPEEDR |=((speed & C_GPIO_OSPEEDER_MASK) << (pin * C_GPIO_OSPEEDER_BITS_PER_PIN)); // Clear 2 bits
 
     // -------- Pull-up / Pull-down (PUPDR) --------
-    port->PUPDR &= ~(C_GPIO_PUPDR_MASK << (pin * C_GPIO_PUPDR_BITS_PER_PIN));
-    port->PUPDR |= ((pull & C_GPIO_PUPDR_MASK) << (pin * C_GPIO_PUPDR_BITS_PER_PIN));
+    port->PUPDR &= ~(C_GPIO_PUPDR_MASK << (pin * C_GPIO_PUPDR_BITS_PER_PIN)); // Clear 2 bits
+    port->PUPDR |= ((pull & C_GPIO_PUPDR_MASK) << (pin * C_GPIO_PUPDR_BITS_PER_PIN)); // Clear 2 bits
 
-
-    if (mode == 1){
-        port->MODER |= (1U << (pin * 2)); //output mode
-    } else {
-        //Input mode: already cleared above
-    }
 }
 
 //This function reads the input data register (IDR) of X Port  and checks the state
