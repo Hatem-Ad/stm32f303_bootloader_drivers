@@ -47,7 +47,7 @@ void GPIO_Config(TS_GPIO_TypeDef   *port,
 uint8_t GPIO_Read(TS_GPIO_TypeDef *port, 
                   uint8_t          pin)
 {
-    return (port->IDR & (1 << pin)) ? 1 : 0;
+    return ((port->IDR & (1U << pin)) != 0U) ? 1U : 0U;
 }
 
 void GPIO_Write(TS_GPIO_TypeDef *port, 
