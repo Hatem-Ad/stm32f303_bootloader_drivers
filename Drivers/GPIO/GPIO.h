@@ -45,23 +45,69 @@ typedef enum {
 } TE_GPIO_pull_t;
 
 
+/**
+ * @brief Initialize a GPIO pin.
+ * 
+ * This function prepares the GPIO port and pin for use.
+ * Typically used to enable the clock or reset a pin to a default state.
+ *
+ * @param port Pointer to the GPIO port (e.g., GPIOA, GPIOB, ...).
+ * @param pin  Pin number (0–15).
+ */
 void GPIO_Init(TS_GPIO_TypeDef    *port, 
                uint8_t             pin);
 
+/**
+ * @brief Write a digital state (HIGH or LOW) to a GPIO pin.
+ *
+ * @param port  Pointer to the GPIO port.
+ * @param pin   Pin number (0–15).
+ * @param state State of the pin: 0 = LOW, 1 = HIGH.
+ */
 void GPIO_Write(TS_GPIO_TypeDef   *port, 
                 uint8_t            pin, 
                 uint8_t            state);
 
+/**
+ * @brief Toggle the current output state of a GPIO pin.
+ *
+ * @param port Pointer to the GPIO port.
+ * @param pin  Pin number (0–15).
+ */
 void GPIO_Toggle(TS_GPIO_TypeDef  *port, 
                  uint8_t           pin);
 
+/**
+ * @brief Configure the alternate function of a GPIO pin.
+ *
+ * @param port Pointer to the GPIO port.
+ * @param pin  Pin number (0–15).
+ * @param af   Alternate function number (0–15).
+ */
 void GPIO_Set_AF(TS_GPIO_TypeDef  *port, 
                  uint8_t           pin,
                  uint8_t           af);
 
+/**
+ * @brief Read the digital input state of a GPIO pin.
+ *
+ * @param port Pointer to the GPIO port.
+ * @param pin  Pin number (0–15).
+ * @return     1 if the pin is HIGH, 0 if the pin is LOW.
+ */
 uint8_t GPIO_Read(TS_GPIO_TypeDef *port, 
                   uint8_t          pin);
 
+/**
+ * @brief Configure the mode, type, speed, and pull-up/down of a GPIO pin.
+ *
+ * @param port  Pointer to the GPIO port.
+ * @param pin   Pin number (0–15).
+ * @param mode  Pin mode (input, output, alternate function, analog).
+ * @param otype Output type (push-pull or open-drain).
+ * @param speed Output speed (low, medium, high, very high).
+ * @param pull  Pull-up/pull-down configuration (none, pull-up, pull-down).
+ */
 void GPIO_Config(TS_GPIO_TypeDef   *port, 
                  uint8_t            pin, 
                  TE_GPIO_mode_t     mode,
