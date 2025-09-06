@@ -67,3 +67,15 @@ void GPIO_Toggle(TS_GPIO_TypeDef *port,
 {
     port->ODR ^= (1U << pin);
 }
+
+void GPIO_Set_AF(TS_GPIO_TypeDef *port, uint8_t pin, uint8_t af)
+{
+    uint8_t afr_index = pin / C_GPIO_AFR_PINS_PER_REG;  // 0 : af register low / 1 : af registre high
+    uint8_t afr_pos = (pin % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN;
+
+    // Clear old alternat function
+    port->AFR[afr_index] &= ~(C_GPIO_AFR_MASK << afr_pos);
+
+    // Set new alternat function
+    port->AFR[afr_index] |= ((af & C_GPIO_AFR_MASK) << afr_pos);
+}
