@@ -109,8 +109,8 @@ typedef struct{
     volatile uint32_t OSPEEDR;
     volatile uint32_t PUPDR;
     volatile uint32_t IDR;
-    volatile uint32_t ODR;
-    volatile uint32_t BSRR;
+    volatile uint32_t ODR;    // ODR : Output Data Register  
+    volatile uint32_t BSRR;   // BSRR : Bit Set/Reset Register
     volatile uint32_t LCKR;
     volatile uint32_t AFR[2];
 } TS_GPIO_TypeDef;

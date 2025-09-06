@@ -61,11 +61,20 @@ void GPIO_Write(TS_GPIO_TypeDef *port,
     }
 }
 
-//This function toggles the state of a given output pin on GPIOA.
+//This function toggles the state of a given output pin on GPIOX.
 void GPIO_Toggle(TS_GPIO_TypeDef *port, 
                  uint8_t          pin)
 {
-    port->ODR ^= (1U << pin);
+    if(port->ODR & (1U << pin))
+    {
+        // if pin is high => reset it
+        port->BSRR = (1U << (pin + 16));
+    }
+    else
+    {
+        // if pin is low set it
+        port->BSRR = (1U << pin);
+    }
 }
 
 void GPIO_Set_AF(TS_GPIO_TypeDef *port, uint8_t pin, uint8_t af)
