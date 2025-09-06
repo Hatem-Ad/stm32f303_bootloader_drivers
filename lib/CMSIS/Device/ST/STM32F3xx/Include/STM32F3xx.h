@@ -102,6 +102,14 @@ typedef struct {
 #define GPIOE_BASE             (C_AHBPERIPH_BASE + 0x1000)
 #define GPIOF_BASE             (C_AHBPERIPH_BASE + 0x1400)
 
+//GPIOs pointer
+#define GPIOA ((TS_GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOB ((TS_GPIO_TypeDef *) GPIOB_BASE)
+#define GPIOC ((TS_GPIO_TypeDef *) GPIOC_BASE)
+#define GPIOD ((TS_GPIO_TypeDef *) GPIOD_BASE)
+#define GPIOE ((TS_GPIO_TypeDef *) GPIOE_BASE)
+#define GPIOF ((TS_GPIO_TypeDef *) GPIOF_BASE)
+
 //GPIO register structre
 typedef struct{
     volatile uint32_t MODER;
@@ -114,16 +122,6 @@ typedef struct{
     volatile uint32_t LCKR;
     volatile uint32_t AFR[2];
 } TS_GPIO_TypeDef;
-
-//GPIOA pointer
-#define GPIOA ((TS_GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOB ((TS_GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOC ((TS_GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOD ((TS_GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOE ((TS_GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOF ((TS_GPIO_TypeDef *) GPIOA_BASE)
-
-
 
 
 

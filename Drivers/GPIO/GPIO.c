@@ -55,9 +55,9 @@ void GPIO_Write(TS_GPIO_TypeDef *port,
                 uint8_t          state)
 {
     if(state){
-        port->ODR |= (1U << pin); //Set pin hihg
+        port->BSRR = (1U << pin); //Set pin hihg
     } else {
-        port->ODR &= ~(1U << pin); // set pin low
+        port->BSRR = (1U << (pin + 16)); // set pin low
     }
 }
 
