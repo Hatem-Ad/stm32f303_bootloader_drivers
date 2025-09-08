@@ -1,6 +1,10 @@
 #ifndef UART_H
 #define UART_H
 
+
+#define F_CPU           8000000U
+#define UART_BAUD       9600U
+
 void UART_Init(void);
 
 void UART_SendString(const char *str);
