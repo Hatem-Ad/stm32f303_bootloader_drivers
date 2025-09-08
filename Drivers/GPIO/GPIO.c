@@ -33,7 +33,7 @@ void GPIO_Config(TS_GPIO_TypeDef   *port,
     port->OTYPER |= ((otype & C_GPIO_OTYPER_MASK) << pin); // Set Push-pull (0) or Open-drain (1)
 
     // -------- Output Speed (OSPEEDR) --------
-    port->OSPEEDR &=(C_GPIO_OSPEEDER_MASK << (pin * C_GPIO_OSPEEDER_BITS_PER_PIN)); // Clear 2 bits
+    port->OSPEEDR &= ~(C_GPIO_OSPEEDER_MASK << (pin * C_GPIO_OSPEEDER_BITS_PER_PIN)); // Clear 2 bits
     port->OSPEEDR |=((speed & C_GPIO_OSPEEDER_MASK) << (pin * C_GPIO_OSPEEDER_BITS_PER_PIN)); // Clear 2 bits
 
     // -------- Pull-up / Pull-down (PUPDR) --------
