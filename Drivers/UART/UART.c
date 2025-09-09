@@ -1,22 +1,32 @@
 #include <stdint.h>
 #include "UART.h"
+#include "GPIO.h"
 #include "STM32F3xx.h"
 
 void UART_Init(void) 
 {
     
-    //Enble USART1 clock and GPIOA
+     // -------- Enable USART1 and GPIOA clocks --------
     RCC->APB2ENR |= C_RCC_APB2ENR_USART1EN;
     RCC->AHBENR |= C_RCC_AHBENR_GPIOAEN;
 
-    //Configure PA9 (TX) and PA10(RX)
-    GPIOA->MODER &= ~((3U << (9 * 2)) | (3U << (10 * 2)));
-    GPIOA->MODER |= (2U << (9 * 2)) | (2U << (10 * 2)); //Alternate function
+    // -------- Configure PA9 (TX) and PA10 (RX) as Alternate Function --------
+    GPIOA->MODER &= ~((C_GPIO_MODER_MASK << (C_GPIO_PIN9 * C_GPIO_MODER_BITS_PER_PIN)) | 
+                      (C_GPIO_MODER_MASK << (C_GPIO_PIN10 * C_GPIO_MODER_BITS_PER_PIN)));
 
-    GPIOA->AFR[1] |= (7U << ((9 - 8) * 4)) | (7U << ((10 - 8) * 4)); // AF7
+    GPIOA->MODER |= (C_GPIO_MODE_AF << (C_GPIO_PIN9 * C_GPIO_MODER_BITS_PER_PIN)) | 
+                    (C_GPIO_MODE_AF << (C_GPIO_PIN10 * C_GPIO_MODER_BITS_PER_PIN)); //Alternate function
+    
+    // -------- Select AF7 (USART1) for PA9/PA10 --------
+    GPIOA->AFR[1] |= ~((C_GPIO_AFR_MASK << ((C_GPIO_PIN9 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)) | 
+                       (C_GPIO_AFR_MASK << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN))); // AF7
 
-    //Configure USART1 (9600 bauds, 8N1)
-    USART1->BRR = 8000000 / 9600;
+
+    GPIOA->AFR[1] |= ((C_GPIO_AF_USART1 << ((C_GPIO_PIN9  % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)) |
+                      (C_GPIO_AF_USART1 << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)));
+
+    // -------- Configure USART1 (9600 bauds, 8N1) --------
+    USART1->BRR = C_APB2_CLOCK / 9600;
     USART1->CR1 = C_USART_CR_TE | C_USART_CR_RE | C_USART_CR_UE;
 
 }

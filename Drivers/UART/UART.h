@@ -4,6 +4,9 @@
 
 #define F_CPU           8000000U
 #define UART_BAUD       9600U
+#define C_APB2_CLOCK    8000000U
+
+
 
 void UART_Init(void);
 

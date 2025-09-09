@@ -2,21 +2,30 @@
 #define GPIO_H
 
 // Bits definitions for GPIO registers
-#define C_GPIO_MODER_BITS_PER_PIN     0x2U
+#define C_GPIO_MODER_BITS_PER_PIN     0x2U // Number of bits by moder pin
 #define C_GPIO_MODER_MASK             0x3U // Two bits per pin (11b)
+#define C_GPIO_MODE_AF                0x2U // Alternant function mode
 
-#define C_GPIO_OTYPER_BITS_PER_PIN    0x1U
+#define C_GPIO_OTYPER_BITS_PER_PIN    0x1U // Number of bit by otyper pin
 #define C_GPIO_OTYPER_MASK            0x1U // One bit per pin
 
-#define C_GPIO_OSPEEDER_BITS_PER_PIN  0x2U
+#define C_GPIO_OSPEEDER_BITS_PER_PIN  0x2U // Number of bits by ospeeder pin
 #define C_GPIO_OSPEEDER_MASK          0x3U // Two bits per pin (11b)
 
-#define C_GPIO_PUPDR_BITS_PER_PIN     0x2U
+#define C_GPIO_PUPDR_BITS_PER_PIN     0x2U // Number of bits by pipdr pin
 #define C_GPIO_PUPDR_MASK             0x3U // Two bits per pin (11b)
 
 #define C_GPIO_AFR_BITS_PER_PIN       0x4U // 4 bits per pin in AFR
 #define C_GPIO_AFR_MASK               0xFU // Mask = 4 bits
 #define C_GPIO_AFR_PINS_PER_REG       0x8U // AFRL = pins 0-7, AFRH = pins 8-15
+#define C_GPIO_AF_USART1              0x7U // USART1 function active
+
+#define C_GPIO_PIN9                   0x9U // Pin number 9
+#define C_GPIO_PIN10                  0xAU // Pin number 10
+
+
+
+
 
 //GPIO Modes
 typedef enum{
