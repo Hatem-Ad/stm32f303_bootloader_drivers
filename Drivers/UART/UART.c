@@ -19,11 +19,11 @@ void UART_Init(void)
     
     // -------- Select AF7 (USART1) for PA9/PA10 --------
     GPIOA->AFR[1] |= ~((C_GPIO_AFR_MASK << ((C_GPIO_PIN9 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)) | 
-                       (C_GPIO_AFR_MASK << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN))); // AF7
+                       (C_GPIO_AFR_MASK << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN))); // clear
 
 
     GPIOA->AFR[1] |= ((C_GPIO_AF_USART1 << ((C_GPIO_PIN9  % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)) |
-                      (C_GPIO_AF_USART1 << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)));
+                      (C_GPIO_AF_USART1 << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN))); // active usart in pins 9 and 10 / AF7
 
     // -------- Configure USART1 (9600 bauds, 8N1) --------
     USART1->BRR = C_APB2_CLOCK / 9600;
