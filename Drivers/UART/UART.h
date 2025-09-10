@@ -6,6 +6,8 @@
 #define UART_BAUD       9600U
 #define C_APB2_CLOCK    8000000U
 
+#define C_USART_ISR_TC  (1U << 6) // Transmission Complete
+
 
 
 void UART_Init(void);
