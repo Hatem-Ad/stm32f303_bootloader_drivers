@@ -158,8 +158,11 @@ typedef struct{
 #define C_USART_CR_UE         (1U << 13)
 
 //Interrupt register status bits (ISR)
+#define C_USART_ISR_FE        (1U << 1) // Farming error
+#define C_USART_ISR_NE        (1U << 2) // Noise error
+#define C_USART_ISR_ORE       (1U << 3) // Overrun error  
 #define C_USART_ISR_RXNE      (1U << 5) // Read date register not empty
-#define C_USART_ISR_TC        (1U << 6) // Transmission Complete
+#define C_USART_ISR_TC        (1U << 6) // Transmission complete
 #define C_USART_ISR_TXE       (1U << 7) // Transmit data regisyter empty
 
 #endif
