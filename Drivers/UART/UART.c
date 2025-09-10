@@ -46,10 +46,7 @@ void UART_SendString(const char *str)
     }
 
     // Wait intil TC is set (Transmission compltee)
-    while (!(USART1->ISR & C_USART_ISR_TC))
-    {
-        /* code */
-    }
+    while (!(USART1->ISR & C_USART_ISR_TC));
     
 }
 
