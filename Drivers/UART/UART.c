@@ -2,6 +2,7 @@
 #include "UART.h"
 #include "GPIO.h"
 #include "STM32F3xx.h"
+#include <stddef.h>
 
 void UART_Init(void) 
 {
@@ -33,10 +34,23 @@ void UART_Init(void)
 
 void UART_SendString(const char *str) 
 {
-    while(*str){
+    if (str == NULL) return; // Safty check
+
+    while(*str != '/0')
+    {
+        // Wait until TXE (Transmit Data Register Emty)
         while (!(USART1->ISR & C_USART_ISR_TXE));
-        USART1->TDR = *str++;
+
+        // Write chharachter into TDR
+        USART1->TDR = (uint8_t)(*str++);
     }
+
+    // Wait intil TC is set (Transmission compltee)
+    while (!(USART1->ISR & C_USART_ISR_TC))
+    {
+        /* code */
+    }
+    
 }
 
 // Read a chnuk of at most len bytesUSART1 ...
