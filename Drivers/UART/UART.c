@@ -51,15 +51,32 @@ void UART_SendString(const char *str)
 }
 
 // Read a chnuk of at most len bytesUSART1 ...
-uint32_t UART_Received(uint8_t *buffer, uint32_t len) 
+uint32_t UART_Received(uint8_t *buffer, uint32_t len, uint32_t timeout) 
 {
     uint32_t i = 0;
+    uint32_t counter = 0;
 
-    while (i < len) {
-        while (!(USART1->ISR & C_USART_ISR_RXNE));
-        buffer[i++] = USART1->RDR;
+    while (i < len) 
+    {
+        // Wait until RXNE flag is set or timeout expires
+        while (!(USART1->ISR & C_USART_ISR_RXNE))
+        {
+            if (++counter > timeout)
+            {
+                return i; // return how many bytes were recieved before timeout
+            }
+        }
+
+        // Check for errors before reading
+        if (USART1->ISR & (C_USART_ISR_ORE | C_USART_ISR_FE | C_USART_ISR_NE))
+        {
+            return i; // stop an error
+        }
+
+        buffer[i++] = (uint8_t)USART1->RDR; // read reiceved data
+        counter = 0; // Reset timeout counter after each succeful reception
     }
-    return i;
+    return i; // Number of bytes successfully recieved
 }
 
 
