@@ -10,7 +10,7 @@ void UART_Init(void);
 
 void UART_SendString(const char *str);
 
-uint32_t UART_Received(uint8_t *buffer, uint32_t len);
+uint32_t UART_Received(uint8_t *buffer, uint32_t len, uint32_t timeout);
 
 /**
  * @brief Transmit a single character over UART (USART1).
