@@ -82,8 +82,16 @@ uint32_t UART_Received(uint8_t *buffer, uint32_t len, uint32_t timeout)
 
 void UART_send_char(char c)
 {
+    uint32_t timeout = UART_TIMEOUT;
     // Wait until the transmit data register is empty (TXE = 1)
-    while (!(USART1->ISR & C_USART_ISR_TXE));
+    while (!(USART1->ISR & C_USART_ISR_TXE))
+    {
+        if(--timeout == 0U)
+        {
+            // Timeout occurred -> exit or handle error
+            return;
+        }
+    }
 
     // Write the character to the Transmit Data Register to send it
     USART1->TDR = c;
@@ -91,9 +99,18 @@ void UART_send_char(char c)
 
 char UART_receive_char(void) 
 {
+    uint32_t timeout = UART_TIMEOUT;
+
     // Wait until the receive data register is not empty (RXNE = 1)
-    while (!(USART1->ISR & C_USART_ISR_RXNE));
+    while (!(USART1->ISR & C_USART_ISR_RXNE))
+    {
+        if (--timeout == 0U)
+        {
+            // Timeout occurred -> return an error value
+            return (char)-1;
+        }
+    }
 
     // Read and return the received character from Receive Data Register
-    return USART1->RDR;
+    return (char)(USART1->RDR & 0xFFU);
 }

@@ -6,6 +6,9 @@
 #define UART_BAUD       9600U
 #define C_APB2_CLOCK    8000000U
 
+#define UART_TIMEOUT    1000000U
+
+
 void UART_Init(void);
 
 void UART_SendString(const char *str);
