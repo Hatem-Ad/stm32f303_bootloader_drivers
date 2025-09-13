@@ -9,10 +9,25 @@
 #define UART_TIMEOUT    1000000U
 
 
+// ---------------- API Functions ----------------
+/**
+ * @brief Initialize USART1 (PA9 = TX, PA10 = RX) with 9600 baud, 8N1.
+ */
 void UART_Init(void);
 
+/**
+ * @brief Transmit a null-terminated string over UART.
+ * @param str Pointer to the string to transmit.
+ */
 void UART_SendString(const char *str);
 
+/**
+ * @brief Receive a block of data over UART with timeout.
+ * @param buffer Pointer to buffer to store received bytes.
+ * @param len Maximum number of bytes to receive.
+ * @param timeout Max loop count before timeout.
+ * @return Number of bytes received before timeout or error.
+ */
 uint32_t UART_Received(uint8_t *buffer, uint32_t len, uint32_t timeout);
 
 /**
