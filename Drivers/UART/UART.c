@@ -19,7 +19,7 @@ void UART_Init(void)
                     (C_GPIO_MODE_AF << (C_GPIO_PIN10 * C_GPIO_MODER_BITS_PER_PIN)); //Alternate function
     
     // -------- Select AF7 (USART1) for PA9/PA10 --------
-    GPIOA->AFR[1] |= ~((C_GPIO_AFR_MASK << ((C_GPIO_PIN9 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)) | 
+    GPIOA->AFR[1] &= ~((C_GPIO_AFR_MASK << ((C_GPIO_PIN9 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)) | 
                        (C_GPIO_AFR_MASK << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN))); // clear
 
 
@@ -27,7 +27,7 @@ void UART_Init(void)
                       (C_GPIO_AF_USART1 << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN))); // active usart in pins 9 and 10 / AF7
 
     // -------- Configure USART1 (9600 bauds, 8N1) --------
-    USART1->BRR = C_APB2_CLOCK / 9600;
+    USART1->BRR = (C_APB2_CLOCK + C_UART_BAUD / 2)/ C_UART_BAUD; // (to get 833.833 => 834 => Baud ≈ 9603 inplace of 833.333 => 833 => Baud ≈ 9595)
     USART1->CR1 = C_USART_CR_TE | C_USART_CR_RE | C_USART_CR_UE;
 
 }
@@ -36,7 +36,7 @@ void UART_SendString(const char *str)
 {
     if (str == NULL) return; // Safty check
 
-    while(*str != '/0')
+    while(*str != '\0')
     {
         // Wait until TXE (Transmit Data Register Emty)
         while (!(USART1->ISR & C_USART_ISR_TXE));
@@ -94,7 +94,7 @@ void UART_send_char(char c)
     }
 
     // Write the character to the Transmit Data Register to send it
-    USART1->TDR = c;
+    USART1->TDR = (uint8_t)c;
 }
 
 char UART_receive_char(void) 
