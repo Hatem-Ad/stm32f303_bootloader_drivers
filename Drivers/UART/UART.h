@@ -3,7 +3,7 @@
 
 
 #define F_CPU           8000000U
-#define UART_BAUD       9600U
+#define C_UART_BAUD       9600U
 #define C_APB2_CLOCK    8000000U
 
 #define UART_TIMEOUT    1000000U
