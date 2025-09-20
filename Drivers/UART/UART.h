@@ -28,7 +28,7 @@ void UART_SendString(const char *str);
  * @param timeout Max loop count before timeout.
  * @return Number of bytes received before timeout or error.
  */
-uint32_t UART_Received(uint8_t *buffer, uint32_t len, uint32_t timeout);
+uint32_t UART_Received(char *buffer, uint32_t len, uint32_t timeout);
 
 /**
  * @brief Transmit a single character over UART (USART1).
