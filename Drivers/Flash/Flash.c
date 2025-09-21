@@ -1,6 +1,25 @@
 #include "Flash.h"
 #include "STM32F3xx.h" // needed for Flash operations, give the access to flash registers via CMSIS
 
+
+static FlashStatus_t Flash_WaitBusyAndCheck(void) 
+{
+    uint32_t spins = 0U;
+
+    // Wait until BSY flag clears, or timeout eccurs
+    while ((FLASH->SR & C_FLASH_SR_BSY) != 0U)
+    {
+        spins++;
+        if (spins > FLASH_TIMEOUT_SPINS)
+        {
+            return FLASH_ERR_TIMEOUT;
+        }
+    }
+    
+}
+
+
+
 void Flash_Unlock(void)
 {
     //Check if the Flash control register is locked
