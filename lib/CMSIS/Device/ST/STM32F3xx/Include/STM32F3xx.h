@@ -87,7 +87,8 @@ typedef struct {
 #define C_FLASH_CR_LOCK  (1U << 7)
 
 // FLASH_SR bits
-#define C_FLASH_SR_BSY   (1U << 0)
+#define C_FLASH_SR_BSY   (1U << 0) // Busy flag
+#define C_FLASH_PGERR    (1U << 2) // Programmin error
 
 
 //--------------------//

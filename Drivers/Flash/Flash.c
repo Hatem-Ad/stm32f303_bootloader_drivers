@@ -16,6 +16,11 @@ static FlashStatus_t Flash_WaitBusyAndCheck(void)
         }
     }
     
+    // Clear end of operation (write 1 to clear)
+    if ((FLASH->SR & C_FLASH_SR_EOP) != 0U)
+    {
+        FLASH->SR = C_FLASH_SR_EOP;
+    }
 }
 
 
