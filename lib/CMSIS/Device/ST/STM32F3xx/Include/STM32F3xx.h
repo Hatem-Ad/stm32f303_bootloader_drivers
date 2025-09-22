@@ -81,14 +81,16 @@ typedef struct {
 #define FLASH ((TS_FLASH_TypeDef *) C_FLASH_BASE)
 
 //FLASH_CR bits
-#define C_FLASH_CR_PG    (1U << 0)
-#define C_FLASH_CR_PER   (1U << 1)
-#define C_FLASH_CR_START (1U << 6)
-#define C_FLASH_CR_LOCK  (1U << 7)
+#define C_FLASH_CR_PG       (1U << 0)
+#define C_FLASH_CR_PER      (1U << 1)
+#define C_FLASH_CR_START    (1U << 6)
+#define C_FLASH_CR_LOCK     (1U << 7)
 
 // FLASH_SR bits
-#define C_FLASH_SR_BSY   (1U << 0) // Busy flag
-#define C_FLASH_PGERR    (1U << 2) // Programmin error
+#define C_FLASH_SR_BSY      (1U << 0) // Busy flag
+#define C_FLASH_SR_PGERR    (1U << 2) // Programmin error
+#define C_FLASH_SR_WRPERR   (1U << 4) // Write Protectoin eorrer
+#define C_FLASH_SR_EOP      (1U << 5) // End of operation flag
 
 
 //--------------------//
