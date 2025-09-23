@@ -1,12 +1,16 @@
 #include "Flash.h"
 #include "STM32F3xx.h" // needed for Flash operations, give the access to flash registers via CMSIS
 
+// ================= Internal Helpers =================
+// These functions are declared as 'statis' to restrict thier visibiliity to this translation unit only
+// Misra-C:2004 rule 8.8 compliant
 
+
+// Wait until BSY flag clears, or timeout eccurs then check and clear flags
 static FlashStatus_t Flash_WaitBusyAndCheck(void) 
 {
     uint32_t spins = 0U;
 
-    // Wait until BSY flag clears, or timeout eccurs
     while ((FLASH->SR & C_FLASH_SR_BSY) != 0U)
     {
         spins++;
@@ -21,6 +25,14 @@ static FlashStatus_t Flash_WaitBusyAndCheck(void)
     {
         FLASH->SR = C_FLASH_SR_EOP;
     }
+
+    // Write Protection error
+    if ((FLASH->SR & C_FLASH_SR_WRPERR) != 0)
+    {
+        FLASH->SR = C_FLASH_SR_WRPERR;
+        return FLASH_ERR_WRITE;
+    }
+
 }
 
 
