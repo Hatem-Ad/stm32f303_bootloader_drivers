@@ -11,9 +11,26 @@
 // Spin timeout for Flash operations
 #define FLASH_TIMEOUT_SPINS (500000UL)
 
+typedef enum 
+{
+    FLASH_OK = 0,
+    FLASH_ERR_LOCK,
+    FLASH_ERR_ALIGN,
+    FLASH_ERR_RANGE,
+    FLASH_ERR_TIMEOUT,
+    FLASH_ERR_ERASE
+} FlashStatus_t;
 
-void FLASH_Lock(void);
-void Flash_EraseAppArea(void);
-void Flash_Write(uint32_t address, uint8_t *data, uint32_t length);
+FlashStatus_t Flash_Unlock(void);
+
+void Flash_Lock(void);
+
+void Flash_ClearFlags(void);
+
+FlashStatus_t Flash_ErasePage(uint32_t page_addr);
+
+FlashStatus_t Flash_EraseAppArea(void);
+
+FlashStatus_t Flash_Write(uint32_t address, uint8_t *data, uint32_t length);
 
 #endif
