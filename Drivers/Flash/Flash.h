@@ -18,6 +18,7 @@ typedef enum
     FLASH_ERR_ALIGN,
     FLASH_ERR_RANGE,
     FLASH_ERR_TIMEOUT,
+    FLASH_ERR_WRITE,
     FLASH_ERR_ERASE
 } FlashStatus_t;
 

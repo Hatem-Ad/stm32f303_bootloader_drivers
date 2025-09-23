@@ -33,11 +33,34 @@ static FlashStatus_t Flash_WaitBusyAndCheck(void)
         return FLASH_ERR_WRITE;
     }
 
+    // Programming error
+    if ((FLASH->SR &C_FLASH_SR_PGERR) != 0)
+    {
+        FLASH->SR = C_FLASH_SR_PGERR;
+        return FLASH_ERR_WRITE;
+    }
+
+    return FLASH_OK;
+
 }
 
+//Validate that address range lies inside app area
+static inline int Flash_RangeValid(uint32_t addr, uint32_t len)
+{
+    int valid = 0;
+
+    if ((addr >= FLASH_APP_BASE && ((addr + len) <= FLASH_END_ADDR)))
+    {
+        valid = 1;
+    }
+
+    return valid;
+}
+
+// ================= Public API =================
 
 
-void Flash_Unlock(void)
+FlashStatus_t Flash_Unlock(void)
 {
     //Check if the Flash control register is locked
     if (FLASH->CR & C_FLASH_CR_LOCK)
@@ -48,41 +71,110 @@ void Flash_Unlock(void)
         // Key2 : 0xCDEF89ABUL
         FLASH->KEYR = C_FLASH_KEY1;
         FLASH->KEYR = C_FLASH_KEY2;
+
+        if ((FLASH->CR & C_FLASH_CR_LOCK) != 0)
+        {
+            return FLASH_ERR_LOCK;
+        }
     }
+    return FLASH_OK;
 }
 
 void Flash_Lock(void)
 {
     // Set the lock bit
-    FLASH->CR|= C_FLASH_CR_LOCK;
+    FLASH->CR |= C_FLASH_CR_LOCK;
 }
 
-void Flash_Erase(uint32_t addr)
+void Flash_ClearFlags(void)
 {
-    //Set the Page Erase bit (PER) to configure the the flash memory for the page erase mode.
-    FLASH->CR|= C_FLASH_CR_PER;
-    //Write the target address in the flash address register for specifie the which flash page should be erase.
-    FLASH->AR = addr;
-    //Sets the start bit in the flash control register to begin erase operation.
-    FLASH->CR|= C_FLASH_CR_START;
-    //This loop block the CPU until erase finishes (hardware clears BSY)
-    while(FLASH->SR & C_FLASH_SR_BSY);
-    //Clear the Page Erase bit in CR to exit the erase mode.
-    FLASH->CR &= ~C_FLASH_CR_PER;
+    FLASH->SR = C_FLASH_SR_PGERR | C_FLASH_SR_WRPERR| C_FLASH_SR_EOP;
 }
 
-void Flash_Write(uint32_t addr, uint8_t *data, uint32_t len)
+FlashStatus_t Flash_ErasePage(uint32_t page_addr)
 {
-    for (uint32_t i = 0; i < len; i +=2)
+    FlashStatus_t st;
+
+    if ((page_addr % FLASH_PAGE_SIZE) != 0U)
     {
-        // Set programming mode 
-        FLASH->CR |= C_FLASH_CR_PG;
-        // Write 16 bits
-        *(volatile uint16_t *)(addr + i) = *(uint16_t *)(data +i);
-        // wait until write completes
-        while(FLASH->SR & C_FLASH_SR_BSY);
-        //Exit programming mode
-        FLASH->CR &= ~C_FLASH_CR_PG;  
+        return FLASH_ERR_ALIGN;
     }
-    
+
+    if (Flash_RangeValid(page_addr, FLASH_PAGE_SIZE) == 0)
+    {
+        return FLASH_ERR_RANGE;
+    }
+
+    st = Flash_WaitBusyAndCheck();
+    if (st != FLASH_OK)
+    {
+        return st;
+    }
+
+    FLASH->CR |= C_FLASH_CR_PER;
+    FLASH->AR  = page_addr;
+    FLASH->CR |= C_FLASH_CR_START;
+
+    st = Flash_WaitBusyAndCheck();
+    FLASH->CR &= ~C_FLASH_CR_PER;
+
+    return (st == FLASH_OK) ? FLASH_OK : FLASH_ERR_ERASE;
+}
+
+FlashStatus_t Flash_EraseAppArea(void)
+{
+    uint32_t addr;
+    FlashStatus_t st;
+
+    for (addr = FLASH_APP_BASE; addr < FLASH_END_ADDR; addr += FLASH_PAGE_SIZE)
+    {
+        st = Flash_ErasePage(addr);
+        if (st != FLASH_OK)
+        {
+            return st;
+        }
+    }
+
+    return FLASH_OK;
+}
+
+FlashStatus_t Flash_Write(uint32_t addr, const uint8_t *data, uint32_t len)
+{
+    FlashStatus_t st;
+    uint32_t i;
+    uint16_t half;
+
+    if (((addr % 2U) != 0U) || ((len % 2U) != 0U))
+    {
+        return FLASH_ERR_ALIGN;
+    }
+
+    if (Flash_RangeValid(addr, len) == 0)
+    {
+        return FLASH_ERR_RANGE;
+    }
+
+    st = Flash_WaitBusyAndCheck();
+    if (st != FLASH_OK)
+    {
+        return st;
+    }
+
+    FLASH->CR |= C_FLASH_CR_PG;
+
+    for (i = 0U; i < len; i += 2U)
+    {
+        half = (uint16_t)(data[i] | ((uint16_t)data[i + 1U] << 8U));
+        *(__IO uint16_t *)(addr + i) = half;
+
+        st = Flash_WaitBusyAndCheck();
+        if (st != FLASH_OK)
+        {
+            FLASH->CR &= ~C_FLASH_CR_PG;
+            return FLASH_ERR_WRITE;
+        }
+    }
+
+    FLASH->CR &= ~C_FLASH_CR_PG;
+    return FLASH_OK;
 }
