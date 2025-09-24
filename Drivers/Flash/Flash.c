@@ -91,3 +91,36 @@ void Flash_ClearFlags(void)
     FLASH->SR = C_FLASH_SR_EOP | C_FLASH_SR_PGERR | C_FLASH_SR_WRPERR;
 }
 
+FlashStatus_t Flash_ErasePage(uint32_t page_addr)
+{
+    FlashStatus_t st;
+
+    if((page_addr % FLASH_PAGE_SIZE) != 0)
+    {
+        return FLASH_ERR_ALIGN;
+    }
+
+    if(Flash_RangeValid(page_addr, FLASH_PAGE_SIZE) == 0)
+    {
+        return FLASH_ERR_RANGE;
+    }
+
+    st = Flash_WaitBusyAndCheck();
+    if (st != FLASH_OK)
+    {
+        return st;
+    }
+
+    // Tells the controller we want to do a page erase operation.
+    FLASH->CR |= C_FLASH_CR_PER;
+    // Load the page address into the Flash Address Register.
+    FLASH->AR = page_addr;
+    // Begins the erase operation on the page given at the address in AR.
+    FLASH->CR = C_FLASH_CR_START;
+
+    st = Flash_WaitBusyAndCheck();
+    FLASH->CR &= ~C_FLASH_CR_PER;
+
+    return (st == FLASH_OK) ? FLASH_OK : FLASH_ERR_ERASE;
+
+}
