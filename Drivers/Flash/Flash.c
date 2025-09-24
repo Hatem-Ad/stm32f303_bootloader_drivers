@@ -124,3 +124,60 @@ FlashStatus_t Flash_ErasePage(uint32_t page_addr)
     return (st == FLASH_OK) ? FLASH_OK : FLASH_ERR_ERASE;
 
 }
+
+FlashStatus_t Flash_EraseAppArea(void)
+{
+    uint32_t addr;
+    FlashStatus_t st;
+
+    for(addr = FLASH_APP_BASE; addr < FLASH_END_ADDR; addr += FLASH_PAGE_SIZE)
+    {
+        st = Flash_ErasePage(addr);
+        if(st != FLASH_OK)
+        {
+            return st;
+        }
+    }
+
+    return FLASH_OK;
+}
+
+FlashStatus_t Flash_Write(uint32_t addr, const uint8_t *data, uint32_t len)
+{
+    FlashStatus_t st;
+    uint32_t i;
+    uint16_t half;
+
+    if (((addr % 2U) != 0U) || ((len % 2) != 0U))
+    {
+        return FLASH_ERR_ALIGN;
+    }
+
+    if (Flash_RangeValid(addr, len) == 0)
+    {
+        return FLASH_ERR_ALIGN;
+    }
+
+    st = Flash_WaitBusyAndCheck();
+    if (st != FLASH_OK)
+    {
+        return st;
+    }
+
+    FLASH->CR |= C_FLASH_CR_PG;
+
+    for(i = 0U; i < len; i+=2U)
+    {
+        half = (uint16_t)(data[i] | ((uint16_t)data[i+1U] << 8U));
+        *(__IO uint16_t *)(addr +1) = half;
+
+        st = Flash_WaitBusyAndCheck();
+        if (st != FLASH_OK)
+        {
+            FLASH->CR = (FLASH->CR & (~(C_FLASH_CR_PG)));
+            return FLASH_ERR_WRITE;
+        }
+    }
+    FLASH->CR = FLASH->CR & (~C_FLASH_CR_PG);
+    return FLASH_OK;
+}

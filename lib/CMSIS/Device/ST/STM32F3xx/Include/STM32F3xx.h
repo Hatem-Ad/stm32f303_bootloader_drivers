@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+/* CMSIS-style type qualifiers */
+#define __I     volatile const /*!< Defines 'read only' permissions */
+#define __O     volatile       /*!< Defines 'write only' permissions */
+#define __IO    volatile       /*!< Defines 'read / write' permissions */
 
 #define C_PERIPH_BASE            ((uint32_t) 0x40000000)
 #define C_AHBPERIPH_BASE         (C_PERIPH_BASE + 0x20000)
@@ -81,10 +85,10 @@ typedef struct {
 #define FLASH ((TS_FLASH_TypeDef *) C_FLASH_BASE)
 
 //FLASH_CR bits
-#define C_FLASH_CR_PG       (1U << 0)
-#define C_FLASH_CR_PER      (1U << 1)
-#define C_FLASH_CR_START    (1U << 6)
-#define C_FLASH_CR_LOCK     (1U << 7)
+#define C_FLASH_CR_PG       (1U << 0) // PG (Programming) bit — when set, flash enters program mode (half-word write).
+#define C_FLASH_CR_PER      (1U << 1) // PER (Page Erase) bit — when set, flash enters page erase mode.
+#define C_FLASH_CR_START    (1U << 6) // when set, triggers the erase/program operation (used with PER or MER).
+#define C_FLASH_CR_LOCK     (1U << 7) // OCK bit — when set, the flash control register is locked to prevent accidental erase/write; must be unlocked with the key sequence.
 
 // FLASH_SR bits
 #define C_FLASH_SR_BSY      (1U << 0) // Busy flag
