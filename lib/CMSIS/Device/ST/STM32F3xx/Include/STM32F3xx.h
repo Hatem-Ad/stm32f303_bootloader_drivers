@@ -3,7 +3,14 @@
 
 #include <stdint.h>
 
-/* CMSIS-style type qualifiers */
+/* ==========================================================
+ * CMSIS-style type qualifiers for hardware register access
+ * ==========================================================
+ * __I   = read-only
+ * __O   = write-only
+ * __IO  = read/write
+ * These expand to 'volatile' to prevent compiler optimization.
+ */
 #define __I     volatile const /*!< Defines 'read only' permissions */
 #define __O     volatile       /*!< Defines 'write only' permissions */
 #define __IO    volatile       /*!< Defines 'read / write' permissions */
