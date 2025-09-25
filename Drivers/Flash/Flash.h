@@ -4,9 +4,9 @@
 #include <stdint.h>
 
 // Flash memory layout (adjust for the STM32f303 variant)
-#define FLASH_PAGE_SIZE     (2048U) //2KB
-#define FLASH_APP_BASE      (0x08004000UL) // User app start (16 KB offset)
-#define FLASH_END_ADDR      (0x08040000UL) // End of 256KB flash
+#define C_FLASH_PAGE_SIZE     (2048U) //2KB
+#define C_FLASH_APP_BASE      (0x08004000UL) // User app start (16 KB offset)
+#define C_FLASH_END_ADDR      (0x08040000UL) // End of 256KB flash
 
 // Spin timeout for Flash operations
 #define FLASH_TIMEOUT_SPINS (500000UL)
