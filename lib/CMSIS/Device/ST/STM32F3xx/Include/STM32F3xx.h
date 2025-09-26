@@ -26,25 +26,25 @@
 //        RCC         //
 //--------------------//
 
-//RCC base address
+/* Base address of Reset and Clock Control (RCC) registers */
 #define C_RCC_BASE               (C_AHBPERIPH_BASE + 0x1000)
 
-//RCC register structre
+//RCC register layout
 typedef struct {
-    __IO uint32_t CR;
-    __IO uint32_t CFGR;
-    __IO uint32_t CIR;
-    __IO uint32_t APB2RSTR;
-    __IO uint32_t APB1RSTR;
-    __IO uint32_t AHBENR;
-    __IO uint32_t APB2ENR;
-    __IO uint32_t APB1ENR;
-    __IO uint32_t BDCR;
-    __IO uint32_t CSR;
-    __IO uint32_t AHBRSTR;
-    __IO uint32_t CFGR2;
-    __IO uint32_t CFGR3;
-    __IO uint32_t CR2;
+    __IO uint32_t CR;        // Clock control register
+    __IO uint32_t CFGR;      // Clock configuration register
+    __IO uint32_t CIR;       // Clock interrupt register
+    __IO uint32_t APB2RSTR;  // APB2 peripheral reset register 
+    __IO uint32_t APB1RSTR;  // APB1 peripheral reset register
+    __IO uint32_t AHBENR;    // AHB peripheral clock enable register 
+    __IO uint32_t APB2ENR;   // APB2 peripheral clock enable register 
+    __IO uint32_t APB1ENR;   // APB1 peripheral clock enable register
+    __IO uint32_t BDCR;      // Backup domain control register
+    __IO uint32_t CSR;       // Control/status register
+    __IO uint32_t AHBRSTR;   // AHB peripheral reset register 
+    __IO uint32_t CFGR2;     // Clock configuration register 2
+    __IO uint32_t CFGR3;     // Clock configuration register 3
+    __IO uint32_t CR2;       // Clock control register 2 
 } TS_RCC_TypeDef;
 
 //Pointers to devices
@@ -134,10 +134,6 @@ typedef struct{
 #define GPIOE ((TS_GPIO_TypeDef *) GPIOE_BASE)
 #define GPIOF ((TS_GPIO_TypeDef *) GPIOF_BASE)
 
-
-
-
-
 //--------------------//
 //        UART        //
 //--------------------//
@@ -147,25 +143,25 @@ typedef struct{
 
 //USART register structre
 typedef struct{
-    volatile uint32_t CR1;     // Control register 1
-    volatile uint32_t CR2;     // Control register 2
-    volatile uint32_t CR3;     // Control register 3
-    volatile uint32_t BRR;     // Baud rate register
-    volatile uint32_t GTPR;    // Guard time and prescaler
-    volatile uint32_t RTOR;    // Receiver timeout
-    volatile uint32_t RQR;     // Request register
-    volatile uint32_t ISR;     // Interrupt and status register
-    volatile uint32_t ICR;     // Interrupt flag clear register
-    volatile uint32_t RDR;     // Receive data register
-    volatile uint32_t TDR;     // Transmit data register
+    __IO uint32_t CR1;     // Control register 1
+    __IO uint32_t CR2;     // Control register 2
+    __IO uint32_t CR3;     // Control register 3
+    __IO uint32_t BRR;     // Baud rate register
+    __IO uint32_t GTPR;    // Guard time and prescaler
+    __IO uint32_t RTOR;    // Receiver timeout
+    __IO uint32_t RQR;     // Request register
+    __IO uint32_t ISR;     // Interrupt and status register
+    __IO uint32_t ICR;     // Interrupt flag clear register
+    __I  uint32_t RDR;     // Receive data register
+    __IO uint32_t TDR;     // Transmit data register
 } TS_USART_TypeDef;
 
 //USART1 pointer
 #define USART1 ((TS_USART_TypeDef *) C_USART1_BASE)
 
 //Controle register bits (CR)
-#define C_USART_CR_TE         (1U << 3)
 #define C_USART_CR_RE         (1U << 2)
+#define C_USART_CR_TE         (1U << 3)
 #define C_USART_CR_UE         (1U << 13)
 
 //Interrupt register status bits (ISR)
