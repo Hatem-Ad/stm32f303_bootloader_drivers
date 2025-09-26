@@ -29,12 +29,6 @@
 //RCC base address
 #define C_RCC_BASE               (C_AHBPERIPH_BASE + 0x1000)
 
-// Peripheral activition bit
-#define C_RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
-
-//Pointers to devices
-#define RCC                    ((TS_RCC_TypeDef *) C_RCC_BASE)
-
 //RCC register structre
 typedef struct {
     volatile uint32_t CR;
@@ -53,15 +47,19 @@ typedef struct {
     volatile uint32_t CR2;
 } TS_RCC_TypeDef;
 
+//Pointers to devices
+#define RCC                    ((TS_RCC_TypeDef *) C_RCC_BASE)
+
 //RCC AHBENR bits
 #define C_RCC_AHBENR_GPIOAEN   (1U << 17) // Bit 17: IO port A clock enable 
-#define C_RCC_AHBENR_GPIOBEN   (1U << 18) // Bit 17: IO port A clock enable 
-#define C_RCC_AHBENR_GPIOCEN   (1U << 19) // Bit 17: IO port A clock enable 
-#define C_RCC_AHBENR_GPIODEN   (1U << 20) // Bit 17: IO port A clock enable 
-#define C_RCC_AHBENR_GPIOEEN   (1U << 21) // Bit 17: IO port A clock enable 
-#define C_RCC_AHBENR_GPIOFEN   (1U << 22) // Bit 17: IO port A clock enable 
+#define C_RCC_AHBENR_GPIOBEN   (1U << 18) // Bit 17: IO port B clock enable 
+#define C_RCC_AHBENR_GPIOCEN   (1U << 19) // Bit 17: IO port C clock enable 
+#define C_RCC_AHBENR_GPIODEN   (1U << 20) // Bit 17: IO port D clock enable 
+#define C_RCC_AHBENR_GPIOEEN   (1U << 21) // Bit 17: IO port E clock enable 
+#define C_RCC_AHBENR_GPIOFEN   (1U << 22) // Bit 17: IO port F clock enable 
 
-
+// Peripheral activition bit
+#define C_RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
 
 
 //--------------------//
