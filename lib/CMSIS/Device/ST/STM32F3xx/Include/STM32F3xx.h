@@ -76,7 +76,7 @@ typedef struct {
     __IO uint32_t SR;      // 0x0C: Status register
     __IO uint32_t CR;      // 0x10: Control register
     __IO uint32_t AR;      // 0x14: Address register
-         uint32_t RESERVED;
+         uint32_t RESERVED;// 0x18 
     __I  uint32_t OBR;     // 0x1C: Option byte register
     __I  uint32_t WRPR;    // 0x20: Write protection register
 } TS_FLASH_TypeDef;
@@ -105,12 +105,26 @@ typedef struct {
 //--------------------//
 
 //GPIO peripheral base address
-#define GPIOA_BASE             (C_AHBPERIPH_BASE + 0x0000)
-#define GPIOB_BASE             (C_AHBPERIPH_BASE + 0x0400)
-#define GPIOC_BASE             (C_AHBPERIPH_BASE + 0x0800)
-#define GPIOD_BASE             (C_AHBPERIPH_BASE + 0x0C00)
-#define GPIOE_BASE             (C_AHBPERIPH_BASE + 0x1000)
-#define GPIOF_BASE             (C_AHBPERIPH_BASE + 0x1400)
+#define GPIOA_BASE  (C_AHBPERIPH_BASE + 0x0000)
+#define GPIOB_BASE  (C_AHBPERIPH_BASE + 0x0400)
+#define GPIOC_BASE  (C_AHBPERIPH_BASE + 0x0800)
+#define GPIOD_BASE  (C_AHBPERIPH_BASE + 0x0C00)
+#define GPIOE_BASE  (C_AHBPERIPH_BASE + 0x1000)
+#define GPIOF_BASE  (C_AHBPERIPH_BASE + 0x1400)
+
+//GPIO register structre
+typedef struct{
+    __IO uint32_t MODER;   // Mode register
+    __IO uint32_t OTYPER;  // Output type
+    __IO uint32_t OSPEEDR; // Speed
+    __IO uint32_t PUPDR;   // Pull-up/pull-down
+    __I  uint32_t IDR;     // Input data
+    __IO uint32_t ODR;     // Output data
+    __IO uint32_t BSRR;    // Bit set/reset
+    __IO uint32_t LCKR;    // Configuration lock
+    __IO uint32_t AFR[2];  // Alternate functions
+} TS_GPIO_TypeDef;
+
 
 //GPIOs pointer
 #define GPIOA ((TS_GPIO_TypeDef *) GPIOA_BASE)
@@ -119,19 +133,6 @@ typedef struct {
 #define GPIOD ((TS_GPIO_TypeDef *) GPIOD_BASE)
 #define GPIOE ((TS_GPIO_TypeDef *) GPIOE_BASE)
 #define GPIOF ((TS_GPIO_TypeDef *) GPIOF_BASE)
-
-//GPIO register structre
-typedef struct{
-    volatile uint32_t MODER;
-    volatile uint32_t OTYPER;
-    volatile uint32_t OSPEEDR;
-    volatile uint32_t PUPDR;
-    volatile uint32_t IDR;
-    volatile uint32_t ODR;    // ODR : Output Data Register  
-    volatile uint32_t BSRR;   // BSRR : Bit Set/Reset Register
-    volatile uint32_t LCKR;
-    volatile uint32_t AFR[2];
-} TS_GPIO_TypeDef;
 
 
 
