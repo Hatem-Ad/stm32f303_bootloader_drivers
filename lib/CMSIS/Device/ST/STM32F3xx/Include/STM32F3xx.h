@@ -31,20 +31,20 @@
 
 //RCC register structre
 typedef struct {
-    volatile uint32_t CR;
-    volatile uint32_t CFGR;
-    volatile uint32_t CIR;
-    volatile uint32_t APB2RSTR;
-    volatile uint32_t APB1RSTR;
-    volatile uint32_t AHBENR;
-    volatile uint32_t APB2ENR;
-    volatile uint32_t APB1ENR;
-    volatile uint32_t BDCR;
-    volatile uint32_t CSR;
-    volatile uint32_t AHBRSTR;
-    volatile uint32_t CFGR2;
-    volatile uint32_t CFGR3;
-    volatile uint32_t CR2;
+    __IO uint32_t CR;
+    __IO uint32_t CFGR;
+    __IO uint32_t CIR;
+    __IO uint32_t APB2RSTR;
+    __IO uint32_t APB1RSTR;
+    __IO uint32_t AHBENR;
+    __IO uint32_t APB2ENR;
+    __IO uint32_t APB1ENR;
+    __IO uint32_t BDCR;
+    __IO uint32_t CSR;
+    __IO uint32_t AHBRSTR;
+    __IO uint32_t CFGR2;
+    __IO uint32_t CFGR3;
+    __IO uint32_t CR2;
 } TS_RCC_TypeDef;
 
 //Pointers to devices
@@ -61,7 +61,6 @@ typedef struct {
 // Peripheral activition bit
 #define C_RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
 
-
 //--------------------//
 //       Flash        //
 //--------------------//
@@ -71,23 +70,23 @@ typedef struct {
 
 //Flash register structre
 typedef struct {
-    volatile uint32_t ACR;     // 0x00: Access control register
-    volatile uint32_t KEYR;    // 0x04: Key register
-    volatile uint32_t OPTKEYR; // 0x08: Option key register
-    volatile uint32_t SR;      // 0x0C: Status register
-    volatile uint32_t CR;      // 0x10: Control register
-    volatile uint32_t AR;      // 0x14: Address register
-    uint32_t RESERVED;
-    volatile uint32_t OBR;     // 0x1C: Option byte register
-    volatile uint32_t WRPR;    // 0x20: Write protection register
+    __IO uint32_t ACR;     // 0x00: Access control register
+    __IO uint32_t KEYR;    // 0x04: Key register
+    __IO uint32_t OPTKEYR; // 0x08: Option key register
+    __IO uint32_t SR;      // 0x0C: Status register
+    __IO uint32_t CR;      // 0x10: Control register
+    __IO uint32_t AR;      // 0x14: Address register
+         uint32_t RESERVED;
+    __I  uint32_t OBR;     // 0x1C: Option byte register
+    __I  uint32_t WRPR;    // 0x20: Write protection register
 } TS_FLASH_TypeDef;
+
+//Flash pointer
+#define FLASH ((TS_FLASH_TypeDef *) C_FLASH_BASE)
 
 // Flash key values (from RM0316 reference manual)
 #define C_FLASH_KEY1 0x45670123UL
 #define C_FLASH_KEY2 0xCDEF89ABUL
-
-//Flash pointer
-#define FLASH ((TS_FLASH_TypeDef *) C_FLASH_BASE)
 
 //FLASH_CR bits
 #define C_FLASH_CR_PG       (1U << 0) // PG (Programming) bit — when set, flash enters program mode (half-word write).
@@ -100,7 +99,6 @@ typedef struct {
 #define C_FLASH_SR_PGERR    (1U << 2) // Programmin error
 #define C_FLASH_SR_WRPERR   (1U << 4) // Write Protectoin eorrer
 #define C_FLASH_SR_EOP      (1U << 5) // End of operation flag
-
 
 //--------------------//
 //        GPIO        //
