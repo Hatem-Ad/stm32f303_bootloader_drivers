@@ -4,12 +4,10 @@
 #include <stdint.h>
 
 // Flash memory layout (adjust for the STM32f303 variant)
-#define C_FLASH_PAGE_SIZE     (2048U) //2KB
-#define C_FLASH_APP_BASE      (0x08004000UL) // User app start (16 KB offset)
-#define C_FLASH_END_ADDR      (0x08040000UL) // End of 256KB flash
-
-// Spin timeout for Flash operations
-#define FLASH_TIMEOUT_SPINS (500000UL)
+#define C_FLASH_PAGE_SIZE     (0x800U)          // 2KB per page
+#define C_FLASH_APP_BASE      (0x08004000UL)    // User app start (16 KB offset)
+#define C_FLASH_END_ADDR      (0x08003FFFUL)    // End of 256KB flash
+#define C_FLASH_TIMEOUT_SPINS (500000UL)        // Simple busy-wait timeout
 
 // ================= Status codes =================
 typedef enum 
@@ -29,31 +27,31 @@ typedef enum
  * @brief Unlocks flash control register.
  * @return FLASH_OK if unlocked, FLASH_ERR_LOCK if still locked.
  */
-FlashStatus_t Flash_Unlock(void);
+FlashStatus_t FLASH_Unlock(void);
 
 /**
  * @brief Locks flash control register (sets LOCK bit).
  */
-void Flash_Lock(void);
+void FLASH_Lock(void);
 
 
 /**
  * @brief Clears all relevant flash status flags (EOP, PGERR, WRPERR).
  */
-void Flash_ClearFlags(void);
+void FLASH_ClearFlags(void);
 
 /**
  * @brief Erases one flash page at given address.
  * @param page_addr Must be page-aligned and inside application area.
  * @return Status code.
  */
-FlashStatus_t Flash_ErasePage(uint32_t page_addr);
+FlashStatus_t FLASH_ErasePage(uint32_t page_addr);
 
  /**
  * @brief Erases all flash pages in the application area.
  * @return Status code.
  */
-FlashStatus_t Flash_EraseAppArea(void);
+FlashStatus_t FLASH_EraseAppArea(void);
 
 /**
  * @brief Writes data to flash in half-word (16-bit) units.
@@ -62,6 +60,6 @@ FlashStatus_t Flash_EraseAppArea(void);
  * @param len  Length in bytes (must be even).
  * @return Status code.
  */
-FlashStatus_t Flash_Write(uint32_t address, uint8_t *data, uint32_t length);
+FlashStatus_t FLASH_Write(uint32_t address, uint8_t *data, uint32_t length);
 
 #endif

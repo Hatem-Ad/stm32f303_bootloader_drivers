@@ -7,14 +7,14 @@
 
 
 // Wait until BSY flag clears, or timeout eccurs then check and clear flags
-static FlashStatus_t Flash_WaitBusyAndCheck(void) 
+static FlashStatus_t FLASH_WaitBusyAndCheck(void) 
 {
     uint32_t spins = 0U;
 
     while ((FLASH->SR & C_FLASH_SR_BSY) != 0U)
     {
         spins++;
-        if (spins > FLASH_TIMEOUT_SPINS)
+        if (spins > C_FLASH_TIMEOUT_SPINS)
         {
             return FLASH_ERR_TIMEOUT;
         }
@@ -45,7 +45,7 @@ static FlashStatus_t Flash_WaitBusyAndCheck(void)
 }
 
 //Validate that address range lies inside app area
-static inline int Flash_RangeValid(uint32_t addr, uint32_t len)
+static inline int FLASH_RangeValid(uint32_t addr, uint32_t len)
 {
     int valid = 0;
 
@@ -60,7 +60,7 @@ static inline int Flash_RangeValid(uint32_t addr, uint32_t len)
 // ================= Public API =================
 
 
-FlashStatus_t Flash_Unlock(void)
+FlashStatus_t FLASH_Unlock(void)
 {
     //Check if the Flash control register is locked
     if (FLASH->CR & C_FLASH_CR_LOCK)
@@ -80,18 +80,18 @@ FlashStatus_t Flash_Unlock(void)
     return FLASH_OK;
 }
 
-void Flash_Lock(void)
+void FLASH_Lock(void)
 {
     // Set the lock bit
     FLASH->CR |= C_FLASH_CR_LOCK;
 }
 
-void Flash_ClearFlags(void)
+void FLASH_ClearFlags(void)
 {
     FLASH->SR = C_FLASH_SR_EOP | C_FLASH_SR_PGERR | C_FLASH_SR_WRPERR;
 }
 
-FlashStatus_t Flash_ErasePage(uint32_t page_addr)
+FlashStatus_t FLASH_ErasePage(uint32_t page_addr)
 {
     FlashStatus_t status;
 
@@ -125,7 +125,7 @@ FlashStatus_t Flash_ErasePage(uint32_t page_addr)
 
 }
 
-FlashStatus_t Flash_EraseAppArea(void)
+FlashStatus_t FLASH_EraseAppArea(void)
 {
     uint32_t addr;
     FlashStatus_t status;
@@ -142,7 +142,7 @@ FlashStatus_t Flash_EraseAppArea(void)
     return FLASH_OK;
 }
 
-FlashStatus_t Flash_Write(uint32_t addr, const uint8_t *data, uint32_t len)
+FlashStatus_t FLASH_Write(uint32_t addr, const uint8_t *data, uint32_t len)
 {
     FlashStatus_t status;
     uint32_t i;
