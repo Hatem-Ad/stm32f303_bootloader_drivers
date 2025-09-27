@@ -100,12 +100,12 @@ FlashStatus_t FLASH_ErasePage(uint32_t page_addr)
         return FLASH_ERR_ALIGN;
     }
 
-    if(Flash_RangeValid(page_addr, C_FLASH_PAGE_SIZE) == 0)
+    if(FLASHh_RangeValid(page_addr, C_FLASH_PAGE_SIZE) == 0)
     {
         return FLASH_ERR_RANGE;
     }
 
-    status = Flash_WaitBusyAndCheck();
+    status = FLASH_WaitBusyAndCheck();
     if (status != FLASH_OK)
     {
         return status;
@@ -118,7 +118,7 @@ FlashStatus_t FLASH_ErasePage(uint32_t page_addr)
     // Begins the erase operation on the page given at the address in AR.
     FLASH->CR = C_FLASH_CR_START;
 
-    status = Flash_WaitBusyAndCheck();
+    status = FLASH_WaitBusyAndCheck();
     FLASH->CR &= ~C_FLASH_CR_PER;
 
     return (status == FLASH_OK) ? FLASH_OK : FLASH_ERR_ERASE;
@@ -132,7 +132,7 @@ FlashStatus_t FLASH_EraseAppArea(void)
 
     for(addr = C_FLASH_APP_BASE; addr < C_FLASH_END_ADDR; addr += C_FLASH_PAGE_SIZE)
     {
-        status = Flash_ErasePage(addr);
+        status = FLASH_ErasePage(addr);
         if(status != FLASH_OK)
         {
             return status;
@@ -153,12 +153,12 @@ FlashStatus_t FLASH_Write(uint32_t addr, const uint8_t *data, uint32_t len)
         return FLASH_ERR_ALIGN;
     }
 
-    if (Flash_RangeValid(addr, len) == 0)
+    if (FLASH_RangeValid(addr, len) == 0)
     {
         return FLASH_ERR_ALIGN;
     }
 
-    status = Flash_WaitBusyAndCheck();
+    status = FLASH_WaitBusyAndCheck();
     if (status != FLASH_OK)
     {
         return status;
@@ -171,7 +171,7 @@ FlashStatus_t FLASH_Write(uint32_t addr, const uint8_t *data, uint32_t len)
         half = (uint16_t)(data[i] | ((uint16_t)data[i+1U] << 8U));
         *(__IO uint16_t *)(addr +1) = half;
 
-        status = Flash_WaitBusyAndCheck();
+        status = FLASH_WaitBusyAndCheck();
         if (status != FLASH_OK)
         {
             FLASH->CR = (FLASH->CR & (~(C_FLASH_CR_PG)));
