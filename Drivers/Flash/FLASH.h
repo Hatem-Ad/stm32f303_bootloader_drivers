@@ -6,7 +6,7 @@
 // Flash memory layout (adjust for the STM32f303 variant)
 #define C_FLASH_PAGE_SIZE     (0x800U)          // 2KB per page
 #define C_FLASH_APP_BASE      (0x08004000UL)    // User app start (16 KB offset)
-#define C_FLASH_END_ADDR      (0x08003FFFUL)    // End of 256KB flash
+#define C_FLASH_END_ADDR      (0x0803FFFFUL)    // End of 256KB flash
 #define C_FLASH_TIMEOUT_SPINS (500000UL)        // Simple busy-wait timeout
 
 // ================= Status codes =================
