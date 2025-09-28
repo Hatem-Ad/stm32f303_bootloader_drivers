@@ -8,7 +8,7 @@
 
 #define UART_TIMEOUT    1000000U
 
-#define BL_UART_TIMEOUT   200U   // milliseconds
+#define C_BL_UART_TIMEOUT   200U   // milliseconds
 
 
 // ---------------- API Functions ----------------

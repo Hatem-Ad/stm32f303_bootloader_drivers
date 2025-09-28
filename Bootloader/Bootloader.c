@@ -76,12 +76,13 @@ void Bootloader_ReceiveFirmware(void) {
             return;
         }
 
+        // Write
         addr += received;
         UART_SendString("Chunk written. \r\n");
     }
 
     // Lock flash after update
-    FLASH_Lock(); // Disable Flash programming
+    FLASH_Lock(); // re-lock the flaash memory
     UART_SendString("Firmware update done. \r\n");
 }
 
