@@ -2,7 +2,7 @@
 #include "Bootloader.h"
 #include "GPIO.h"  // Use GPIO pin to trigger bootloader
 #include "UART.h"  // Receive firmware over UART
-#include "Flash.h" // For Flash memory
+#include "FLASH.h" // For Flash memory
 
 #define APP_START_ADDRESS 0x08004000U  // App start address after bootloader
 #define FW_CHUNK_SIZE 256 //Byte per chunk
@@ -25,33 +25,64 @@ uint8_t Bootloader_CheckForUpdate(void) {
 void Bootloader_ReceiveFirmware(void) {
     // Local declaration
     uint8_t buffer[FW_CHUNK_SIZE];
-    uint32_t addr = APP_START_ADDRESS;
-    uint32_t received;
+    uint32_t addr = C_FLASH_APP_BASE;
+    uint32_t received = 0U;
+    FlashStatus_t status;
 
-    UART_SendString("Starting firmware update ...\r\n");
+    UART_SendString("BL: erase app area...\r\n");
 
     //1. Erase the application aera before writing 
-    FLASH_Unlock();
-    
-    for(uint32_t pageAddr = APP_START_ADDRESS; pageAddr < (APP_START_ADDRESS + 0x2000); pageAddr += 0x800)
+    status = FLASH_Unlock();
+    if(status != FLASH_OK)
     {
-        Flash_Erase(pageAddr); //Erase one page (0x800 = 2KB for STM32f3)
+        UART_SendString("BL: unlock fail\r\n");
+        return;
     }
+
+    FLASH_ClearFlags();
+    
+    // Erase all application pages
+    status = FLASH_EraseAppArea();
+    if(status != FLASH_OK)
+    {
+        UART_SendString("BL: erase fail\r\n");
+        FLASH_Lock();
+        return;
+    }
+
+    UART_SendString("BL: receiving...\r\n");
 
     //2. Received data chunks and write to flash
     while (1)
     {
-        received = UART_Received(buffer, FW_CHUNK_SIZE); // Blocking read
-        if (received == 0) break; //assume 0 bytes means "End of transmission"
+        received = UART_Received((char *)buffer, (uint32_t)FW_CHUNK_SIZE, C_BL_UART_TIMEOUT); // Blocking read
+        if (received == 0)
+        {
+            break; //assume 0 bytes ol less means "End of transmission"
+        }
 
-        Flash_Write(addr, buffer, received);
-        addr += received; // update address
+        if((received & 1U) != 0U)
+        {
+            buffer[received] = 0xFFU;
+            received++;
+        }
 
+        // Write to flash
+        status = FLASH_Write(addr, buffer, received);
+        if (status != FLASH_OK)
+        {
+            UART_SendString("BL: write fail\r\n");
+            FLASH_Lock();
+            return;
+        }
+
+        addr += received;
         UART_SendString("Chunk written. \r\n");
-    }    
-    
+    }
+
+    // Lock flash after update
     FLASH_Lock(); // Disable Flash programming
-    UART_SendString("Firmware update complete. \r\n");
+    UART_SendString("Firmware update done. \r\n");
 }
 
 void Bootloader_JumpToApp(void) {
