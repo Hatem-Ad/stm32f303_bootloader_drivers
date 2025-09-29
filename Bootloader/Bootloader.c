@@ -87,17 +87,41 @@ void Bootloader_ReceiveFirmware(void) {
 }
 
 void Bootloader_JumpToApp(void) {
+
+    uint32_t msp0 = *(volatile uint32_t *)C_FLASH_APP_BASE; // APP MSP
+    uint32_t reset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
     // Function pointer to application's reset handler
     void (*App_reset_handler)(void);
     
+    // Baseic validation
+    if ((msp0 & 0x2FFE0000UL) != 0x20000000UL)
+    {
+        UART_SendString("BL: invalid MSP\r\n");
+        return;
+    }
+
+    if ((reset < C_FLASH_APP_BASE) || (reset > C_FLASH_END_ADDR))
+    {
+        UART_SendString("BL: invalid reset vector\r\n");
+        return;
+    }
+
+    UART_SendString("BL: jumping to app\r\n");
+
     // Disable interrupts if needed
     __disable_irq();
+
+    // Relocate vector table
+    SCB->VTOR = C_FLASH_APP_BASE;
     
-    // Set MSP from app's vector table
-    __set_MSP(*(volatile uint32_t *)APP_START_ADDRESS);
+    // Set MSP from app's vector table to load app stack
+    __set_MSP(msp0);
+
+    __DSB();
+    __ISB();
     
     // Set reset handler address
-    App_reset_handler = (void (*)(void)) (*(volatile uint32_t *)(APP_START_ADDRESS + 4));
+    App_reset_handler = (void (*)(void))reset;
     
     // Jump to application
     App_reset_handler();
