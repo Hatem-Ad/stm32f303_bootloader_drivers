@@ -3,6 +3,7 @@
 #include "GPIO.h"  // Use GPIO pin to trigger bootloader
 #include "UART.h"  // Receive firmware over UART
 #include "FLASH.h" // For Flash memory
+#include "STM32F3xx.h"
 
 #define APP_START_ADDRESS 0x08004000U  // App start address after bootloader
 #define FW_CHUNK_SIZE 256 //Byte per chunk

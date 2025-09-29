@@ -173,3 +173,30 @@ typedef struct{
 #define C_USART_ISR_TXE       (1U << 7) // Transmit data regisyter empty
 
 #endif
+
+//--------------------//
+//         SCB        //
+//--------------------//
+
+// SCB : System Control Block
+#define C_SCB_BASE          (0xE000ED00UL) // SCB base address
+
+typedef struct 
+{
+    __I  uint32_t CPUID;    // 0x000 CPU ID Base Register
+    __IO uint32_t ICSR;     // 0x004 Interrupt Control and State Register
+    __IO uint32_t VTOR;     // 0x008 Vector Table Offset Register
+    __IO uint32_t AIRCR;    // 0x00C Application Interrupt and Reset Control Register 
+    __IO uint32_t SCR;      // 0x010 System Control Register
+    __IO uint32_t CCR;      // 0x014 Configuration and Control Register
+    __IO uint8_t  SHP[12];  // 0x018 System Handlers Priority Registers (4-7, 8-11, 12-15)
+    __IO uint32_t SHCSR;    // 0x024 System Handler Control and State Register
+    __IO uint32_t CFSR;     // 0x028 Configurable Fault Status Register
+    __IO uint32_t HFSR;     // 0x02C HardFault Status Register
+    __IO uint32_t DFSR;     // 0x030 Debug Fault Status Register
+    __IO uint32_t MMFAR;    // 0x034 MemManage Fault Address Register
+    __IO uint32_t BFAR;     // 0x038 BusFault Address Register
+    __IO uint32_t AFSR;     // 0x03C Auxiliary Fault Status Register
+} TS_SCB_TypeDef;
+
+#define SCB ((TS_SCB_TypeDef *) C_SCB_BASE);
