@@ -112,12 +112,13 @@ void Bootloader_JumpToApp(void) {
     // Disable interrupts if needed
     __disable_irq();
 
-    // Relocate vector table
+    // Relocate vector table - give the offset
     SCB->VTOR = C_FLASH_APP_BASE & 0xFFFFFF00UL;
     
     // Set MSP from app's vector table to load app stack
     __set_MSP(msp0);
 
+    // For synchronization barriers
     __DSB();
     __ISB();
     
