@@ -113,7 +113,7 @@ void Bootloader_JumpToApp(void) {
     __disable_irq();
 
     // Relocate vector table
-    SCB->VTOR = C_FLASH_APP_BASE;
+    SCB->VTOR = C_FLASH_APP_BASE & 0xFFFFFF00UL;
     
     // Set MSP from app's vector table to load app stack
     __set_MSP(msp0);

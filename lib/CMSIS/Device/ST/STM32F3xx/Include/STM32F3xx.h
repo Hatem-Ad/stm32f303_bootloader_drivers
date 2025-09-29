@@ -199,4 +199,4 @@ typedef struct
     __IO uint32_t AFSR;     // 0x03C Auxiliary Fault Status Register
 } TS_SCB_TypeDef;
 
-#define SCB ((TS_SCB_TypeDef *) C_SCB_BASE);
+#define SCB ((TS_SCB_TypeDef *) C_SCB_BASE)

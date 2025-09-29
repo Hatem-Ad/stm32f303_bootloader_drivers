@@ -15,3 +15,13 @@ static inline void _disable_irq(void)
     __asm volatile ("cpsid i");
 }
 #endif
+
+static inline void __DSB(void)
+{
+    __asm volatile ("dsb 0xF":::"memory");
+}
+
+static inline void __ISB(void)
+{
+    __asm volatile ("isb 0xF":::"memory");
+}
