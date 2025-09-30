@@ -11,6 +11,8 @@
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
     GPIO_Init(GPIOA, 0);
+GPIO_Config(GPIOA, 0, GPIO_MODE_INPUT, GPIO_OTYPE_PP, GPIO_SPEED_LOW, GPIO_PULLUP);
+
     UART_Init();
 }
 
