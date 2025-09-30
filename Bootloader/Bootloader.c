@@ -10,7 +10,7 @@
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
-    GPIO_Init();
+    GPIO_Init(GPIOA, 0);
     UART_Init();
 }
 
