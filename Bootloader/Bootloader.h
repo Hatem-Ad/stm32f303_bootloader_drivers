@@ -3,6 +3,14 @@
 
 #include <stdint.h>
 
+
+#define C_APP_START_ADDRESS       0x08004000U     // App start address after bootloader
+#define C_FW_CHUNK_SIZE           256             // Byte per chunk
+#define C_BL_TRIGGER_PORT         GPIOA           // Trigger port
+#define C_BL_TRIGGER_PIN          0               // Trigger pin
+#define C_BL_VALID_SRAM_ADDR      0x20000000UL    // SRAM address
+#define C_BL_VALID_SRAM_MASK      0x2FFE0000UL    // SRAM mask
+
 /* Bootloader public API */
 
 /**

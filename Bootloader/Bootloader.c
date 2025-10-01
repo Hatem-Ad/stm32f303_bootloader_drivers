@@ -5,11 +5,6 @@
 #include "FLASH.h" // For Flash memory
 #include "STM32F3xx.h"
 
-#define APP_START_ADDRESS 0x08004000U  // App start address after bootloader
-#define FW_CHUNK_SIZE 256 //Byte per chunk
-#define BL_TRIGGER_PORT     GPIOA // Trigger port
-#define BL_TRIGGER_PIN      0 // Trigger pin
-
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
     GPIO_Init(GPIOA, 0);
@@ -20,7 +15,7 @@ void Bootloader_Init(void) {
 
 uint8_t Bootloader_CheckForUpdate(void) {
     // Check if a specific pin is low to enter update mode
-    if (GPIO_Read(BL_TRIGGER_PORT, BL_TRIGGER_PIN) == 0) {
+    if (GPIO_Read(C_BL_TRIGGER_PORT, C_BL_TRIGGER_PIN) == 0) {
         return 1;  // Enter bootloader
     }
     
@@ -29,7 +24,7 @@ uint8_t Bootloader_CheckForUpdate(void) {
 
 void Bootloader_ReceiveFirmware(void) {
     // Local declaration
-    uint8_t buffer[FW_CHUNK_SIZE];
+    uint8_t buffer[C_FW_CHUNK_SIZE];
     uint32_t addr = C_FLASH_APP_BASE;
     uint32_t received = 0U;
     FlashStatus_t status;
@@ -60,7 +55,7 @@ void Bootloader_ReceiveFirmware(void) {
     //2. Received data chunks and write to flash
     while (1)
     {
-        received = UART_Received((char *)buffer, (uint32_t)FW_CHUNK_SIZE, C_BL_UART_TIMEOUT); // Blocking read
+        received = UART_Received((char *)buffer, (uint32_t)C_FW_CHUNK_SIZE, C_BL_UART_TIMEOUT); // Blocking read
         if (received == 0)
         {
             break; //assume 0 bytes ol less means "End of transmission"
@@ -99,7 +94,7 @@ void Bootloader_JumpToApp(void) {
     void (*App_reset_handler)(void);
     
     // Baseic validation
-    if ((msp0 & 0x2FFE0000UL) != 0x20000000UL)
+    if ((msp0 & C_BL_VALID_SRAM_MASK) != C_BL_VALID_SRAM_ADDR)
     {
         UART_SendString("BL: invalid MSP\r\n");
         return;
