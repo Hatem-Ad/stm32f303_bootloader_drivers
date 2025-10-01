@@ -7,18 +7,20 @@
 
 #define APP_START_ADDRESS 0x08004000U  // App start address after bootloader
 #define FW_CHUNK_SIZE 256 //Byte per chunk
+#define BL_TRIGGER_PORT     GPIOA // Trigger port
+#define BL_TRIGGER_PIN      0 // Trigger pin
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
     GPIO_Init(GPIOA, 0);
-GPIO_Config(GPIOA, 0, GPIO_MODE_INPUT, GPIO_OTYPE_PP, GPIO_SPEED_LOW, GPIO_PULLUP);
+    GPIO_Config(GPIOA, 0, GPIO_MODE_INPUT, GPIO_OTYPE_PP, GPIO_SPEED_LOW, GPIO_PULLUP);
 
     UART_Init();
 }
 
 uint8_t Bootloader_CheckForUpdate(void) {
     // Check if a specific pin is low to enter update mode
-    if (GPIO_ReadPin(0) == 0) {
+    if (GPIO_Read(BL_TRIGGER_PORT, BL_TRIGGER_PIN) == 0) {
         return 1;  // Enter bootloader
     }
     
