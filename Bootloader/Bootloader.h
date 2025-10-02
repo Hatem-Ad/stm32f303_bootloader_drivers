@@ -11,6 +11,14 @@
 #define C_BL_VALID_SRAM_ADDR      0x20000000UL    // SRAM address
 #define C_BL_VALID_SRAM_MASK      0x2FFE0000UL    // SRAM mask
 
+// Bootloader jumpReceive status
+typedef enum
+{
+    E_BL_OK = 0,
+    E_BL_ERROR
+} BootStatus_t;
+
+
 /* Bootloader public API */
 
 /**

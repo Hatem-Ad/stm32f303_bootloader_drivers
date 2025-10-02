@@ -22,7 +22,7 @@ uint8_t Bootloader_CheckForUpdate(void) {
     return 0; //Jump to app
 }
 
-void Bootloader_ReceiveFirmware(void) {
+BootStatus_t Bootloader_ReceiveFirmware(void) {
     // Local declaration
     uint8_t buffer[C_FW_CHUNK_SIZE];
     uint32_t addr = C_FLASH_APP_BASE;
@@ -36,7 +36,7 @@ void Bootloader_ReceiveFirmware(void) {
     if(status != FLASH_OK)
     {
         UART_SendString("BL: unlock fail\r\n");
-        return;
+        return E_BL_ERROR;
     }
 
     FLASH_ClearFlags();
@@ -47,7 +47,7 @@ void Bootloader_ReceiveFirmware(void) {
     {
         UART_SendString("BL: erase fail\r\n");
         FLASH_Lock();
-        return;
+        return E_BL_ERROR;
     }
 
     UART_SendString("BL: receiving...\r\n");
@@ -73,7 +73,7 @@ void Bootloader_ReceiveFirmware(void) {
         {
             UART_SendString("BL: write fail\r\n");
             FLASH_Lock();
-            return;
+            return E_BL_ERROR;
         }
 
         // Write
@@ -84,6 +84,7 @@ void Bootloader_ReceiveFirmware(void) {
     // Lock flash after update
     FLASH_Lock(); // re-lock the flaash memory
     UART_SendString("Firmware update done. \r\n");
+    return E_BL_OK;
 }
 
 void Bootloader_JumpToApp(void) {
@@ -134,9 +135,22 @@ void Bootloader_run() {
     
     //Check the bootloader update
     if (Bootloader_CheckForUpdate()) {
-        Bootloader_ReceiveFirmware(); // Reciever a new firmware UART
-    }
-    
-    Bootloader_JumpToApp(); //Jump to user application in flash
+        // Reciever a new firmware UART
+        if (Bootloader_ReceiveFirmware() == E_BL_OK)
+        {
+            UART_SendString("BL: update successfil\r\n");
+            Bootloader_JumpToApp(); //Jump to user application in flash
+        }
+        else{
+            UART_SendString("BL: update failed, staying in bootloader\r\n");
+            while (1)
+            {
+                // indicationa needed here to say where stay here in BL
+            }
+        } 
+    } else {
+            Bootloader_JumpToApp();
+           }
+
 }
 
