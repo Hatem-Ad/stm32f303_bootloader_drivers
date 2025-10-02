@@ -98,13 +98,13 @@ void Bootloader_JumpToApp(void) {
     if ((msp0 & C_BL_VALID_SRAM_MASK) != C_BL_VALID_SRAM_ADDR)
     {
         UART_SendString("BL: invalid MSP\r\n");
-        return;
+        while (1);
     }
 
     if ((reset < C_FLASH_APP_BASE) || (reset > C_FLASH_END_ADDR))
     {
         UART_SendString("BL: invalid reset vector\r\n");
-        return;
+        while (1);
     }
 
     UART_SendString("BL: jumping to app\r\n");
@@ -126,7 +126,7 @@ void Bootloader_JumpToApp(void) {
     App_reset_handler = (void (*)(void))reset;
     
     // Jump to application
-    App_reset_handler();
+    App_reset_handler(); // if it arrived here, never returns
 }
 
 void Bootloader_run() {
