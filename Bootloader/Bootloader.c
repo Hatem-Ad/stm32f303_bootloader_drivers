@@ -112,8 +112,10 @@ void Bootloader_JumpToApp(void) {
     // Disable interrupts if needed
     __disable_irq();
 
+    //SysTick->CTRL = 0;
+
     // Relocate vector table - give the offset
-    SCB->VTOR = C_FLASH_APP_BASE & 0xFFFFFF00UL;
+    SCB->VTOR = C_FLASH_APP_BASE & 0x1FFFFF80UL;
     
     // Set MSP from app's vector table to load app stack
     __set_MSP(msp0);
