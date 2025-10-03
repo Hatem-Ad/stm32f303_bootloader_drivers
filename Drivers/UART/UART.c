@@ -51,7 +51,7 @@ void UART_SendString(const char *str)
 }
 
 // Read a chnuk of at most len bytesUSART1 ...
-uint32_t UART_Received(char *buffer, uint32_t len, uint32_t timeout) 
+uint32_t UART_Receive(char *buffer, uint32_t len, uint32_t timeout) 
 {
     uint32_t i = 0;
     uint32_t counter = 0;

@@ -55,7 +55,7 @@ BootStatus_t Bootloader_ReceiveFirmware(void) {
     //2. Received data chunks and write to flash
     while (1)
     {
-        received = UART_Received((char *)buffer, (uint32_t)C_FW_CHUNK_SIZE, C_BL_UART_TIMEOUT); // Blocking read
+        received = UART_Receive((char *)buffer, (uint32_t)C_FW_CHUNK_SIZE, C_BL_UART_TIMEOUT); // Blocking read
         if (received == 0)
         {
             break; //assume 0 bytes ol less means "End of transmission"
@@ -101,7 +101,7 @@ void Bootloader_JumpToApp(void) {
         while (1);
     }
 
-    if ((reset < C_FLASH_APP_BASE) || (reset > C_FLASH_END_ADDR))
+    if ((reset < C_APP_START_ADDRESS) || (reset > C_APP_END_ADDRESS))
     {
         UART_SendString("BL: invalid reset vector\r\n");
         while (1);

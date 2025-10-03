@@ -5,6 +5,7 @@
 
 
 #define C_APP_START_ADDRESS       0x08004000U     // App start address after bootloader
+#define C_APP_END_ADDRESS         0x0803FFFFUL    // App end address after bootloader (256KB flash)
 #define C_FW_CHUNK_SIZE           256             // Byte per chunk
 #define C_BL_TRIGGER_PORT         GPIOA           // Trigger port
 #define C_BL_TRIGGER_PIN          0               // Trigger pin
@@ -33,9 +34,22 @@ void Bootloader_Init(void);
 uint8_t Bootloader_CheckForUpdate(void);
 
 /**
- * @brief Receive firmware image over UART or other comm.
+ * @brief  Receives a new firmware image over UART and programs it into Flash.
+ *
+ * This function:
+ *   - Unlocks and erases the application area in Flash
+ *   - Receives the firmware in chunks from UART
+ *   - Programs each chunk into Flash memory
+ *   - Locks the Flash again after the update
+ *
+ * @note  Firmware data is received in fixed-size chunks (FW_CHUNK_SIZE).
+ *        Transfer ends when no more data is received (timeout or 0 bytes).
+ *        Function ensures half-word alignment for Flash writes.
+ *
+ * @retval BL_OK     Firmware update completed successfully
+ * @retval BL_ERROR  An error occurred (unlock, erase, write, or UART failure)
  */
-void Bootloader_ReceiveFirmware(void);
+BootStatus_t Bootloader_ReceiveFirmware(void);
 
 /**
  * @brief Jump to main application.

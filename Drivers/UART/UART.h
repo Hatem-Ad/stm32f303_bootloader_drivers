@@ -2,13 +2,13 @@
 #define UART_H
 
 
-#define F_CPU           8000000U
-#define C_UART_BAUD     9600U
-#define C_APB2_CLOCK    8000000U
+#define C_F_CPU             8000000U
+#define C_UART_BAUD         9600U
+#define C_APB2_CLOCK        8000000U
 
-#define UART_TIMEOUT    1000000U
+#define UART_TIMEOUT        1000000U
 
-#define C_BL_UART_TIMEOUT   200U   // milliseconds
+#define C_BL_UART_TIMEOUT   500U   // milliseconds
 
 
 // ---------------- API Functions ----------------
@@ -30,7 +30,7 @@ void UART_SendString(const char *str);
  * @param timeout Max loop count before timeout.
  * @return Number of bytes received before timeout or error.
  */
-uint32_t UART_Received(char *buffer, uint32_t len, uint32_t timeout);
+uint32_t UART_Receive(char *buffer, uint32_t len, uint32_t timeout);
 
 /**
  * @brief Transmit a single character over UART (USART1).
