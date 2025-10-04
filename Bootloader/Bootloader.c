@@ -4,6 +4,7 @@
 #include "UART.h"  // Receive firmware over UART
 #include "FLASH.h" // For Flash memory
 #include "STM32F3xx.h"
+#include "SYSTICK.h"
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader

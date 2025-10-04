@@ -172,8 +172,6 @@ typedef struct{
 #define C_USART_ISR_TC        (1U << 6) // Transmission complete
 #define C_USART_ISR_TXE       (1U << 7) // Transmit data regisyter empty
 
-#endif
-
 //--------------------//
 //         SCB        //
 //--------------------//
@@ -200,3 +198,31 @@ typedef struct
 } TS_SCB_TypeDef;
 
 #define SCB ((TS_SCB_TypeDef *) C_SCB_BASE)
+
+//--------------------//
+//       SysTick      //
+//--------------------//
+
+#define C_SYSTICK_BASE      (0xE000E010UL)
+
+typedef struct
+{
+    __IO uint32_t CTRL;  // Control and status register   0x00
+    __IO uint32_t LOAD;  // Reload value register         0x04
+    __IO uint32_t VAL;   // Current value Register        0x08
+    __I  uint32_t CALIB; // Calibration value register    0x0C
+} TS_SYSTICK_TypeDef;
+
+#define SYSTICK ((TS_SYSTICK_TypeDef *) C_SYSTICK_BASE)
+
+#define C_SYSTICK_CTRL_ENABLE_Pos       0U
+#define C_SYSTICK_CTRL_TICKINIT_Pos     1U
+#define C_SYSTICK_CTRL_CLKSOURCE_Pos    2U
+#define C_SYSTICK_CTRL_COUNTFLAG_Pos    16U
+
+#define C_SYSTICK_CTRL_ENABLE_Msk       (1UL << C_SYSTICK_CTRL_ENABLE_Pos)
+#define C_SYSTICK_CTRL_TICKINIT_Msk     (1UL << C_SYSTICK_CTRL_TICKINIT_Pos)
+#define C_SYSTICK_CTRL_CLKSOURCE_Msk    (1UL << C_SYSTICK_CTRL_CLKSOURCE_Pos)
+#define C_SYSTICK_CTRL_COUNTFLAG_Msk    (1UL << C_SYSTICK_CTRL_COUNTFLAG_Pos)
+
+#endif
