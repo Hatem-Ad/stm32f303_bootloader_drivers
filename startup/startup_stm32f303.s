@@ -1,6 +1,6 @@
-/*-----------------------------------------------------------
- *  Startup file for STM32F303 (Cortex-M4)
- *----------------------------------------------------------*/
+ /*-----------------------------------------------------------*/
+ /*  Startup file for STM32F303 (Cortex-M4)*/
+ /*----------------------------------------------------------*/
 
 /*Tells Assembly to accept modern ARM syntax */
 .syntax unified
@@ -23,7 +23,7 @@ g_pfnVectors:
   .word NMI_Handler             /* 2 : NMI */
   .word HardFault_Handler       /* 3 : Hard Fault */
   .word MemManage_Handler       /* 4 : MPU Fault */
-  .word BusFault_Hanfler        /* 5 : Bus Fault */
+  .word BusFault_Handler        /* 5 : Bus Fault */
   .word UsageFault_Handler      /* 6 : Usage Fault */
   .word 0                       /* 7 : Reserved */
   .word 0                       /* 8 : Reserved */
@@ -33,11 +33,11 @@ g_pfnVectors:
   .word DebugMon_Handler        /* 12: Debug Monitor */
   .word 0                       /* 13: Reserved */
   .word PendSV_Handler          /* 14: PendSV */
-  .word SysTick_Handler         /* 15: SysTick */
+  .word SYSTICK_Handler         /* 15: SysTick */
 
   /* === Specific Interrupts for STM32F303 */
   .word WWDG_IRQHandler         /* Window Watchdog */
-  .word PDV_IRQHandler          /* PDV throught EXITI line detect */
+  .word PVD_IRQHandler          /* PVD throught EXITI line detect */
   .word TAMP_STAMP_IRQHandler
   .word RTC_WKUPHandler
   .word FLASH_IRQHandler
@@ -67,10 +67,10 @@ g_pfnVectors:
 .weak SVC_Handler
 .weak DebugMon_Handler
 .weak PendSV_Handler
-.weak SysTick_Handler
+.weak SYSTICK_Handler
 
 .weak WWDG_IRQHandler
-.weak PDV_IRQHandler
+.weak PVD_IRQHandler
 .weak TAMP_STAMP_IRQHandler
 .weak RTC_WKUPHandler
 .weak FLASH_IRQHandler
@@ -90,10 +90,10 @@ UsageFault_Handler:    b Default_Handler
 SVC_Handler:           b Default_Handler
 DebugMon_Handler:      b Default_Handler
 PendSV_Handler:        b Default_Handler
-SysTick_Handler:       b Default_Handler
+SYSTICK_Handler:       b Default_Handler
 
 WWDG_IRQHandler:       b Default_Handler
-PDV_IRQHandler:        b Default_Handler
+PVD_IRQHandler:        b Default_Handler
 TAMP_STAMP_IRQHandler: b Default_Handler
 RTC_WKUPHandler:       b Default_Handler
 FLASH_IRQHandler:      b Default_Handler
