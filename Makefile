@@ -18,7 +18,7 @@ CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
          -Ilib/CMSIS/Core/Include \
          -Ilib/CMSIS/Device/ST/STM32F3xx/Include \
          -IDrivers/FLASH \
-         -IDrivers/SysTick
+         -IDrivers/SYSTICK
 LDFLAGS = -T linker/linker.ld
 
 # ===========================
@@ -32,7 +32,7 @@ SRCS = \
     Drivers/UART/UART.c \
     startup/system_stm32f3xx.c \
     Drivers/FLASH/FLASH.c \
-    Drivers/SysTick/SysTick.c
+    Drivers/SYSTICK/SYSTICK.c
 
 STARTUP = startup/startup_stm32f303.s
 

@@ -6,14 +6,14 @@ volatile uint32_t V_g_msTicks = 0;     // Tick counter
 
 void SYSTICK_Init(uint32_t ticks_per_second)
 {
-    // Load value
+    // Load value  
     SYSTICK->LOAD = (V_SystemCoreClock / ticks_per_second) - 1UL;
 
     // Clear current value
     SYSTICK->VAL = 0UL;
 
     // Enable SysTck - CPU clock - inpterrupt
-    SYSTICK->CTRL = C_SYSTICK_CTRL_CLKSOURCE_Msk | C_SYSTICK_CTRL_TICKINIT_Msk | C_SYSTICK_CTRL_ENABLE_Msk;    
+    SYSTICK->CTRL = C_SYSTICK_CTRL_CLKSOURCE_Msk | C_SYSTICK_CTRL_TICKINT_Msk | C_SYSTICK_CTRL_ENABLE_Msk;    
 }
 
 void SYSTICK_Handler(void)
