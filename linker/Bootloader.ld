@@ -14,5 +14,26 @@ SECTIONS
     {
         KEEP(*(.isr_vector))
     } > FLASH
-}
 
+    .text : 
+    {
+        *(.text*)
+        *(.rodata*)
+        _etext = .;
+    } > FLASH
+
+    .data : AT (ADDR(.text) + SIZEOF(.text))
+    {
+        _sdata = .;
+        *(.data*)
+        _edata = .;
+    } > RAM
+
+    .bss :
+    {
+        _sbss = .;
+        *(.bss*)
+        *(COMMON)
+        _ebss = .;
+    } > RAM
+}
