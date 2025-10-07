@@ -33,13 +33,13 @@ g_pfnVectors:
   .word DebugMon_Handler        /* 12: Debug Monitor */
   .word 0                       /* 13: Reserved */
   .word PendSV_Handler          /* 14: PendSV */
-  .word SYSTICK_Handler         /* 15: SysTick */
+  .word SysTick_Handler         /* 15: SysTick */
 
   /* === Specific Interrupts for STM32F303 */
   .word WWDG_IRQHandler         /* Window Watchdog */
   .word PVD_IRQHandler          /* PVD throught EXITI line detect */
   .word TAMP_STAMP_IRQHandler
-  .word RTC_WKUPHandler
+  .word RTC_WKUP_IRQHandler
   .word FLASH_IRQHandler
   .word RCC_IRQHandler
   .word EXTI0_IRQHandler
@@ -62,17 +62,17 @@ g_pfnVectors:
 .weak NMI_Handler
 .weak HardFault_Handler
 .weak MemManage_Handler
-.weak BusFault_Hanfler
+.weak BusFault_Handler
 .weak UsageFault_Handler
 .weak SVC_Handler
 .weak DebugMon_Handler
 .weak PendSV_Handler
-.weak SYSTICK_Handler
+.weak SysTick_Handler
 
 .weak WWDG_IRQHandler
 .weak PVD_IRQHandler
 .weak TAMP_STAMP_IRQHandler
-.weak RTC_WKUPHandler
+.weak RTC_WKUP_IRQHandler
 .weak FLASH_IRQHandler
 .weak RCC_IRQHandler
 .weak EXTI0_IRQHandler
@@ -85,17 +85,17 @@ g_pfnVectors:
 NMI_Handler:           b Default_Handler
 HardFault_Handler:     b Default_Handler
 MemManage_Handler:     b Default_Handler
-BusFault_Hanfler:      b Default_Handler
+BusFault_Handler:      b Default_Handler
 UsageFault_Handler:    b Default_Handler
 SVC_Handler:           b Default_Handler
 DebugMon_Handler:      b Default_Handler
 PendSV_Handler:        b Default_Handler
-SYSTICK_Handler:       b Default_Handler
+SysTick_Handler:       b Default_Handler
 
 WWDG_IRQHandler:       b Default_Handler
 PVD_IRQHandler:        b Default_Handler
 TAMP_STAMP_IRQHandler: b Default_Handler
-RTC_WKUPHandler:       b Default_Handler
+RTC_WKUP_IRQHandler:   b Default_Handler
 FLASH_IRQHandler:      b Default_Handler
 RCC_IRQHandler:        b Default_Handler
 EXTI0_IRQHandler:      b Default_Handler
@@ -111,10 +111,19 @@ EXTI4_IRQHandler:      b Default_Handler
 .global Reset_Handler
 .type Reset_Handler, %function
 
+// extern symbils must appear BEFORE lable
+.extern _sidata
+.extern _sdata
+.extern _edata
+.extern _sbss
+.extern _ebss
+.extern SystemInit
+.extern main
+
 Reset_Handler:
-  /* Initialize .data and .bss (simplified) */
+  /* Copy .data from FLASH to RAM */
   ldr r0, =_sidata
-  ldr r1, =_sidata
+  ldr r1, =_sdata
   ldr r2, =_edata
 1:
   cmp r1, r2
@@ -123,17 +132,19 @@ Reset_Handler:
   strlt r3, [r1], #4
   blt 1b
 
-  ldr r0, =_sbss
-  ldr r1, =_sbss
-  movs r2, #0
+  // Zero .bss
+  ldr r0, =_sbss   // r0 = start of .bss
+  ldr r1, =_ebss   // r1 = end of .bss
+  movs r2, #0      // r2 = 0 constant
 
   2:
   cmp r0, r1
   it lt
-  strlt r2, r[0], #4
+  strlt r2, [r0], #4  // store 0 and increment pointer
   blt 2b
 
-  /* Call main() */
+  /* Call SystemInit and main() */
+bl SystemInit
 bl main
 
 /* If main returns → infinite loop */
@@ -152,5 +163,3 @@ size Reset_Handler, .-Reset_Handler
 .word _sbss
 .word _ebss
 .word _estack
-
-

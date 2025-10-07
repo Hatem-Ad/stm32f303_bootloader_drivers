@@ -6,9 +6,9 @@
     * Bootloader_Init() for peripheral setup
     * Bootloader_CheckForUpdate() using GPIO
     * Bootloader_JumpToApp() to jump the application
-3) Created gpio.c/ .h to read a pin that triggers bootloader mode.
-4) Created uart.c/ .h to print debug messages and (later) receive firmware.
-5) Prepared flash.c/ .h to :
+3) Created GPIO.c/ .h to read a pin that triggers bootloader mode.
+4) Created UART.c/ .h to print debug messages and (later) receive firmware.
+5) Prepared FLASH.c/ .h to :
     * Unlock flash memory
     * Erase old application
     * Write new firmware

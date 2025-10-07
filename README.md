@@ -9,7 +9,7 @@ A clean, modular, and register-level embedded project for the STM32F303 Discover
 - 🏁 **Custom Bootloader** — Jump to user app, startup routine, vector handling
 - 📡 **UART Driver** — Minimal implementation with TX/RX support
 - ⚡ **GPIO Driver** — Fast pin-mode config and digital I/O handling
-- 🧠 **Flash Memory Management** — Planned: in-place firmware updates
+- 🧠 **FLASH Memory Management** — Planned: in-place firmware updates
 - 🧩 **Memory Map Separation** — App and bootloader coexist in flash
 - 🛠️ **Makefile-based** — No IDE lock-in, easy CI integration
 - 🧪 **ST-Link + OpenOCD** — Debug and flash from CLI
@@ -23,19 +23,21 @@ A clean, modular, and register-level embedded project for the STM32F303 Discover
 
     **bootloader/** — Bootloader source (starts at 0x08000000)
 
-        bootloader.c/h — Bootloader jump and validity checks
+        Bootloader.c/h — Bootloader jump and validity checks
 
         startup_stm32f303.s* — Reset handler and vector table
 
-        linker.ld — Bootloader linker script
+        Bootloader.ld — Bootloader linker script
+
+        App.ld — Application linker script
 
     *drivers/* — Bare-metal drivers (no HAL)
 
-        gpio.c/h — GPIO input/output/toggle
+        GPIO.c/h — GPIO input/output/toggle
 
-        uart.c/h — UART init, send/receive
+        UART.c/h — UART init, send/receive
 
-        flash.c/h — Internal FLASH write/erase
+        FLASH.c/h — Internal FLASH write/erase
 
     *user_app/* — Sample user application (starts at 0x08004000)
 

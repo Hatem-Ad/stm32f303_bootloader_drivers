@@ -3,7 +3,7 @@
 * Tests basic flash erase/write/verify operations
 */
 
-#include "Flash.h"
+#include "FLASH.h"
 #include "UART.h"
 #include "STM32F3xx.h"
 
