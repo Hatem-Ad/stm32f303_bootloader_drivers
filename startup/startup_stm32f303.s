@@ -77,7 +77,7 @@ g_pfnVectors:
 .weak RCC_IRQHandler
 .weak EXTI0_IRQHandler
 .weak EXTI1_IRQHandler
-.weak EXTI2_IRQHandler
+.weak EXTI2_TSC_IRQHandler
 .weak EXTI3_IRQHandler
 .weak EXTI4_IRQHandler
 
