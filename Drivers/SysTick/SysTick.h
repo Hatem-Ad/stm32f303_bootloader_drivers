@@ -1,5 +1,5 @@
-#ifndef SYSTICK_H
-#define SYSTICK_H
+#ifndef SysTick_H
+#define SysTick_H
 
 #include <stdint.h>
 
@@ -18,7 +18,7 @@ extern uint32_t V_SystemCoreClock; // Global system clock frequency (Hz)
  * @note Must be called once at system startup before using delay or timeout functions.
  *       Uses SystemCoreClock to compute the reload value.
  */
-void SYSTICK_Init(uint32_t ticks_per_second);
+void SysTick_Init(uint32_t ticks_per_second);
 
 /**
  * @brief  Returns the current tick count in milliseconds since SysTick initialization.
@@ -30,7 +30,7 @@ void SYSTICK_Init(uint32_t ticks_per_second);
  *
  * @note This value rolls over after approximately 49 days (32-bit overflow).
  */
-uint32_t SYSTICK_GetTick(void);
+uint32_t SysTick_GetTick(void);
 
 /**
  * @brief  Blocking delay function.
@@ -43,7 +43,7 @@ uint32_t SYSTICK_GetTick(void);
  * @note This function is blocking and halts CPU execution during the delay.
  *       Use only for short delays or debugging; prefer timer interrupts for long waits.
  */
-void SYSTICK_Delay(uint32_t ms);
+void SysTick_Delay(uint32_t ms);
 
 /**
  * @brief  SysTick interrupt handler.
@@ -55,9 +55,9 @@ void SYSTICK_Delay(uint32_t ms);
  *
  * @note
  *  - Do not call this function manually; it is invoked by hardware.
- *  - Ensure `SYSTICK_Init()` has been called before interrupts occur.
+ *  - Ensure `SysTick_Init()` has been called before interrupts occur.
  *  - The `V_g_msTicks` variable should be declared as `volatile` to prevent compiler optimization.
  */
-void SYSTICK_Handler(void);
+void SysTick_Handler(void);
 
-#endif // SYSTICK_H
+#endif // SysTick_H

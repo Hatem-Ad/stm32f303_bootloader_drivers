@@ -4,7 +4,7 @@
 #include "UART.h"           // Receive firmware over UART
 #include "FLASH.h"          // For Flash memory
 #include "STM32F3xx.h"
-#include "SYSTICK.h"        // SysTick for delay/timeouts
+#include "SysTick.h"        // SysTick for delay/timeouts
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
@@ -13,7 +13,7 @@ void Bootloader_Init(void) {
                 GPIO_MODE_INPUT, GPIO_OTYPE_PP, GPIO_SPEED_LOW, GPIO_PULLUP);
 
     UART_Init();
-    SYSTICK_Init(1000);     // 1 ms tick for delays and timeouts
+    SysTick_Init(1000);     // 1 ms tick for delays and timeouts
 }
 
 uint8_t Bootloader_CheckForUpdate(void) {
@@ -116,7 +116,7 @@ void Bootloader_JumpToApp(void) {
     // Disable interrupts
     __disable_irq();
 
-    SYSTICK->CTRL = 0; // Disable SysTick before jumping
+    SysTick->CTRL = 0; // Disable SysTick before jumping
 
     // Relocate vector table - give the offset
     SCB->VTOR = C_FLASH_APP_BASE & 0xFFFFFF00UL;
@@ -153,7 +153,7 @@ void Bootloader_run() {
             while (1)
             {
                 GPIO_Toggle(GPIOE, 9);
-                SYSTICK_Delay(300);
+                SysTick_Delay(300);
             }
         } 
     } 

@@ -203,7 +203,7 @@ typedef struct
 //       SysTick      //
 //--------------------//
 
-#define C_SYSTICK_BASE      (0xE000E010UL)
+#define C_SysTick_BASE      (0xE000E010UL)
 
 typedef struct
 {
@@ -211,18 +211,18 @@ typedef struct
     __IO uint32_t LOAD;  // Reload value register         0x04
     __IO uint32_t VAL;   // Current value Register        0x08
     __I  uint32_t CALIB; // Calibration value register    0x0C
-} TS_SYSTICK_TypeDef;
+} TS_SysTick_TypeDef;
 
-#define SYSTICK ((TS_SYSTICK_TypeDef *) C_SYSTICK_BASE)
+#define SysTick ((TS_SysTick_TypeDef *) C_SysTick_BASE)
 
-#define C_SYSTICK_CTRL_ENABLE_Pos       0U
-#define C_SYSTICK_CTRL_TICKINT_Pos      1U
-#define C_SYSTICK_CTRL_CLKSOURCE_Pos    2U
-#define C_SYSTICK_CTRL_COUNTFLAG_Pos    16U
+#define C_SysTick_CTRL_ENABLE_Pos       0U
+#define C_SysTick_CTRL_TICKINT_Pos      1U
+#define C_SysTick_CTRL_CLKSOURCE_Pos    2U
+#define C_SysTick_CTRL_COUNTFLAG_Pos    16U
 
-#define C_SYSTICK_CTRL_ENABLE_Msk       (1UL << C_SYSTICK_CTRL_ENABLE_Pos)
-#define C_SYSTICK_CTRL_TICKINT_Msk      (1UL << C_SYSTICK_CTRL_TICKINT_Pos)
-#define C_SYSTICK_CTRL_CLKSOURCE_Msk    (1UL << C_SYSTICK_CTRL_CLKSOURCE_Pos)
-#define C_SYSTICK_CTRL_COUNTFLAG_Msk    (1UL << C_SYSTICK_CTRL_COUNTFLAG_Pos)
+#define C_SysTick_CTRL_ENABLE_Msk       (1UL << C_SysTick_CTRL_ENABLE_Pos)
+#define C_SysTick_CTRL_TICKINT_Msk      (1UL << C_SysTick_CTRL_TICKINT_Pos)
+#define C_SysTick_CTRL_CLKSOURCE_Msk    (1UL << C_SysTick_CTRL_CLKSOURCE_Pos)
+#define C_SysTick_CTRL_COUNTFLAG_Msk    (1UL << C_SysTick_CTRL_COUNTFLAG_Pos)
 
 #endif

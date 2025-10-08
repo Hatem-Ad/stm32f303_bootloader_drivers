@@ -150,16 +150,4 @@ bl main
 /* If main returns → infinite loop */
 b .
 
-size Reset_Handler, .-Reset_Handler
-
-/*-----------------------------------------------------------
-* Symbols imported from the linker script
-*----------------------------------------------------------*/
-
-.extern main
-.word _sidata
-.word _sidata
-.word _edata
-.word _sbss
-.word _ebss
-.word _estack
+.size Reset_Handler, .-Reset_Handler
