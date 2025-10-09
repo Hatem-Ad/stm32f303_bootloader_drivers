@@ -59,13 +59,14 @@ typedef struct {
 #define C_RCC_AHBENR_GPIOFEN   (1U << 22) // Bit 17: IO port F clock enable 
 
 // RCC controle register bits
-#define C_RCC_CR_HSION         (1U << 0U)
-#define X_RSS_CR_HSIRDY        (1U << 1U)
+#define C_RCC_CR_HSION         (1U << 0)
+#define C_RCC_CR_HSIRDY        (1U << 1)
 
 // RC configure software fields - clock source 
 #define C_RCC_CFGR_SW_Pos      0U
+#define C_RCC_CFGR_SW_HSI      (0U << C_RCC_CFGR_SW_Pos)
 #define C_RCC_CFGR_SW_Msk      (3U << C_RCC_CFGR_SW_Pos)
-#define C_RCC_CFGR_SW_HSI      (0u << C_RCC_CFGR_SW_Pos)
+
 
 // Peripheral activition bit
 #define C_RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
