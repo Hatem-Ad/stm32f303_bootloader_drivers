@@ -64,6 +64,7 @@ typedef struct {
 
 // RC configure software fields - clock source 
 #define C_RCC_CFGR_SW_Pos      0U
+
 #define C_RCC_CFGR_SW_HSI      (0U << C_RCC_CFGR_SW_Pos)
 #define C_RCC_CFGR_SW_Msk      (3U << C_RCC_CFGR_SW_Pos)
 
