@@ -68,6 +68,9 @@ typedef struct {
 #define C_RCC_CFGR_SW_HSI      (0U << C_RCC_CFGR_SW_Pos)
 #define C_RCC_CFGR_SW_Msk      (3U << C_RCC_CFGR_SW_Pos)
 
+// RCC clock source register - low speed internal oscillator for Indep WDG
+#define C_RCC_CSR_LSION        (1U << 0)
+#define C_RCC_CSR_LSIRDY       (1U << 1)
 
 // Peripheral activition bit
 #define C_RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
@@ -235,5 +238,44 @@ typedef struct
 #define C_SysTick_CTRL_TICKINT_Msk      (1UL << C_SysTick_CTRL_TICKINT_Pos)
 #define C_SysTick_CTRL_CLKSOURCE_Msk    (1UL << C_SysTick_CTRL_CLKSOURCE_Pos)
 #define C_SysTick_CTRL_COUNTFLAG_Msk    (1UL << C_SysTick_CTRL_COUNTFLAG_Pos)
+
+//--------------------//
+//        IWDG        //
+//--------------------//
+
+#define C_IWDG_BASE         (0x400030000UL)
+
+typedef struct 
+{
+    __IO uint32_t KR;   // 0x00 Key register
+    __IO uint32_t PR;   // 0x04 Prescaler
+    __IO uint32_t RLR;  // 0x08 Reload
+    __IO uint32_t SR;   // 0x0C Status
+    __IO uint32_t WINR; // 0x10 Window (unused in this base line v1.0)
+} TS_IWDG_TypeDef;
+
+#define IWDG ((TS_IWDG_TypeDef *) C_IWDG_BASE)
+
+// KR keys
+#define C_IWDG_KR_KEY_WRITE     (0x5555U)
+#define C_IWDG_KR_KEY_RELOAD    (0xAAAAU)
+#define C_IWDG_KR_KEY_ENABLE    (0xCCCCU)
+
+// PR (Prescaler) codes : div = 4,8,16,32,46,128,256
+#define C_IWDG_PR_DIV4          (0U)
+#define C_IWDG_PR_DIV8          (1U)
+#define C_IWDG_PR_DIV16         (2U)
+#define C_IWDG_PR_DIV32         (3U)
+#define C_IWDG_PR_DIV64         (4U)
+#define C_IWDG_PR_DIV128        (5U)
+#define C_IWDG_PR_DIV256        (6U)
+
+// SR flags
+#define C_IWDG_SR_PVU           (1U << 0) // PR update ongoing
+#define C_IWDG_SR_RVU           (1U << 1) // RLR update ongoing
+
+// LSI nominal
+#define C_LSI_HZ                (40000U)  // 40 KHz typical
+
 
 #endif
