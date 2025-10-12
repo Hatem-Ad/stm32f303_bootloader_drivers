@@ -33,3 +33,36 @@ void WDG_InitRaw(uint8_t prescaler_code, uint16_t reload)
     IWDG->KR = C_IWDG_KR_KEY_ENABLE;
 
 }
+
+void WDG_Init_ms(uint32_t timeout_ms)
+{
+    static const uint16_t div_tbl[7] = {4, 8, 16, 32, 64, 128, 256};
+    uint8_t best_pr = C_IWDG_PR_DIV256;
+    uint16_t best_rlr = 0x0FFF;
+
+    // Find prescaler that fits reload ≤ 4095
+    for (int i = 6; i >= 0; --i)
+    {
+        uint32_t div = div_tbl[i];
+        uint32_t ticks = (uint32_t)((((uint64_t)timeout_ms) * C_LSI_HZ) / (1000ULL * div));
+        if (ticks == 0U)
+        {
+            ticks = 1U;
+        }
+
+        if (ticks <= 0x0FFFU)
+        {
+            best_pr = (uint8_t)i;
+            best_rlr = (uint16_t)ticks;
+            break;
+        }
+    }
+    
+    if(best_rlr == 0U)
+    {
+        best_rlr = 1U;
+    }
+
+    // Hardware counts from RLR+1 -> sbstract 1 for accurancy
+    WDG_InitRaw(best_pr, (uint16_t)(best_rlr - 1U));
+}
