@@ -66,3 +66,8 @@ void WDG_Init_ms(uint32_t timeout_ms)
     // Hardware counts from RLR+1 -> sbstract 1 for accurancy
     WDG_InitRaw(best_pr, (uint16_t)(best_rlr - 1U));
 }
+
+void WDG_Refresh(void)
+{
+    IWDG->KR = C_IWDG_KR_KEY_RELOAD;
+}
