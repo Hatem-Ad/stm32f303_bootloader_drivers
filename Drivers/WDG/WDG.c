@@ -1,7 +1,21 @@
 #include "WDG.h"
+#include "RCC.h"
+#include "STM32F3xx.h"
 
+/*-----------------------------------------------------------
+ *  Private helpers
+ *----------------------------------------------------------*/
 
-
+ static void IWDG_WaitClear(volatile uint32_t *reg, uint32_t mask)
+ {
+    for (volatile uint32_t i = 0; i < 100000U; ++i)
+    {
+        if (((*reg) & mask) == 0U)
+        {
+            break;
+        }
+    }
+ }
 
 void WDG_InitRaw(uint8_t prescaler_code, uint16_t reload)
 {
