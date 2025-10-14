@@ -39,35 +39,34 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
 
 ## 🧩 System Architecture
 
- ┌─────────────────────────────────────────────────────────────┐
- │                         Bootloader                          │
- │─────────────────────────────────────────────────────────────│
- │  1. Initializes system peripherals (GPIO, UART, SysTick)    │
- │  2. Checks trigger pin → enter update mode or jump to app   │
- │  3. Receives new firmware via UART                          │
- │  4. Erases & programs FLASH in chunks                       │
- │  5. Verifies & jumps to the user application (0x08004000)   │
- └─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                         Bootloader                          │
+│─────────────────────────────────────────────────────────────│
+│  1. Initializes system peripherals (GPIO, UART, SysTick)    │
+│  2. Checks trigger pin → enter update mode or jump to app   │
+│  3. Receives new firmware via UART                          │
+│  4. Erases & programs FLASH in chunks                       │
+│  5. Verifies & jumps to the user application (0x08004000)   │
+└─────────────────────────────────────────────────────────────┘
                │
                ▼
- ┌─────────────────────────────────────────────────────────────┐
- │                    User Application (APP)                   │
- │─────────────────────────────────────────────────────────────│
- │  Located at 0x08004000. Runs independently after jump.      │
- │  Uses shared drivers for UART, GPIO, SysTick, etc.          │
- └─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    User Application (APP)                   │
+│─────────────────────────────────────────────────────────────│
+│  Located at 0x08004000. Runs independently after jump.      │
+│  Uses shared drivers for UART, GPIO, SysTick, etc.          │
+└─────────────────────────────────────────────────────────────┘
+
 
 ## ⚙️ Project Directory Structure
 
 - **stm32f303_bootloader_drivers/**
 
     *bootloader/* — Bootloader source 
-
       ├── Bootloader.c/h        # Bootloader core logic
       └── main.c                # Bootloader entry point
 
     *drivers/* — Bare-metal drivers (no HAL)
-
       ├── GPIO/                 # GPIO driver (init, read, toggle) 
       ├── UART/                 # UART driver (init, send, receive)
       ├── FLASH/                # Flash erase/write operations
@@ -76,17 +75,14 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
       └── SysTick/              # SysTick timer driver (1ms tick)
 
     *linker/* 
-
       ├── Bootloader.ld/        # Bootloader memory mapping (16 KB)
       └── App.ld /              # Application memory mapping (rest of flash) 
 
     *startup/*
-
       ├── startup_stm32f303.s   # Startup vector table and Reset_Handler
       └── system_stm32f3xx.c    # SystemInit() and clock setup
 
     *lib/*
-
       └── CMSIS/
           └── Device/ST/STM32F3xx/Include/
               └── STM32F3xx.h   # MCU register and bitfield definitions
@@ -110,44 +106,44 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
 
 1️⃣ System Reset / Power-On
 
-Stack pointer set
+    Stack pointer set
 
-Reset_Handler runs
+    Reset_Handler runs
 
-.data copied to RAM, .bss zeroed
+.   data copied to RAM, .bss zeroed
 
 2️⃣ SystemInit()
 
-Configures clock source (HSI 8 MHz baseline)
+    Configures clock source (HSI 8 MHz baseline)
 
 3️⃣ Bootloader_Init()
 
-Initializes GPIO, UART, SysTick
+    Initializes GPIO, UART, SysTick
 
 4️⃣ Bootloader_CheckForUpdate()
 
-Reads PA0 pin:
+    Reads PA0 pin:
 
-LOW → stay in bootloader
+    LOW → stay in bootloader
 
-HIGH → jump to application
+    HIGH → jump to application
 
 5️⃣ Bootloader_ReceiveFirmware()
 
-Erases app flash area
+    Erases app flash area
 
-Receives UART data in chunks (128 B)
+    Receives UART data in chunks (128 B)
 
-Writes to flash
+    Writes to flash
 
-Confirms success
+    Confirms success
 
 6️⃣ Bootloader_JumpToApp()
 
-Validates app vector table
+    Validates app vector table
 
-Sets MSP
+    Sets MSP
 
-Relocates VTOR
+    Relocates VTOR
 
-Jumps to user app Reset_Handler
+    Jumps to user app Reset_Handler
