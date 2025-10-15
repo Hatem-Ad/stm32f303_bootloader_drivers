@@ -55,16 +55,25 @@ typedef enum {
 
 
 /**
- * @brief Initialize a GPIO pin.
- * 
- * This function prepares the GPIO port and pin for use.
- * Typically used to enable the clock or reset a pin to a default state.
+ * @brief Initialize all used GPIO ports.
+ *
+ * This function enables the peripheral clock for every GPIO port
+ * that will be used in the application (e.g., GPIOA–GPIOE).
+ * It should be called once at system startup before configuring any pins.
+ */
+void GPIO_Init(void);
+
+/**
+ * @brief Initialize a specific GPIO port.
+ *
+ * This function enables the peripheral clock for the selected GPIO port.
+ * Typically used internally by GPIO_Init(), but can also be called directly
+ * to enable a specific port.
  *
  * @param port Pointer to the GPIO port (e.g., GPIOA, GPIOB, ...).
- * @param pin  Pin number (0–15).
  */
-void GPIO_Init(TS_GPIO_TypeDef    *port, 
-               uint8_t             pin);
+void GPIO_InitPort(TS_GPIO_TypeDef *port);
+
 
 /**
  * @brief Write a digital state (HIGH or LOW) to a GPIO pin.

@@ -39,23 +39,21 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
 
 ## 🧩 System Architecture
 
-┌─────────────────────────────────────────────────────────────┐
-│                         Bootloader                          │
-│─────────────────────────────────────────────────────────────│
-│  1. Initializes system peripherals (GPIO, UART, SysTick)    │
-│  2. Checks trigger pin → enter update mode or jump to app   │
-│  3. Receives new firmware via UART                          │
-│  4. Erases & programs FLASH in chunks                       │
-│  5. Verifies & jumps to the user application (0x08004000)   │
-└─────────────────────────────────────────────────────────────┘
+| Step  | Description                                                      |
+| ----- | ---------------------------------------------------------------- |
+| **1** | Initializes system peripherals (**GPIO**, **UART**, **SysTick**) |
+| **2** | Checks trigger pin → enter update mode or jump to application    |
+| **3** | Receives new firmware via **UART**                               |
+| **4** | Erases & programs **FLASH** in chunks                            |
+| **5** | Verifies & jumps to user application at **0x08004000**           |
+
                │
                ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    User Application (APP)                   │
-│─────────────────────────────────────────────────────────────│
-│  Located at 0x08004000. Runs independently after jump.      │
-│  Uses shared drivers for UART, GPIO, SysTick, etc.          │
-└─────────────────────────────────────────────────────────────┘
+| Phase                      | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| **User Application (APP)** | Located at **0x08004000**. Runs independently after jump.     |
+| **Drivers**                | Uses shared drivers for **UART**, **GPIO**, **SysTick**, etc. |
+
 
 
 ## ⚙️ Project Directory Structure

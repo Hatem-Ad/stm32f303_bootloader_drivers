@@ -18,8 +18,10 @@ CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
          -Ilib/CMSIS/Core/Include \
          -Ilib/CMSIS/Device/ST/STM32F3xx/Include \
          -IDrivers/FLASH \
-         -IDrivers/SysTick
-LDFLAGS = -T linker/linker.ld
+         -IDrivers/SysTick \
+         -IDrivers/RCC 
+LDFLAGS = -T linker/Bootloader.ld
+LDFLAGS = -T linker/App.ld
 
 # ===========================
 # Source files

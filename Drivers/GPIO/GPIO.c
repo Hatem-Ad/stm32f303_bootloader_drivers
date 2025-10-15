@@ -2,12 +2,9 @@
 #include "GPIO.h"
 #include "STM32F3xx.h"
 
-
-void GPIO_Init(TS_GPIO_TypeDef   *port, 
-               uint8_t            pin) 
+// ================= Internal Helpers =================
+static GPIO_EnableClock(TS_GPIO_TypeDef   *port) 
 { 
-    if (pin > 15) return; // Safety check
-
     //Enable Clock for selcted port
     if (port == GPIOA) RCC->AHBENR |= C_RCC_AHBENR_GPIOAEN;
     else if (port == GPIOB) RCC->AHBENR |= C_RCC_AHBENR_GPIOBEN;
@@ -15,6 +12,23 @@ void GPIO_Init(TS_GPIO_TypeDef   *port,
     else if (port == GPIOD) RCC->AHBENR |= C_RCC_AHBENR_GPIODEN;
     else if (port == GPIOE) RCC->AHBENR |= C_RCC_AHBENR_GPIOEEN;
     else if (port == GPIOF) RCC->AHBENR |= C_RCC_AHBENR_GPIOFEN;
+}
+// ===================================================
+
+// Initialize one port (enable its clock)
+void GPIO_InitPort(TS_GPIO_TypeDef *port)
+{
+    GPIO_EnableClock(port);
+}
+
+void GPIO_Init(void)
+{
+    TS_GPIO_TypeDef *ports[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+    uint8_t count = sizeof(ports)/sizeof(ports[0]);
+    for (uint8_t i = 0; i < count; i++)
+    {
+        GPIO_InitPort(ports[i]);
+    }
 }
 
 void GPIO_Config(TS_GPIO_TypeDef   *port, 

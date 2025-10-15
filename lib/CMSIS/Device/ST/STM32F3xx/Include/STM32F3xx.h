@@ -29,7 +29,7 @@
 /* Base address of Reset and Clock Control (RCC) registers */
 #define C_RCC_BASE               (C_AHBPERIPH_BASE + 0x1000)
 
-//RCC register layout
+/* RCC register layout */
 typedef struct {
     __IO uint32_t CR;        // Clock control register
     __IO uint32_t CFGR;      // Clock configuration register
@@ -47,84 +47,124 @@ typedef struct {
     __IO uint32_t CR2;       // Clock control register 2 
 } TS_RCC_TypeDef;
 
-//Pointers to devices
-#define RCC                    ((TS_RCC_TypeDef *) C_RCC_BASE)
+/* Pointer to RCC registers */
+#define RCC ((TS_RCC_TypeDef *) C_RCC_BASE)
 
-//RCC AHBENR bits
-#define C_RCC_AHBENR_GPIOAEN   (1U << 17) // Bit 17: IO port A clock enable 
-#define C_RCC_AHBENR_GPIOBEN   (1U << 18) // Bit 17: IO port B clock enable 
-#define C_RCC_AHBENR_GPIOCEN   (1U << 19) // Bit 17: IO port C clock enable 
-#define C_RCC_AHBENR_GPIODEN   (1U << 20) // Bit 17: IO port D clock enable 
-#define C_RCC_AHBENR_GPIOEEN   (1U << 21) // Bit 17: IO port E clock enable 
-#define C_RCC_AHBENR_GPIOFEN   (1U << 22) // Bit 17: IO port F clock enable 
+/*-------------------- AHBENR Bits --------------------*/
+#define C_RCC_AHBENR_GPIOAEN      (1U << 17) // IO port A clock enable 
+#define C_RCC_AHBENR_GPIOBEN      (1U << 18) // IO port B clock enable 
+#define C_RCC_AHBENR_GPIOCEN      (1U << 19) // IO port C clock enable 
+#define C_RCC_AHBENR_GPIODEN      (1U << 20) // IO port D clock enable 
+#define C_RCC_AHBENR_GPIOEEN      (1U << 21) // IO port E clock enable 
+#define C_RCC_AHBENR_GPIOFEN      (1U << 22) // IO port F clock enable 
 
-// RCC controle register bits
-#define C_RCC_CR_HSION         (1U << 0)
-#define C_RCC_CR_HSIRDY        (1U << 1)
+/*-------------------- Controle register Bits --------------------*/
+#define C_RCC_CR_HSION            (1U << 0)   // Enable HSI
+#define C_RCC_CR_HSIRDY           (1U << 1)   // HSI ready flag
+#define C_RCC_CR_PLLON            (1U << 24)  // Enable PLL
+#define C_RCC_CR_PLLRDY           (1U << 25)  // PLL ready flag
 
-// RC configure software fields - clock source 
-#define C_RCC_CFGR_SW_Pos      0U
+/*-------------------- Configure register Bits --------------------*/
+#define C_RCC_CFGR_SW_Pos         0U
+#define C_RCC_CFGR_SW_Msk         (0x3U << C_RCC_CFGR_SW_Pos)
+#define C_RCC_CFGR_SW_HSI         (0x0U << C_RCC_CFGR_SW_Pos)
+#define C_RCC_CFGR_SW_PLL         (0x2U << C_RCC_CFGR_SW_Pos)
 
-#define C_RCC_CFGR_SW_HSI      (0U << C_RCC_CFGR_SW_Pos)
-#define C_RCC_CFGR_SW_Msk      (3U << C_RCC_CFGR_SW_Pos)
+#define C_RCC_CFGR_SWS_Pos        2U
+#define C_RCC_CFGR_SWS_Msk        (0x3U << C_RCC_CFGR_SWS_Pos)
+#define C_RCC_CFGR_SWS_HSI        (0x0U << C_RCC_CFGR_SWS_Pos)
+#define C_RCC_CFGR_SWS_PLL        (0x2U << C_RCC_CFGR_SWS_Pos)
 
-// RCC clock source register - low speed internal oscillator for Indep WDG
-#define C_RCC_CSR_LSION        (1U << 0)
-#define C_RCC_CSR_LSIRDY       (1U << 1)
+/* PLL configuration fields */
+#define C_RCC_CFGR_PLLSRC_Pos     16U
+#define C_RCC_CFGR_PLLSRC         (1U << C_RCC_CFGR_PLLSRC_Pos)
+#define C_RCC_CFGR_PLLXTPRE       (1U << 17)
+#define C_RCC_CFGR_PLLMUL_Pos     18U
+#define C_RCC_CFGR_PLLMUL_Msk     (0xFU << C_RCC_CFGR_PLLMUL_Pos)
 
-// Peripheral activition bit
-#define C_RCC_APB2ENR_USART1EN   (1U << 14) // Enable USART clock (APB2 bus)
+#define C_RCC_CFGR_PLLSRC_HSI_Div2  (0U << C_RCC_CFGR_PLLSRC_Pos) // HSI/2 input
+#define C_RCC_CFGR_PLLMUL18         (9U << C_RCC_CFGR_PLLMUL_Pos) // x18 = 72 MHz
+
+/* Combined PLL masks */
+#define C_RCC_CFGR_PLL_MASK   (C_RCC_CFGR_PLLSRC | C_RCC_CFGR_PLLXTPRE | C_RCC_CFGR_PLLMUL_Msk)
+#define C_RCC_CFGR_PLL_HSIx18 (C_RCC_CFGR_PLLSRC_HSI_Div2 | C_RCC_CFGR_PLLMUL18)
+
+/*-------------------- CSR Bits (Low Speed Internal oscillator for IWDG) --------------------*/
+#define C_RCC_CSR_LSION           (1U << 0)
+#define C_RCC_CSR_LSIRDY          (1U << 1)
+
+/*-------------------- Peripheral Clock Enable Bits --------------------*/
+#define C_RCC_APB2ENR_USART1EN    (1U << 14) // Enable USART1 (APB2)
 
 //--------------------//
-//       Flash        //
+//       FLASH        //
 //--------------------//
 
-//Flash peripheral base address
-#define C_FLASH_BASE 0x40022000UL
+/* Base address of Flash interface registers */
+#define C_FLASH_BASE  (0x40022000UL)
 
-//Flash register structre
+/* Flash register structure */
 typedef struct {
-    __IO uint32_t ACR;     // 0x00: Access control register
-    __IO uint32_t KEYR;    // 0x04: Key register
-    __IO uint32_t OPTKEYR; // 0x08: Option key register
-    __IO uint32_t SR;      // 0x0C: Status register
-    __IO uint32_t CR;      // 0x10: Control register
-    __IO uint32_t AR;      // 0x14: Address register
-         uint32_t RESERVED;// 0x18 
-    __I  uint32_t OBR;     // 0x1C: Option byte register
-    __I  uint32_t WRPR;    // 0x20: Write protection register
+    __IO uint32_t ACR;      // 0x00: Access control register
+    __IO uint32_t KEYR;     // 0x04: Key register
+    __IO uint32_t OPTKEYR;  // 0x08: Option key register
+    __IO uint32_t SR;       // 0x0C: Status register
+    __IO uint32_t CR;       // 0x10: Control register
+    __IO uint32_t AR;       // 0x14: Address register
+         uint32_t RESERVED; // 0x18: Reserved
+    __I  uint32_t OBR;      // 0x1C: Option byte register
+    __I  uint32_t WRPR;     // 0x20: Write protection register
 } TS_FLASH_TypeDef;
 
-//Flash pointer
+/* Pointer to FLASH registers */
 #define FLASH ((TS_FLASH_TypeDef *) C_FLASH_BASE)
 
-// Flash key values (from RM0316 reference manual)
-#define C_FLASH_KEY1 0x45670123UL
-#define C_FLASH_KEY2 0xCDEF89ABUL
+/*-------------------- Flash Keys --------------------*/
+#define C_FLASH_KEY1   (0x45670123UL)
+#define C_FLASH_KEY2   (0xCDEF89ABUL)
 
-//FLASH_CR bits
-#define C_FLASH_CR_PG       (1U << 0) // PG (Programming) bit — when set, flash enters program mode (half-word write).
-#define C_FLASH_CR_PER      (1U << 1) // PER (Page Erase) bit — when set, flash enters page erase mode.
-#define C_FLASH_CR_START    (1U << 6) // when set, triggers the erase/program operation (used with PER or MER).
-#define C_FLASH_CR_LOCK     (1U << 7) // OCK bit — when set, the flash control register is locked to prevent accidental erase/write; must be unlocked with the key sequence.
+/*-------------------- FLASH_CR Bits --------------------*/
+#define C_FLASH_CR_PG          (1U << 0)  // Programming mode
+#define C_FLASH_CR_PER         (1U << 1)  // Page erase
+#define C_FLASH_CR_MER         (1U << 2)  // Mass erase (optional)
+#define C_FLASH_CR_OPTPG       (1U << 4)  // Option byte programming
+#define C_FLASH_CR_OPTER       (1U << 5)  // Option byte erase
+#define C_FLASH_CR_STRT        (1U << 6)  // Start operation
+#define C_FLASH_CR_LOCK        (1U << 7)  // Lock flash control register
+#define C_FLASH_CR_EOPIE       (1U << 12) // End of operation interrupt enable
+#define C_FLASH_CR_ERRIE       (1U << 10) // Error interrupt enable
 
-// FLASH_SR bits
-#define C_FLASH_SR_BSY      (1U << 0) // Busy flag
-#define C_FLASH_SR_PGERR    (1U << 2) // Programmin error
-#define C_FLASH_SR_WRPERR   (1U << 4) // Write Protectoin eorrer
-#define C_FLASH_SR_EOP      (1U << 5) // End of operation flag
+/*-------------------- FLASH_SR Bits --------------------*/
+#define C_FLASH_SR_BSY         (1U << 0)  // Busy flag
+#define C_FLASH_SR_PGERR       (1U << 2)  // Programming error
+#define C_FLASH_SR_WRPERR      (1U << 4)  // Write protection error
+#define C_FLASH_SR_EOP         (1U << 5)  // End of operation flag
+
+/*-------------------- FLASH_ACR Bits --------------------*/
+#define C_FLASH_ACR_LATENCY_Pos    0U
+#define C_FLASH_ACR_LATENCY_Msk    (0x7U << C_FLASH_ACR_LATENCY_Pos)
+#define C_FLASH_ACR_LATENCY_0WS    (0x0U << C_FLASH_ACR_LATENCY_Pos)
+#define C_FLASH_ACR_LATENCY_1WS    (0x1U << C_FLASH_ACR_LATENCY_Pos)
+#define C_FLASH_ACR_LATENCY_2WS    (0x2U << C_FLASH_ACR_LATENCY_Pos)
+
+#define C_FLASH_ACR_PRFTBE         (1U << 4)   // Prefetch buffer enable
+#define C_FLASH_ACR_PRFTBS         (1U << 5)   // Prefetch buffer status (read-only)
+
+/*-------------------- Convenient Aliases --------------------*/
+#define C_FLASH_ACR_LATENCY        C_FLASH_ACR_LATENCY_Msk
+#define C_FLASH_ACR_LATENCY_2      C_FLASH_ACR_LATENCY_2WS
 
 //--------------------//
 //        GPIO        //
 //--------------------//
 
 //GPIO peripheral base address
-#define GPIOA_BASE  (C_AHBPERIPH_BASE + 0x0000)
-#define GPIOB_BASE  (C_AHBPERIPH_BASE + 0x0400)
-#define GPIOC_BASE  (C_AHBPERIPH_BASE + 0x0800)
-#define GPIOD_BASE  (C_AHBPERIPH_BASE + 0x0C00)
-#define GPIOE_BASE  (C_AHBPERIPH_BASE + 0x1000)
-#define GPIOF_BASE  (C_AHBPERIPH_BASE + 0x1400)
+#define GPIOA_BASE                  (C_AHBPERIPH_BASE + 0x0000)
+#define GPIOB_BASE                  (C_AHBPERIPH_BASE + 0x0400)
+#define GPIOC_BASE                  (C_AHBPERIPH_BASE + 0x0800)
+#define GPIOD_BASE                  (C_AHBPERIPH_BASE + 0x0C00)
+#define GPIOE_BASE                  (C_AHBPERIPH_BASE + 0x1000)
+#define GPIOF_BASE                  (C_AHBPERIPH_BASE + 0x1400)
 
 //GPIO register structre
 typedef struct{
@@ -153,7 +193,7 @@ typedef struct{
 //--------------------//
 
 //UASRT peripheral base address
-#define C_USART1_BASE            (C_APB2PERIPH_BASE + 0x3800)
+#define C_USART1_BASE               (C_APB2PERIPH_BASE + 0x3800)
 
 //USART register structre
 typedef struct{
@@ -174,17 +214,17 @@ typedef struct{
 #define USART1 ((TS_USART_TypeDef *) C_USART1_BASE)
 
 //Controle register bits (CR)
-#define C_USART_CR_RE         (1U << 2)
-#define C_USART_CR_TE         (1U << 3)
-#define C_USART_CR_UE         (1U << 13)
+#define C_USART_CR_RE               (1U << 2)
+#define C_USART_CR_TE               (1U << 3)
+#define C_USART_CR_UE               (1U << 13)
 
 //Interrupt register status bits (ISR)
-#define C_USART_ISR_FE        (1U << 1) // Farming error
-#define C_USART_ISR_NE        (1U << 2) // Noise error
-#define C_USART_ISR_ORE       (1U << 3) // Overrun error  
-#define C_USART_ISR_RXNE      (1U << 5) // Read date register not empty
-#define C_USART_ISR_TC        (1U << 6) // Transmission complete
-#define C_USART_ISR_TXE       (1U << 7) // Transmit data regisyter empty
+#define C_USART_ISR_FE              (1U << 1) // Farming error
+#define C_USART_ISR_NE              (1U << 2) // Noise error
+#define C_USART_ISR_ORE             (1U << 3) // Overrun error  
+#define C_USART_ISR_RXNE            (1U << 5) // Read date register not empty
+#define C_USART_ISR_TC              (1U << 6) // Transmission complete
+#define C_USART_ISR_TXE             (1U << 7) // Transmit data regisyter empty
 
 //--------------------//
 //         SCB        //
