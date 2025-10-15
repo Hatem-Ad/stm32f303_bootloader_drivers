@@ -21,29 +21,17 @@ extern uint32_t V_SystemCoreClock; // Global system clock frequency (Hz)
 void SysTick_Init(uint32_t ticks_per_second);
 
 /**
- * @brief  Returns the current tick count in milliseconds since SysTick initialization.
- *
- * This function reads the global counter incremented by SysTick interrupts.
- * It provides a millisecond-level time base for delay and timeout operations.
- *
- * @return Current system tick count (in milliseconds).
- *
- * @note This value rolls over after approximately 49 days (32-bit overflow).
- */
-uint32_t SysTick_GetTick(void);
-
-/**
  * @brief  Blocking delay function.
  *
  * This function implements a simple busy-wait delay using the SysTick tick counter.
  * The CPU remains in a polling loop until the specified number of milliseconds has elapsed.
  *
- * @param[in] ms  Delay duration in milliseconds.
+ * @param[in] delay  Delay duration in milliseconds.
  *
  * @note This function is blocking and halts CPU execution during the delay.
  *       Use only for short delays or debugging; prefer timer interrupts for long waits.
  */
-void SysTick_Delay(uint32_t ms);
+void SysTick_Delay(uint32_t delay);
 
 /**
  * @brief  SysTick interrupt handler.
