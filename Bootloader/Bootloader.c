@@ -8,7 +8,7 @@
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
-    GPIO_Init(C_BL_TRIGGER_PORT, C_BL_TRIGGER_PIN);
+    GPIO_InitPort(C_BL_TRIGGER_PORT);
     GPIO_Config(C_BL_TRIGGER_PORT, C_BL_TRIGGER_PIN, 
                 GPIO_MODE_INPUT, GPIO_OTYPE_PP, GPIO_SPEED_LOW, GPIO_PULLUP);
 

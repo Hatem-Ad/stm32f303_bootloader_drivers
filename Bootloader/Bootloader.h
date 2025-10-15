@@ -2,6 +2,7 @@
 #define BOOTLOADER_H
 
 #include <stdint.h>
+#include "STM32F3xx.h"
 
 
 #define C_APP_START_ADDRESS       0x08004000U     // App start address after bootloader

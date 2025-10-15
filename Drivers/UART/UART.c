@@ -1,35 +1,29 @@
 #include <stdint.h>
+#include "STM32F3xx.h"
 #include "UART.h"
 #include "GPIO.h"
-#include "STM32F3xx.h"
 #include <stddef.h>
 
 void UART_Init(void) 
 {
+    // 1. Enable USART1 and GPIOA clocks
+    RCC->AHBENR |= C_RCC_AHBENR_GPIOAEN;    // GPIO clock
+    RCC->APB2ENR |= C_RCC_APB2ENR_USART1EN; // UART1 clock
     
-     // -------- Enable USART1 and GPIOA clocks --------
-    RCC->APB2ENR |= C_RCC_APB2ENR_USART1EN;
-    RCC->AHBENR |= C_RCC_AHBENR_GPIOAEN;
 
-    // -------- Configure PA9 (TX) and PA10 (RX) as Alternate Function --------
-    GPIOA->MODER &= ~((C_GPIO_MODER_MASK << (C_GPIO_PIN9 * C_GPIO_MODER_BITS_PER_PIN)) | 
-                      (C_GPIO_MODER_MASK << (C_GPIO_PIN10 * C_GPIO_MODER_BITS_PER_PIN)));
+    // 2. Configure PA9 (TX) and PA10 (RX) as Alternate Function
+    GPIO_InitPort(GPIOA);
 
-    GPIOA->MODER |= (C_GPIO_MODE_AF << (C_GPIO_PIN9 * C_GPIO_MODER_BITS_PER_PIN)) | 
-                    (C_GPIO_MODE_AF << (C_GPIO_PIN10 * C_GPIO_MODER_BITS_PER_PIN)); //Alternate function
-    
-    // -------- Select AF7 (USART1) for PA9/PA10 --------
-    GPIOA->AFR[1] &= ~((C_GPIO_AFR_MASK << ((C_GPIO_PIN9 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)) | 
-                       (C_GPIO_AFR_MASK << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN))); // clear
+    GPIO_Config(GPIOA, 9, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_HIGH, GPIO_NPULL);
+    GPIO_Config(GPIOA, 10, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_HIGH, GPIO_NPULL);
+    GPIO_Set_AF(GPIOA, 9,  C_GPIO_AF_USART1);
+    GPIO_Set_AF(GPIOA, 10, C_GPIO_AF_USART1);
 
-
-    GPIOA->AFR[1] |= ((C_GPIO_AF_USART1 << ((C_GPIO_PIN9  % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN)) |
-                      (C_GPIO_AF_USART1 << ((C_GPIO_PIN10 % C_GPIO_AFR_PINS_PER_REG) * C_GPIO_AFR_BITS_PER_PIN))); // active usart in pins 9 and 10 / AF7
-
-    // -------- Configure USART1 (9600 bauds, 8N1) --------
-    USART1->BRR = (C_APB2_CLOCK + C_UART_BAUD / 2)/ C_UART_BAUD; // (to get 833.833 => 834 => Baud ≈ 9603 inplace of 833.333 => 833 => Baud ≈ 9595)
-    USART1->CR1 = C_USART_CR_TE | C_USART_CR_RE | C_USART_CR_UE;
-
+    // 3. Configure USART1
+    USART1->CR1 = 0;                        // Reset control register
+    USART1->BRR = SystemCoreClock / 9600U;  // Baud = 9600 @ 72 MHz
+    USART1->CR1 |= (1U << 3) | (1U << 2);   // TE + RE enable
+    USART1->CR1 |= (1U << 13);              // UE: USART enable
 }
 
 void UART_SendString(const char *str) 
@@ -47,7 +41,6 @@ void UART_SendString(const char *str)
 
     // Wait intil TC is set (Transmission compltee)
     while (!(USART1->ISR & C_USART_ISR_TC));
-    
 }
 
 // Read a chnuk of at most len bytesUSART1 ...
@@ -85,7 +78,6 @@ uint32_t UART_Receive(char *buffer, uint32_t len, uint32_t timeout)
     }
     return i; // Number of bytes successfully recieved
 }
-
 
 void UART_send_char(char c)
 {

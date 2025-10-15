@@ -1,8 +1,6 @@
 #include <stdint.h>
 #include "STM32F3xx.h"
 
-uint32_t SystemCoreClock = 8000000U;  // default HSI frequency before PLL setup
-
 void SystemInit(void)
 {
     /* Enable HSI (8 MHz internal oscillator) */
