@@ -4,6 +4,13 @@
 #include "GPIO.h"
 #include <stddef.h>
 
+// ================= Internal Helpers =================
+void UART_SetBaudRate(uint32_t baud)
+{
+    USART1->BRR = SystemCoreClock / baud;
+}
+// ===================================================
+
 void UART_Init(void) 
 {
     // 1. Enable USART1 and GPIOA clocks
@@ -20,10 +27,10 @@ void UART_Init(void)
     GPIO_Set_AF(GPIOA, 10, C_GPIO_AF_USART1);
 
     // 3. Configure USART1
-    USART1->CR1 = 0;                        // Reset control register
-    USART1->BRR = SystemCoreClock / 9600U;  // Baud = 9600 @ 72 MHz
-    USART1->CR1 |= (1U << 3) | (1U << 2);   // TE + RE enable
-    USART1->CR1 |= (1U << 13);              // UE: USART enable
+    USART1->CR1 = 0;                                    // Reset control register
+    UART_SetBaudRate(9600U);                            // Baud = 9600 @ 72 MHz
+    USART1->CR1 |= (C_USART_CR1_TE | C_USART_CR1_RE);   // Enable TX and RX
+    USART1->CR1 |= C_USART_CR1_UE;                      // Enable USART
 }
 
 void UART_SendString(const char *str) 

@@ -13,6 +13,7 @@ void Bootloader_Init(void) {
                 GPIO_MODE_INPUT, GPIO_OTYPE_PP, GPIO_SPEED_LOW, GPIO_PULLUP);
 
     UART_Init();
+    UART_SendString("UART OK @72MHz\r\n");
     SysTick_Init(1000);     // 1 ms tick for delays and timeouts
 }
 
