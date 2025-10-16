@@ -154,7 +154,7 @@ void Bootloader_run() {
             while (1)
             {
                 GPIO_Toggle(GPIOE, 9);
-                SysTick_Delay(500);
+                SysTick_DelayMs(500);
             }
         } 
     } 

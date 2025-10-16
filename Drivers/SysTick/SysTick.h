@@ -31,7 +31,7 @@ void SysTick_Init(uint32_t ticks_per_second);
  * @note This function is blocking and halts CPU execution during the delay.
  *       Use only for short delays or debugging; prefer timer interrupts for long waits.
  */
-void SysTick_Delay(uint32_t delay);
+void SysTick_DelayMs(uint32_t delay);
 
 /**
  * @brief  SysTick interrupt handler.

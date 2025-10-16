@@ -20,7 +20,7 @@ void SysTick_Handler(void)
     V_TickCount++; //Increment tick counter each millisecond
 }
 
-void SysTick_Delay(uint32_t delay)
+void SysTick_DelayMs(uint32_t delay)
 {
     uint32_t start = V_TickCount;
     while ((V_TickCount - start) < delay);
