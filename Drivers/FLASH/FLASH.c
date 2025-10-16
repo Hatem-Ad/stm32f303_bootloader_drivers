@@ -72,12 +72,13 @@ FlashStatus_t FLASH_Unlock(void)
         FLASH->KEYR = C_FLASH_KEY1;
         FLASH->KEYR = C_FLASH_KEY2;
 
+        // Verify unclock success
         if ((FLASH->CR & C_FLASH_CR_LOCK) != 0)
         {
-            return FLASH_ERR_LOCK;
+            return FLASH_ERR_LOCK; // Unclock fail
         }
     }
-    return FLASH_OK;
+    return FLASH_OK; // Unlock done
 }
 
 void FLASH_Lock(void)
