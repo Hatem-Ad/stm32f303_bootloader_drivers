@@ -179,6 +179,7 @@ FlashStatus_t FLASH_Write(uint32_t address, const uint8_t *data, uint32_t length
             return FLASH_ERR_WRITE;
         }
     }
+    
     FLASH->CR = FLASH->CR & (~C_FLASH_CR_PG);
     return FLASH_OK;
 }
