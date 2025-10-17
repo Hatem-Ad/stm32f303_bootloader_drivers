@@ -96,6 +96,13 @@ void Bootloader_JumpToApp(void) {
 
     uint32_t msp0 = *(volatile uint32_t *)C_FLASH_APP_BASE;         // APP MSP
     uint32_t reset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
+
+        // Check if the stack pointer is within valid SRAM range
+    if ((msp0 & 0x20000000U) == 0)
+    {
+        return;  // Invalid application
+    }
+
     // Function pointer to application's reset handler
     void (*App_reset_handler)(void);
     
