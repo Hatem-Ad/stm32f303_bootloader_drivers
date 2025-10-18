@@ -5,6 +5,30 @@
 #include "FLASH.h"          // For Flash memory
 #include "STM32F3xx.h"
 #include "SysTick.h"        // SysTick for delay/timeouts
+#include "Types.h"          // Defined types
+
+uint32_t AppStack = *(volatile uint32_t *)C_FLASH_APP_BASE;        // APP MSP
+uint32_t AppReset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
+
+Boolean_t Bootloader_IsValidApp(void)
+{
+
+
+    // 1. Check that the initial stack pinter is in valid SRAM range
+    if ((AppStack > 0x20000000U) || (AppStack > 0x2000FFFFU))
+    {
+        return FALSE;
+    }
+
+    // 2. Check that the reset handler is inside FLASH
+    if ((AppReset < C_FLASH_APP_BASE) || (AppReset > C_FLASH_END_ADDR))
+    {
+        return FALSE;
+    }
+    
+    return TRUE;
+
+}
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
@@ -93,8 +117,9 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
 }
 
 void Bootloader_JumpToApp(void) {
+    
 
-    uint32_t msp0 = *(volatile uint32_t *)C_FLASH_APP_BASE;         // APP MSP
+    /*uint32_t msp0 = *(volatile uint32_t *)C_FLASH_APP_BASE;         // APP MSP
     uint32_t reset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
 
         // Check if the stack pointer is within valid SRAM range
@@ -117,7 +142,7 @@ void Bootloader_JumpToApp(void) {
     {
         UART_SendString("BL: invalid reset vector\r\n");
         while (1);
-    }
+    }*/
 
     UART_SendString("BL: jumping to app\r\n");
 
@@ -130,7 +155,7 @@ void Bootloader_JumpToApp(void) {
     SCB->VTOR = C_FLASH_APP_BASE & 0xFFFFFF00UL;
     
     // Set MSP from app's vector table to load new stack pointer
-    __set_MSP(msp0);
+    __set_MSP(AppStack);
 
     // For synchronization barriers
     __DSB();

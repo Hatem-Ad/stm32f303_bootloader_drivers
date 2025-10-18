@@ -129,7 +129,7 @@ typedef struct {
 #define C_FLASH_CR_MER         (1U << 2)  // Mass erase (optional)
 #define C_FLASH_CR_OPTPG       (1U << 4)  // Option byte programming
 #define C_FLASH_CR_OPTER       (1U << 5)  // Option byte erase
-#define C_FLASH_CR_STRT        (1U << 6)  // Start operation
+#define C_FLASH_CR_START       (1U << 6)  // Start operation
 #define C_FLASH_CR_LOCK        (1U << 7)  // Lock flash control register
 #define C_FLASH_CR_EOPIE       (1U << 12) // End of operation interrupt enable
 #define C_FLASH_CR_ERRIE       (1U << 10) // Error interrupt enable
