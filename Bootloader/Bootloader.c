@@ -33,7 +33,7 @@ static Boolean_t Bootloader_IsValidApp(void)
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
     GPIO_InitPort(C_BL_TRIGGER_PORT);
-    
+
     GPIO_Config(C_BL_TRIGGER_PORT, 
                 C_BL_TRIGGER_PIN, 
                 GPIO_MODE_INPUT, 
@@ -123,31 +123,11 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
 
 void Bootloader_JumpToApp(void) {
     
-
-    /*uint32_t msp0 = *(volatile uint32_t *)C_FLASH_APP_BASE;         // APP MSP
-    uint32_t reset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
-
-        // Check if the stack pointer is within valid SRAM range
-    if ((msp0 & 0x20000000U) == 0)
+    if(Bootloader_IsValidApp() == FALSE)
     {
-        return;  // Invalid application
+        UART_SendString("BL: invalid app \r\n");
+        while(1);
     }
-
-    // Function pointer to application's reset handler
-    void (*App_reset_handler)(void);
-    
-    // Baseic validation
-    if ((msp0 & C_BL_VALID_SRAM_MASK) != C_BL_VALID_SRAM_ADDR)
-    {
-        UART_SendString("BL: invalid MSP\r\n");
-        while (1);
-    }
-
-    if ((reset < C_APP_START_ADDRESS) || (reset > C_APP_END_ADDRESS))
-    {
-        UART_SendString("BL: invalid reset vector\r\n");
-        while (1);
-    }*/
 
     UART_SendString("BL: jumping to app\r\n");
 
