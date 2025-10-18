@@ -7,12 +7,11 @@
 #include "SysTick.h"        // SysTick for delay/timeouts
 #include "Types.h"          // Defined types
 
-uint32_t AppStack = *(volatile uint32_t *)C_FLASH_APP_BASE;        // APP MSP
-uint32_t AppReset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
-
-Boolean_t Bootloader_IsValidApp(void)
+// -------------------- Local helpers --------------------
+static Boolean_t Bootloader_IsValidApp(void)
 {
-
+    uint32_t AppStack = *(volatile uint32_t *)C_FLASH_APP_BASE;        // APP MSP
+    uint32_t AppReset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
 
     // 1. Check that the initial stack pinter is in valid SRAM range
     if ((AppStack > 0x20000000U) || (AppStack > 0x2000FFFFU))
@@ -27,14 +26,20 @@ Boolean_t Bootloader_IsValidApp(void)
     }
     
     return TRUE;
-
 }
+
+// -------------------- Bootloader API --------------------
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
     GPIO_InitPort(C_BL_TRIGGER_PORT);
-    GPIO_Config(C_BL_TRIGGER_PORT, C_BL_TRIGGER_PIN, 
-                GPIO_MODE_INPUT, GPIO_OTYPE_PP, GPIO_SPEED_LOW, GPIO_PULLUP);
+    
+    GPIO_Config(C_BL_TRIGGER_PORT, 
+                C_BL_TRIGGER_PIN, 
+                GPIO_MODE_INPUT, 
+                GPIO_OTYPE_PP, 
+                GPIO_SPEED_LOW, 
+                GPIO_PULLUP);
 
     UART_Init();
     UART_SendString("UART OK @72MHz\r\n");

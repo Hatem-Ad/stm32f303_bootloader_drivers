@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "STM32F3xx.h"
+#include "FLASH.h"
 
 
 #define C_APP_START_ADDRESS       0x08004000U     // App start address after bootloader
@@ -12,6 +13,9 @@
 #define C_BL_TRIGGER_PIN          0               // Trigger pin
 #define C_BL_VALID_SRAM_ADDR      0x20000000UL    // SRAM address
 #define C_BL_VALID_SRAM_MASK      0x2FFE0000UL    // SRAM mask
+
+#define APP_START_ADDRESS   (C_FLASH_APP_BASE)
+#define APP_END_ADDRESS     (C_APP_END_ADDRESS)
 
 // Bootloader jumpReceive status
 typedef enum
