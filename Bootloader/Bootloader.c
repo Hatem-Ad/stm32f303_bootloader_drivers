@@ -131,32 +131,36 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
 }
 
 void Bootloader_JumpToApp(void) {
-    
+
+    // Validate once, early
     if(Bootloader_IsValidApp() == FALSE)
     {
         UART_SendString("BL: invalid app \r\n");
         while(1);
     }
 
-    UART_SendString("BL: jumping to app\r\n");
+    uint32_t msp0  = *(volatile uint32_t*)APP_START_ADDRESS;        // initial MSP
+    uint32_t reset = *(volatile uint32_t*)(APP_START_ADDRESS + 4U); // Reset_Handler
+    void (*app_reset_handler)(void) = (void(*)(void))reset;
 
+    UART_SendString("BL: jumping to app\r\n");
+    SysTick_DelayMs(10);   // small delay to flush UART
     // Disable interrupts
     __disable_irq();
 
-    SysTick->CTRL = 0; // Disable SysTick before jumping
+    SysTick->CTRL = 0U; // Disable SysTick before jumping
+    SysTick->LOAD = 0U;
+    SysTick->VAL  = 0U; 
 
     // Relocate vector table - give the offset
     SCB->VTOR = C_FLASH_APP_BASE & 0xFFFFFF00UL;
     
     // Set MSP from app's vector table to load new stack pointer
-    __set_MSP(AppStack);
+    __set_MSP(msp0);
 
     // For synchronization barriers
     __DSB();
     __ISB();
-    
-    // Set reset handler address
-    App_reset_handler = (void (*)(void))reset;
     
     // Jump to application
     App_reset_handler(); // if it arrived here, never returns
@@ -186,8 +190,22 @@ void Bootloader_run() {
     } 
     else 
     {
-        UART_SendString("BL: jumping to app\r\n");
-        Bootloader_JumpToApp();
+        UART_SendString("BL: checking app validity\r\n");
+        if(Bootloader_IsValidApp())
+        {
+            UART_SendString("BL: app is valid\r\n");
+            Bootloader_JumpToApp();
+        }
+        else
+        {
+            UART_SendString("BL: no valid app\r\n");
+            while (1)
+            {
+                GPIO_Toggle(GPIOE, 9);
+                SysTick_DelayMs(500); 
+            }
+            
+        }
     }
 
 }
