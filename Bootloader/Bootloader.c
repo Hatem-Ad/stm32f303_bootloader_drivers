@@ -42,8 +42,8 @@ void Bootloader_Init(void) {
                 GPIO_PULLUP);
 
     UART_Init();
-    UART_SendString("UART OK @72MHz\r\n");
     SysTick_Init(1000);     // 1 ms tick for delays and timeouts
+    UART_SendString("UART OK @72MHz\r\n");
 }
 
 uint8_t Bootloader_CheckForUpdate(void) {
@@ -113,6 +113,14 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
         // Write
         addr += received;
         UART_SendString("Chunk written. \r\n");
+    }
+
+    (Boolean_t)status = Bootloader_IsValidApp();
+    if(status == FALSE)
+    {
+        UART_SendString("BL: app invalid after received\r\n");
+        FLASH_Lock();
+        return E_BL_ERROR;
     }
 
     // Lock flash after update
