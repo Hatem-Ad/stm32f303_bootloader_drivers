@@ -146,6 +146,14 @@ FlashStatus_t FLASH_EraseAppArea(void)
             FLASH->CR &= ~C_FLASH_CR_PER;
             return FLASH_ERR_WRITE;
         } 
+
+        // Clear EOP flag
+        FLASH->SR |= C_FLASH_CR_PER;
+
+        //Clear page erase bit for next iteration
+        FLASH->CR &= ~C_FLASH_CR_PER;
+
+        pageAddr += C_FLASH_PAGE_SIZE;
     }
     
 
