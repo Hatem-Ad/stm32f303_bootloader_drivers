@@ -102,6 +102,13 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
         }
 
         // 4. Write to flash
+        if ((addr + received - 1) > C_FLASH_END_ADDR)
+        {
+            UART_SendString("BL: write overflow\r\n");
+            FLASH_Lock();
+            return E_BL_ERROR;
+        }
+        
         status = FLASH_Write(addr, buffer, received);
         if (status != FLASH_OK)
         {
@@ -139,8 +146,8 @@ void Bootloader_JumpToApp(void) {
         while(1);
     }
 
-    uint32_t msp0  = *(volatile uint32_t*)APP_START_ADDRESS;        // initial MSP
-    uint32_t reset = *(volatile uint32_t*)(APP_START_ADDRESS + 4U); // Reset_Handler
+    uint32_t msp0  = *(volatile uint32_t*)C_FLASH_APP_BASE;        // initial MSP
+    uint32_t reset = *(volatile uint32_t*)(C_FLASH_APP_BASE + 4U); // Reset_Handler
     void (*app_reset_handler)(void) = (void(*)(void))reset;
 
     UART_SendString("BL: jumping to app\r\n");
