@@ -102,7 +102,7 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
         }
 
         // 4. Write to flash
-        if ((addr + received - 1) > C_FLASH_END_ADDR)
+        if ((addr < C_FLASH_APP_BASE) || ((addr + received - 1U) > C_FLASH_END_ADDR))
         {
             UART_SendString("BL: write overflow\r\n");
             FLASH_Lock();

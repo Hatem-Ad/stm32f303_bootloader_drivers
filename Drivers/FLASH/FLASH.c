@@ -128,17 +128,26 @@ FlashStatus_t FLASH_ErasePage(uint32_t page_addr)
 
 FlashStatus_t FLASH_EraseAppArea(void)
 {
-    uint32_t addr;
-    FlashStatus_t status;
+    uint32_t pageAddr;
 
-    for(addr = C_FLASH_APP_BASE; addr < C_FLASH_END_ADDR; addr += C_FLASH_PAGE_SIZE)
+    while (pageAddr < C_FLASH_END_ADDR)
     {
-        status = FLASH_ErasePage(addr);
-        if(status != FLASH_OK)
+        // Set page erase bit and page address
+        FLASH->CR |= C_FLASH_CR_PER;
+        FLASH->AR = pageAddr;
+        FLASH->CR |= C_FLASH_CR_START;
+
+        // Wait for completion
+        while (FLASH->SR & C_FLASH_SR_BSY);
+
+        // Check errors
+        if (FLASH->SR & (C_FLASH_SR_PGERR | C_FLASH_SR_WRPERR))
         {
-            return status;
-        }
+            FLASH->CR &= ~C_FLASH_CR_PER;
+            return FLASH_ERR_WRITE;
+        } 
     }
+    
 
     return FLASH_OK;
 }
