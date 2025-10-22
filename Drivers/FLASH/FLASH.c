@@ -16,7 +16,7 @@ static FlashStatus_t FLASH_WaitBusyAndCheck(void)
         spins++;
         if (spins > C_FLASH_TIMEOUT_SPINS)
         {
-            return FLASH_ERR_TIMEOUT;
+            return E_FLASH_ERR_TIMEOUT;
         }
     }
     
@@ -30,31 +30,28 @@ static FlashStatus_t FLASH_WaitBusyAndCheck(void)
     if ((FLASH->SR & C_FLASH_SR_WRPERR) != 0)
     {
         FLASH->SR = C_FLASH_SR_WRPERR;
-        return FLASH_ERR_WRITE;
+        return E_FLASH_ERR_WRITE;
     }
 
     // Programming error
     if ((FLASH->SR &C_FLASH_SR_PGERR) != 0)
     {
         FLASH->SR = C_FLASH_SR_PGERR;
-        return FLASH_ERR_WRITE;
+        return E_FLASH_ERR_WRITE;
     }
 
-    return FLASH_OK;
+    return E_FLASH_OK;
 
 }
 
 //Validate that address range lies inside app area
-static inline int FLASH_RangeValid(uint32_t addr, uint32_t len)
+static inline uint32_t FLASH_RangeValid(uint32_t addr, uint32_t len)
 {
-    int valid = 0;
-
-    if ((addr >= C_FLASH_APP_BASE && ((addr + len) <= C_FLASH_END_ADDR)))
-    {
-        valid = 1;
-    }
-
-    return valid;
+    if (len == 0U) return 0;
+    if (addr < C_FLASH_APP_BASE) return 0;
+    if (addr > C_FLASH_END_ADDR) return 0;
+    if (len > (C_FLASH_END_ADDR - addr + 1U)) return 0;
+    return 1;
 }
 
 // ================= Public API =================
@@ -75,10 +72,10 @@ FlashStatus_t FLASH_Unlock(void)
         // Verify unclock success
         if ((FLASH->CR & C_FLASH_CR_LOCK) != 0)
         {
-            return FLASH_ERR_LOCK; // Unclock fail
+            return E_FLASH_ERR_LOCK; // Unclock fail
         }
     }
-    return FLASH_OK; // Unlock done
+    return E_FLASH_OK; // Unlock done
 }
 
 void FLASH_Lock(void)
@@ -98,16 +95,16 @@ FlashStatus_t FLASH_ErasePage(uint32_t page_addr)
 
     if((page_addr % C_FLASH_PAGE_SIZE) != 0)
     {
-        return FLASH_ERR_ALIGN;
+        return E_FLASH_ERR_ALIGN;
     }
 
     if(FLASH_RangeValid(page_addr, C_FLASH_PAGE_SIZE) == 0)
     {
-        return FLASH_ERR_RANGE;
+        return E_FLASH_ERR_RANGE;
     }
 
     status = FLASH_WaitBusyAndCheck();
-    if (status != FLASH_OK)
+    if (status != E_FLASH_OK)
     {
         return status;
     }
@@ -122,42 +119,54 @@ FlashStatus_t FLASH_ErasePage(uint32_t page_addr)
     status = FLASH_WaitBusyAndCheck();
     FLASH->CR &= ~C_FLASH_CR_PER;
 
-    return (status == FLASH_OK) ? FLASH_OK : FLASH_ERR_ERASE;
+    return (status == E_FLASH_OK) ? E_FLASH_OK : E_FLASH_ERR_ERASE;
 
 }
 
 FlashStatus_t FLASH_EraseAppArea(void)
 {
-    uint32_t pageAddr;
+    FlashStatus_t status;
+    uint32_t pageAddr = C_FLASH_APP_BASE;
+    uint32_t valid;
 
     while (pageAddr < C_FLASH_END_ADDR)
     {
+        valid = FLASH_RangeValid(pageAddr, C_FLASH_PAGE_SIZE);
+        if (valid == 0U)
+        {
+            return E_FLASH_ERR_RANGE;
+        }
+
+        status = FLASH_WaitBusyAndCheck();
+        if (status != E_FLASH_OK) 
+        {
+            return status;
+        }
+
         // Set page erase bit and page address
         FLASH->CR |= C_FLASH_CR_PER;
         FLASH->AR = pageAddr;
         FLASH->CR |= C_FLASH_CR_START;
 
-        // Wait for completion
-        while (FLASH->SR & C_FLASH_SR_BSY);
+
+        status = FLASH_WaitBusyAndCheck();
+        FLASH->CR &= ~C_FLASH_CR_PER;
+        if (status != E_FLASH_OK) 
+        {
+            return E_FLASH_ERR_WRITE;
+        }
 
         // Check errors
         if (FLASH->SR & (C_FLASH_SR_PGERR | C_FLASH_SR_WRPERR))
         {
             FLASH->CR &= ~C_FLASH_CR_PER;
-            return FLASH_ERR_WRITE;
-        } 
-
-        // Clear EOP flag
-        FLASH->SR |= C_FLASH_CR_PER;
-
-        //Clear page erase bit for next iteration
-        FLASH->CR &= ~C_FLASH_CR_PER;
+            return E_FLASH_ERR_WRITE;
+        }
 
         pageAddr += C_FLASH_PAGE_SIZE;
     }
     
-
-    return FLASH_OK;
+    return E_FLASH_OK;
 }
 
 FlashStatus_t FLASH_Write(uint32_t address, const uint8_t *data, uint32_t length)
@@ -165,19 +174,21 @@ FlashStatus_t FLASH_Write(uint32_t address, const uint8_t *data, uint32_t length
     FlashStatus_t status;
     uint32_t i;
     uint16_t half;
+    uint32_t valid;
 
     if (((address % 2U) != 0U) || ((length % 2) != 0U))
     {
-        return FLASH_ERR_ALIGN;
+        return E_FLASH_ERR_ALIGN;
     }
 
-    if (FLASH_RangeValid(address, length) == 0)
+    valid = FLASH_RangeValid(address, length);
+    if (valid == 0U)
     {
-        return FLASH_ERR_ALIGN;
+        return E_FLASH_ERR_RANGE;
     }
 
     status = FLASH_WaitBusyAndCheck();
-    if (status != FLASH_OK)
+    if (status != E_FLASH_OK)
     {
         return status;
     }
@@ -190,13 +201,13 @@ FlashStatus_t FLASH_Write(uint32_t address, const uint8_t *data, uint32_t length
         *(__IO uint16_t *)(address + i) = half;
 
         status = FLASH_WaitBusyAndCheck();
-        if (status != FLASH_OK)
+        if (status != E_FLASH_OK)
         {
             FLASH->CR = (FLASH->CR & (~(C_FLASH_CR_PG)));
-            return FLASH_ERR_WRITE;
+            return E_FLASH_ERR_WRITE;
         }
     }
     
-    FLASH->CR = FLASH->CR & (~C_FLASH_CR_PG);
-    return FLASH_OK;
+    FLASH->CR &= ~C_FLASH_CR_PG;
+    return E_FLASH_OK;
 }
