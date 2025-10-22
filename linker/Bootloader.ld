@@ -4,11 +4,11 @@ ENTRY(Reset_Handler)
 
 MEMORY
 {
-    FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 16K
-    RAM   (rwx): ORIGIN = 0x20000000, LENGTH = 40K
+    FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 16K /* Bootloader in first 16 KB */
+    RAM   (rwx): ORIGIN = 0x20000000, LENGTH = 64K /* Full SRAM */
 }
 
-_estack = ORIGIN(RAM) + LENGTH(RAM);
+_estack = ORIGIN(RAM) + LENGTH(RAM); /* top of stack */
 
 SECTIONS
 {
@@ -21,14 +21,11 @@ SECTIONS
     {
         *(.text*)
         *(.rodata*)
-        _etext = .;
     } > FLASH
 
-    .data : AT (ADDR(.text) + SIZEOF(.text))
+    .data :
     {
-        _sdata = .;
         *(.data*)
-        _edata = .;
     } > RAM
 
     .bss :
@@ -36,6 +33,5 @@ SECTIONS
         _sbss = .;
         *(.bss*)
         *(COMMON)
-        _ebss = .;
     } > RAM
 }
