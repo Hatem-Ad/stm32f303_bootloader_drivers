@@ -21,7 +21,6 @@ CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
          -IDrivers/SysTick \
          -IDrivers/RCC 
 LDFLAGS = -T linker/Bootloader.ld
-LDFLAGS = -T linker/App.ld
 
 # ===========================
 # Source files

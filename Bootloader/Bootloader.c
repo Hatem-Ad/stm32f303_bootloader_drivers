@@ -67,7 +67,7 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
 
     // 1. Unlock Flash 
     status = FLASH_Unlock();
-    if(status != FLASH_OK)
+    if(status != E_FLASH_OK)
     {
         UART_SendString("BL: unlock fail\r\n");
         return E_BL_ERROR;
@@ -77,7 +77,7 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
     
     // 2. Erase application area
     status = FLASH_EraseAppArea();
-    if(status != FLASH_OK)
+    if(status != E_FLASH_OK)
     {
         UART_SendString("BL: erase fail\r\n");
         FLASH_Lock();
@@ -110,7 +110,7 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
         }
         
         status = FLASH_Write(addr, buffer, received);
-        if (status != FLASH_OK)
+        if (status != E_FLASH_OK)
         {
             UART_SendString("BL: write fail\r\n");
             FLASH_Lock();

@@ -1,16 +1,37 @@
-CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g\ 
-		 -IDrivers/GPIO \
-		 -IDrivers/UART \
-		 -Ilib/CMSIS/Core/Include \
-		 -Ilib/CMSIS/Device/ST/STM32F3xx/Include
+CC = arm-none-eabi-gcc
+OBJCOPY = arm-none-eabi-objcopy
 
-LDFLAGS = -T linker/App.ld
+CFLAGS = -mcpu=cortex-m4 -mthumb -Wall -O0 -g \
+         -IDrivers/GPIO \
+         -IDrivers/UART \
+         -IDrivers/FLASH \
+         -IDrivers/SysTick \
+         -IDrivers/RCC \
+         -Ilib/CMSIS/Core/Include \
+         -Ilib/CMSIS/Device/ST/STM32F3xx/Include
 
-SRC = App.c \
-      ../Drivers/GPIO/GPIO.c \
-      ../Drivers/UART/UART.c \
-      ../startup/startup_stm32f303.s \
-      ../startup/system_stm32f3xx.c
+LDFLAGS = -T ../linker/App.ld
 
-all:
-	arm-none-eabi-gcc $(CFLAGS) $(SRC) $(LDFLAGS) -o App.elf
+SRCS = \
+     App.c \
+     Drivers/GPIO/GPIO.c \
+     Drivers/UART/UART.c \
+     Drivers/FLASH/FLASH.c \
+     Drivers/SysTick/SysTick.c \
+     Drivers/RCC/RCC.c \
+     startup/system_stm32f3xx.c
+
+STARTUP = ../startup/startup_stm32f303.s
+
+OUT = App.elf
+BIN = App.bin
+
+all: $(OUT) $(BIN)
+$(OUT): $(SRCS) $(STARTUP)
+	$(CC) $(CFLAGS) $(SRCS) $(STARTUP) $(LDFLAGS) -o $@
+
+$(BIN): $(OUT)
+	$(OBJCOPY) -O binary $< $@
+	
+clean:
+	rm -f $(OUT) $(BIN)

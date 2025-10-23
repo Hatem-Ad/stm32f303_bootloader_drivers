@@ -12,13 +12,13 @@
 // ================= Status codes =================
 typedef enum 
 {
-    FLASH_OK = 0,        /* Operation successful */
-    FLASH_ERR_TIMEOUT,   /* Busy flag did not clear in time */
-    FLASH_ERR_WRITE,     /* Programming or write-protect error */
-    FLASH_ERR_ERASE,     /* Page erase failed */
-    FLASH_ERR_ALIGN,     /* Address or length not aligned (half-word) */
-    FLASH_ERR_RANGE,     /* Address out of allowed app flash area */
-    FLASH_ERR_LOCK       /* Could not unlock flash control register */
+    E_FLASH_OK = 0,        /* Operation successful */
+    E_FLASH_ERR_TIMEOUT,   /* Busy flag did not clear in time */
+    E_FLASH_ERR_WRITE,     /* Programming or write-protect error */
+    E_FLASH_ERR_ERASE,     /* Page erase failed */
+    E_FLASH_ERR_ALIGN,     /* Address or length not aligned (half-word) */
+    E_FLASH_ERR_RANGE,     /* Address out of allowed app flash area */
+    E_FLASH_ERR_LOCK       /* Could not unlock flash control register */
 } FlashStatus_t;
 
 // ================= Public API =================
