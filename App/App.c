@@ -1,9 +1,7 @@
-#include <stdio.h>
 #include "STM32F3xx.h"      // defines TS_GPIO_TypeDef, SystemCoreClock, etc.
 #include "SysTick.h"
 #include "GPIO.h"
 #include "UART.h"
-
 
 int main(void)
 {

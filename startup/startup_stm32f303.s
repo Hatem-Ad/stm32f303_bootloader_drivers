@@ -14,8 +14,6 @@
  *----------------------------------------------------------*/
 
 .section .isr_vector,"a",%progbits
-.word _estack
-.word Reset_Handler
 .global g_pfnVectors
 .type g_pfnVectors, %object
 
@@ -122,6 +120,7 @@ EXTI4_IRQHandler:      b Default_Handler
 .extern SystemInit
 .extern main
 
+.thumb_func
 Reset_Handler:
   /* Copy .data from FLASH to RAM */
   ldr r0, =_sidata
