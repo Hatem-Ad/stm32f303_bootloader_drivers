@@ -148,7 +148,7 @@ void Bootloader_JumpToApp(void) {
 
     uint32_t msp0  = *(volatile uint32_t*)C_FLASH_APP_BASE;        // initial MSP
     uint32_t reset = *(volatile uint32_t*)(C_FLASH_APP_BASE + 4U); // Reset_Handler
-    void (*app_reset_handler)(void) = (void(*)(void))reset;
+    void (*App_reset_handler)(void) = (void(*)(void))reset;
 
     UART_SendString("BL: jumping to app\r\n");
     SysTick_DelayMs(10);   // small delay to flush UART
@@ -160,10 +160,12 @@ void Bootloader_JumpToApp(void) {
     SysTick->VAL  = 0U; 
 
     // Relocate vector table - give the offset
-    SCB->VTOR = C_FLASH_APP_BASE & 0xFFFFFF00UL;
+    SCB->VTOR = C_FLASH_APP_BASE;
     
     // Set MSP from app's vector table to load new stack pointer
     __set_MSP(msp0);
+
+    __set_CONTROLE(0);  /* Ensure previleged mode + MSP usage*/
 
     // For synchronization barriers
     __DSB();
