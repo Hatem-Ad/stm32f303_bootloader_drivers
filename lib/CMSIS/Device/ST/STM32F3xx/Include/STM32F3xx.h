@@ -20,7 +20,7 @@
 #define C_APB1PERIPH_BASE        (C_PERIPH_BASE + 0x00000)
 #define C_APB2PERIPH_BASE        (C_PERIPH_BASE + 0x10000)
 
-uint32_t SystemCoreClock = 8000000U;  // default HSI frequency before PLL setup
+extern uint32_t SystemCoreClock = 8000000U;  // default HSI frequency before PLL setup
 
 //--------------------//
 //        RCC         //
@@ -300,7 +300,7 @@ typedef struct
 //        IWDG        //
 //--------------------//
 
-#define C_IWDG_BASE         (0x400030000UL)
+#define C_IWDG_BASE         (0x40003000UL)
 
 typedef struct 
 {

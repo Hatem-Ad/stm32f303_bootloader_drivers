@@ -1,7 +1,7 @@
 #include "SysTick.h"
 #include "STM32F3xx.h"
 
-uint32_t SystemCoreClock = 72000000; // 72 MHz default
+//uint32_t SystemCoreClock = 72000000; // 72 MHz default
 volatile uint32_t V_TickCount = 0;     // Tick counter
 
 void SysTick_Init(uint32_t ticks_per_second)
