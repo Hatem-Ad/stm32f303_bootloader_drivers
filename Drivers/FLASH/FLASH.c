@@ -92,13 +92,15 @@ void FLASH_ClearFlags(void)
 FlashStatus_t FLASH_ErasePage(uint32_t page_addr)
 {
     FlashStatus_t status;
+    uint32_t valid;
 
     if((page_addr % C_FLASH_PAGE_SIZE) != 0)
     {
         return E_FLASH_ERR_ALIGN;
     }
 
-    if(FLASH_RangeValid(page_addr, C_FLASH_PAGE_SIZE) == 0)
+    valid = FLASH_RangeValid(page_addr, C_FLASH_PAGE_SIZE);
+    if(valid == 0)
     {
         return E_FLASH_ERR_RANGE;
     }
@@ -117,6 +119,12 @@ FlashStatus_t FLASH_ErasePage(uint32_t page_addr)
     FLASH->CR |= C_FLASH_CR_START;
 
     status = FLASH_WaitBusyAndCheck();
+
+    if (FLASH->SR & C_FLASH_SR_EOP)
+    {
+        FLASH->SR = C_FLASH_SR_EOP;  // clear EOP after erase
+    }
+
     FLASH->CR &= ~C_FLASH_CR_PER;
 
     return (status == E_FLASH_OK) ? E_FLASH_OK : E_FLASH_ERR_ERASE;

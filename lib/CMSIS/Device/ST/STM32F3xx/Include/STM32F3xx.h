@@ -154,6 +154,15 @@ typedef struct {
 #define C_FLASH_ACR_LATENCY        C_FLASH_ACR_LATENCY_Msk
 #define C_FLASH_ACR_LATENCY_2      C_FLASH_ACR_LATENCY_2WS
 
+// Flash layout (STM32F303xC)
+#define C_FLASH_BASE_ADDR     (0x08000000UL)
+#define C_FLASH_BOOT_SIZE     (16U * 1024U)          // 16 KB bootloader
+#define C_FLASH_APP_BASE      (C_FLASH_BASE_ADDR + C_FLASH_BOOT_SIZE)  // 0x08004000
+
+// Device specifics
+#define C_FLASH_PAGE_SIZE     (2048U)                // 2 KB per page on F303xC
+#define C_FLASH_TOTAL_SIZE    (256U * 1024U)         // 256 KB total (F303VC)
+
 //--------------------//
 //        GPIO        //
 //--------------------//
