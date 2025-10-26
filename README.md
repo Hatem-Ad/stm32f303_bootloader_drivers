@@ -68,25 +68,36 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
 
     *drivers/* — Bare-metal drivers (no HAL)
 
-       GPIO/-----------------# GPIO driver (init, read, toggle) 
-       
-       UART/-----------------# UART driver (init, send, receive)
+       GPIO/                 # GPIO driver (init, read, toggle) 
+
+       UART/                 # UART driver (init, send, receive)
+
        FLASH/                # Flash erase/write operations
+
        RCC/                  # Reset & Clock Control helper (HSI, LSI)
+
        WDG/                  # Independent Watchdog driver (IWDG)
+
        SysTick/              # SysTick timer driver (1ms tick)
 
     *linker/* 
+
        Bootloader.ld/        # Bootloader memory mapping (16 KB)
+
        App.ld /              # Application memory mapping (rest of flash) 
 
     *startup/*
+
        startup_stm32f303.s   # Startup vector table and Reset_Handler
+
        system_stm32f3xx.c    # SystemInit() and clock setup
 
     *lib/*
+
        CMSIS/
+
            Device/ST/STM32F3xx/Include/
+           
                STM32F3xx.h   # MCU register and bitfield definitions
 
     *build*                     # Compiled outputs (.elf, .bin)
