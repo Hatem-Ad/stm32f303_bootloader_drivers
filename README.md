@@ -60,12 +60,16 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
 
 - **stm32f303_bootloader_drivers/**
 
-    *bootloader/* — Bootloader source 
+    *bootloader/* — Bootloader source
+
        Bootloader.c/h        # Bootloader core logic
+
        main.c                # Bootloader entry point
 
     *drivers/* — Bare-metal drivers (no HAL)
+
        GPIO/-----------------# GPIO driver (init, read, toggle) 
+       
        UART/-----------------# UART driver (init, send, receive)
        FLASH/                # Flash erase/write operations
        RCC/                  # Reset & Clock Control helper (HSI, LSI)
