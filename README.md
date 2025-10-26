@@ -100,11 +100,11 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
 
                STM32F3xx.h   # MCU register and bitfield definitions
 
-    *build/*                 # Compiled outputs (.elf, .bin)
+    *build/* — Compiled outputs (.elf, .bin)
 
-    *Makefile/*              # Build system configuration
+    *Makefile/* — Build system configuration
 
-    *README.md/*             # Project documentation (this file)
+    *README.md/* — Project documentation (this file)
 
 ## 🧱 Memory Map
 
