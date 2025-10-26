@@ -65,8 +65,8 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
        main.c                # Bootloader entry point
 
     *drivers/* — Bare-metal drivers (no HAL)
-       GPIO/                 # GPIO driver (init, read, toggle) 
-       UART/                 # UART driver (init, send, receive)
+       GPIO/-----------------# GPIO driver (init, read, toggle) 
+       UART/-----------------# UART driver (init, send, receive)
        FLASH/                # Flash erase/write operations
        RCC/                  # Reset & Clock Control helper (HSI, LSI)
        WDG/                  # Independent Watchdog driver (IWDG)
