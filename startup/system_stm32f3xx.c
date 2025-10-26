@@ -26,6 +26,6 @@ void SystemInit(void)
     while ((RCC->CFGR & C_RCC_CFGR_SWS_Msk) != C_RCC_CFGR_SWS_PLL);
 
     /* Update System Core Clock variable */
-    SystemCoreClock = 72000000;
+    SystemCoreClock = 72000000; // 72 MHz default
 }
 

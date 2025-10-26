@@ -61,29 +61,29 @@ This version (v1.0) serves as the baseline reference implementation — clean, r
 - **stm32f303_bootloader_drivers/**
 
     *bootloader/* — Bootloader source 
-      ├── Bootloader.c/h        # Bootloader core logic
-      └── main.c                # Bootloader entry point
+       Bootloader.c/h        # Bootloader core logic
+       main.c                # Bootloader entry point
 
     *drivers/* — Bare-metal drivers (no HAL)
-      ├── GPIO/                 # GPIO driver (init, read, toggle) 
-      ├── UART/                 # UART driver (init, send, receive)
-      ├── FLASH/                # Flash erase/write operations
-      ├── RCC/                  # Reset & Clock Control helper (HSI, LSI)
-      ├── WDG/                  # Independent Watchdog driver (IWDG)
-      └── SysTick/              # SysTick timer driver (1ms tick)
+       GPIO/                 # GPIO driver (init, read, toggle) 
+       UART/                 # UART driver (init, send, receive)
+       FLASH/                # Flash erase/write operations
+       RCC/                  # Reset & Clock Control helper (HSI, LSI)
+       WDG/                  # Independent Watchdog driver (IWDG)
+       SysTick/              # SysTick timer driver (1ms tick)
 
     *linker/* 
-      ├── Bootloader.ld/        # Bootloader memory mapping (16 KB)
-      └── App.ld /              # Application memory mapping (rest of flash) 
+       Bootloader.ld/        # Bootloader memory mapping (16 KB)
+       App.ld /              # Application memory mapping (rest of flash) 
 
     *startup/*
-      ├── startup_stm32f303.s   # Startup vector table and Reset_Handler
-      └── system_stm32f3xx.c    # SystemInit() and clock setup
+       startup_stm32f303.s   # Startup vector table and Reset_Handler
+       system_stm32f3xx.c    # SystemInit() and clock setup
 
     *lib/*
-      └── CMSIS/
-          └── Device/ST/STM32F3xx/Include/
-              └── STM32F3xx.h   # MCU register and bitfield definitions
+       CMSIS/
+           Device/ST/STM32F3xx/Include/
+               STM32F3xx.h   # MCU register and bitfield definitions
 
     *build*                     # Compiled outputs (.elf, .bin)
 
