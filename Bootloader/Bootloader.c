@@ -14,7 +14,8 @@ static Boolean_t Bootloader_IsValidApp(void)
     uint32_t AppReset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
 
     // 1. Check that the initial stack pinter is in valid SRAM range
-    if ((AppStack < 0x20000000U) || (AppStack > 0x2000FFFFU))
+    if (!((AppStack >= 0x20000000U && AppStack <= 0x2000A000U) ||
+       (AppStack >= 0x10000000U && AppStack <= 0x10002000U)))
     {
         return FALSE;
     }
