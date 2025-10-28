@@ -13,7 +13,7 @@
  * @note   Bit 0 = Stack select (0 = MSP, 1 = PSP)
  *         Bit 1 = Privilege (0 = privileged, 1 = unprivileged)
  */
-__attribute__((always_inline)) static inline void __set_CONTROL(uint32_t control)
+static inline void __set_CONTROL(uint32_t control)
 {
     __asm volatile ("MSR control, %0" : : "r" (control) : "memory");
 }

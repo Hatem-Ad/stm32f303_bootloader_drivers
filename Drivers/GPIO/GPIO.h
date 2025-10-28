@@ -1,6 +1,8 @@
 #ifndef GPIO_H
 #define GPIO_H
 
+#include <STM32F3xx.h>
+
 // Bits definitions for GPIO registers
 #define C_GPIO_MODER_BITS_PER_PIN     0x2U // Number of bits by moder pin
 #define C_GPIO_MODER_MASK             0x3U // Two bits per pin (11b)

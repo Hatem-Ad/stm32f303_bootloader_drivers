@@ -20,7 +20,7 @@
 #define C_APB1PERIPH_BASE        (C_PERIPH_BASE + 0x00000)
 #define C_APB2PERIPH_BASE        (C_PERIPH_BASE + 0x10000)
 
-extern uint32_t SystemCoreClock = 8000000U;  // default HSI frequency before PLL setup
+extern uint32_t SystemCoreClock;  // Declare the clock system as extern
 
 //--------------------//
 //        RCC         //
