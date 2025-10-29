@@ -31,16 +31,16 @@
 
 //GPIO Modes
 typedef enum{
-    GPIO_MODE_INPUT  = 0x0,
-    GPIO_MODE_OUTPUT = 0x1,
-    GPIO_MODE_AF     = 0x2,
-    GPIO_MODE_ANALOG = 0x3
+    E_GPIO_MODE_INPUT  = 0x0,
+    E_GPIO_MODE_OUTPUT = 0x1,
+    E_GPIO_MODE_AF     = 0x2,
+    E_GPIO_MODE_ANALOG = 0x3
 } TE_GPIO_mode_t;
 
 
 typedef enum {
-    GPIO_OTYPE_PP = 0x0, // Push-Pull
-    GPIO_OTYPE_OD = 0x1  // Open-Drain
+    E_GPIO_OTYPE_PP = 0x0, // Push-Pull
+    E_GPIO_OTYPE_OD = 0x1  // Open-Drain
 } TE_GPIO_otype_t;
 
 typedef enum {
