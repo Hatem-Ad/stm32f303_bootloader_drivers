@@ -44,15 +44,15 @@ typedef enum {
 } TE_GPIO_otype_t;
 
 typedef enum {
-    GPIO_SPEED_LOW    = 0,
-    GPIO_SPEED_MEDIUM = 1,
-    GPIO_SPEED_HIGH   = 2
+    E_GPIO_SPEED_LOW    = 0,
+    E_GPIO_SPEED_MEDIUM = 1,
+    E_GPIO_SPEED_HIGH   = 2
 } TE_GPIO_speed_t;
 
 typedef enum {
-    GPIO_NPULL    = 0,
-    GPIO_PULLUP   = 1,
-    GPIO_PULLDOWN = 2
+    E_GPIO_NPULL    = 0,
+    E_GPIO_PULLUP   = 1,
+    E_GPIO_PULLDOWN = 2
 } TE_GPIO_pull_t;
 
 
