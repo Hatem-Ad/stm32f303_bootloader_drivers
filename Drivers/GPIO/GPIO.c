@@ -3,7 +3,7 @@
 #include "STM32F3xx.h"
 
 // ================= Internal Helpers =================
-static GPIO_EnableClock(TS_GPIO_TypeDef   *port) 
+static void GPIO_EnableClock(TS_GPIO_TypeDef   *port) 
 { 
     //Enable Clock for selcted port
     if (port == GPIOA) RCC->AHBENR |= C_RCC_AHBENR_GPIOAEN;

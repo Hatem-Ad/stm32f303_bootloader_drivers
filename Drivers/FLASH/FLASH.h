@@ -60,6 +60,6 @@ FlashStatus_t FLASH_EraseAppArea(void);
  * @param len  Length in bytes (must be even).
  * @return Status code.
  */
-FlashStatus_t FLASH_Write(uint32_t address, uint8_t *data, uint32_t length);
+FlashStatus_t FLASH_Write(uint32_t address, const uint8_t *data, uint32_t length);
 
 #endif

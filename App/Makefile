@@ -29,7 +29,8 @@ BIN = App.bin
 all: $(OUT) $(BIN)
 
 $(OUT): $(SRCS) $(STARTUP)
-	$(CC) $(CFLAGS) $(SRCS) $(STARTUP) $(LDFLAGS) -o $@
+	$(CC) $(CFLAGS) $(SRCS) $(STARTUP) $(LDFLAGS) \
+	-nostartfiles -nostdlib --specs=nosys.specs -o $@
 
 $(BIN): $(OUT)
 	$(OBJCOPY) -O binary $< $@

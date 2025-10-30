@@ -37,10 +37,10 @@ void Bootloader_Init(void) {
 
     GPIO_Config(C_BL_TRIGGER_PORT, 
                 C_BL_TRIGGER_PIN, 
-                GPIO_MODE_INPUT, 
-                GPIO_OTYPE_PP, 
-                GPIO_SPEED_LOW, 
-                GPIO_PULLUP);
+                E_GPIO_MODE_INPUT, 
+                E_GPIO_OTYPE_PP, 
+                E_GPIO_SPEED_LOW, 
+                E_GPIO_PULLUP);
 
     UART_Init();
     SysTick_Init(1000);     // 1 ms tick for delays and timeouts
@@ -166,7 +166,7 @@ void Bootloader_JumpToApp(void) {
     // Set MSP from app's vector table to load new stack pointer
     __set_MSP(msp0);
 
-    __set_CONTROLE(0);  /* Ensure previleged mode + MSP usage*/
+    __set_CONTROL(0);  /* Ensure previleged mode + MSP usage*/
 
     // For synchronization barriers
     __DSB();

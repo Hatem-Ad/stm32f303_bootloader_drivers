@@ -26,7 +26,7 @@ static inline void __set_MSP(uint32_t TopOfMainStack)
 }
 
 // to desiable intrrupts when the jump to apps
-static inline void _disable_irq(void)
+static inline void __disable_irq(void)
 {
     __asm volatile ("cpsid i");
 }
