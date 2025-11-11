@@ -47,4 +47,9 @@ static inline void __ISB(void)
     __asm volatile ("isb 0xF":::"memory");
 }
 
+static inline void __enable_irq(void)  
+{ 
+    __asm volatile ("cpsie i"); 
+}
+
 #endif

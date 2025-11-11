@@ -28,7 +28,7 @@ void UART_Init(void)
 
     // 3. Configure USART1
     USART1->CR1 = 0;                                    // Reset control register
-    UART_SetBaudRate(9600U);                            // Baud = 9600 @ 72 MHz
+    UART_SetBaudRate(115200U);                          // Baud = 115200 @ 72 MHz
     USART1->CR1 |= (C_USART_CR1_TE | C_USART_CR1_RE);   // Enable TX and RX
     USART1->CR1 |= C_USART_CR1_UE;                      // Enable USART
 }

@@ -44,6 +44,7 @@ void Bootloader_Init(void) {
 
     UART_Init();
     SysTick_Init(1000);     // 1 ms tick for delays and timeouts
+    __enable_irq();
     UART_SendString("UART OK @72MHz\r\n");
 }
 
@@ -161,7 +162,7 @@ void Bootloader_JumpToApp(void) {
     SysTick->VAL  = 0U; 
 
     // Relocate vector table - give the offset
-    SCB->VTOR = 0x08000000;
+    SCB->VTOR = (C_FLASH_APP_BASE & 0xFFFFFF00U);  // 0x08004000 for your map
     
     // Set MSP from app's vector table to load new stack pointer
     __set_MSP(msp0);
@@ -171,7 +172,8 @@ void Bootloader_JumpToApp(void) {
     // For synchronization barriers
     __DSB();
     __ISB();
-    
+
+    __enable_irq();    
     // Jump to application
     App_reset_handler(); // if it arrived here, never returns
 }
