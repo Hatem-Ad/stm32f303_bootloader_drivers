@@ -7,11 +7,15 @@
 
 int main(void)
 {
+    __enable_irq();     // test: 
     // Initialize SysTick (1 ms tick)
-    SysTick_Init(1000);
+    //SysTick_Init(1000);
+
+    RCC->AHBENR |= (1U << 21); // enable horloge of gpioE pin 21
+    GPIOE->MODER = (GPIOE->MODER & ~(3U << (9*2))) | (1U << (9*2)); // pin 9 as output
 
     // Initialize UART for debugging
-    UART_Init();
+    /*UART_Init();
     UART_SendString("Hello from the Application !\r\n");
 
     // Initialize LED pin (PE9)
@@ -24,11 +28,17 @@ int main(void)
     {
         UART_SendString("App running OK\r\n");
         GPIO_Toggle(GPIOE, 9);   // Blink LED
-        SysTick_DelayMs(500);
-        GPIO_InitPort(GPIOE);
-        GPIO_Toggle(GPIOE, 8);
+        //SysTick_DelayMs(500);
+        //GPIO_InitPort(GPIOE);
+        //GPIO_Toggle(GPIOE, 8);
         for (volatile int i = 0; i < 1000000; i++);
-    }
+    }*/
 
+    for (;;){
+        GPIOE->BSRR = (1U << 9);         // PE9 = 1
+        for (volatile uint32_t i=0; i<800000; i++);
+        GPIOE->BSRR = (1U << (9+16));    // PE9 = 0
+        for (volatile uint32_t i=0; i<800000; i++);
+    }
     return 0;
 }

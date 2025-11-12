@@ -142,24 +142,25 @@ BootStatus_t Bootloader_ReceiveFirmware(void)
 void Bootloader_JumpToApp(void) {
 
     // Validate once, early
-    if(Bootloader_IsValidApp() == FALSE)
+    /*if(Bootloader_IsValidApp() == FALSE)
     {
         UART_SendString("BL: invalid app \r\n");
         while(1);
-    }
+    }*/
 
     uint32_t msp0  = *(volatile uint32_t*)C_FLASH_APP_BASE;        // initial MSP
     uint32_t reset = *(volatile uint32_t*)(C_FLASH_APP_BASE + 4U); // Reset_Handler
     void (*App_reset_handler)(void) = (void(*)(void))reset;
 
-    UART_SendString("BL: jumping to app\r\n");
-    SysTick_DelayMs(10);   // small delay to flush UART
+    //UART_SendString("BL: jumping to app\r\n");
+    //SysTick_DelayMs(10);   // small delay to flush UART
     // Disable interrupts
     __disable_irq();
 
     SysTick->CTRL = 0U; // Disable SysTick before jumping
     SysTick->LOAD = 0U;
-    SysTick->VAL  = 0U; 
+    SysTick->VAL  = 0U;
+
 
     // Relocate vector table - give the offset
     //SCB->VTOR = (C_FLASH_APP_BASE & 0xFFFFFF00U);  // 0x08004000 for your map
@@ -169,18 +170,28 @@ void Bootloader_JumpToApp(void) {
     // Set MSP from app's vector table to load new stack pointer
     __set_MSP(msp0);
 
-    __set_CONTROL(0);  /* Ensure previleged mode + MSP usage*/
+    //__set_CONTROL(0);  /* Ensure previleged mode + MSP usage*/
 
     // For synchronization barriers
     __DSB();
     __ISB();
 
-    __enable_irq();    
+    //__enable_irq();    
     // Jump to application
     App_reset_handler(); // if it arrived here, never returns
 }
 
 void Bootloader_run() {
+
+        RCC->AHBENR |= (1U << 21);                             // Activer horloge GPIOE
+    GPIOE->MODER = (GPIOE->MODER & ~(3U << (9*2))) | (1U << (9*2));  // PE9 en sortie
+    for (int k = 0; k < 6; k++) {
+        GPIOE->BSRR = (1U << 9);                           // LED ON
+        for (volatile uint32_t i = 0; i < 400000; i++);
+        GPIOE->BSRR = (1U << (9 + 16));                    // LED OFF
+        for (volatile uint32_t i = 0; i < 400000; i++);
+    }
+
     //Init phase 
     Bootloader_Init();
     
