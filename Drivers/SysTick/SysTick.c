@@ -11,7 +11,7 @@ void SysTick_Init(uint32_t ticks_per_second)
     // Clear current value - reset counter
     SysTick->VAL = 0UL; 
 
-    // Enable SysTck - CPU clock - inpterrupt
+    // Enable SysTck - CPU clock - inpterrupt = 0x07
     SysTick->CTRL = C_SysTick_CTRL_ENABLE_Msk | C_SysTick_CTRL_TICKINT_Msk | C_SysTick_CTRL_CLKSOURCE_Msk;    
 }
 

@@ -162,7 +162,9 @@ void Bootloader_JumpToApp(void) {
     SysTick->VAL  = 0U; 
 
     // Relocate vector table - give the offset
-    SCB->VTOR = (C_FLASH_APP_BASE & 0xFFFFFF00U);  // 0x08004000 for your map
+    //SCB->VTOR = (C_FLASH_APP_BASE & 0xFFFFFF00U);  // 0x08004000 for your map
+    SCB->VTOR = 0x08004000;
+
     
     // Set MSP from app's vector table to load new stack pointer
     __set_MSP(msp0);
