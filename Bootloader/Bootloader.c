@@ -182,6 +182,7 @@ void Bootloader_JumpToApp(void) {
 }
 
 void Bootloader_run() {
+    SystemInit();
 
         RCC->AHBENR |= (1U << 21);                             // Activer horloge GPIOE
     GPIOE->MODER = (GPIOE->MODER & ~(3U << (9*2))) | (1U << (9*2));  // PE9 en sortie
