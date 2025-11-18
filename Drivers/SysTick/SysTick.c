@@ -10,7 +10,6 @@ void SysTick_Init(uint32_t ticks_per_second)
     SysTick->LOAD = (SystemCoreClock / 1000U) - 1UL;
     // Clear current value - reset counter
     SysTick->VAL = 0UL; 
-
     // Enable SysTck - CPU clock - inpterrupt = 0x07
     SysTick->CTRL = C_SysTick_CTRL_ENABLE_Msk | C_SysTick_CTRL_TICKINT_Msk | C_SysTick_CTRL_CLKSOURCE_Msk;    
 }
