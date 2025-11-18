@@ -8,5 +8,4 @@ void RCC_EnableLSI(void)
     {
         // wait
     }
-    
 }
