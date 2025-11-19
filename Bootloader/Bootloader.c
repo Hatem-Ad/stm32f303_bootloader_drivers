@@ -182,16 +182,6 @@ void Bootloader_JumpToApp(void) {
 }
 
 void Bootloader_run() {
-    SystemInit();
-
-        RCC->AHBENR |= (1U << 21);                             // Activer horloge GPIOE
-    GPIOE->MODER = (GPIOE->MODER & ~(3U << (9*2))) | (1U << (9*2));  // PE9 en sortie
-    for (int k = 0; k < 6; k++) {
-        GPIOE->BSRR = (1U << 9);                           // LED ON
-        for (volatile uint32_t i = 0; i < 400000; i++);
-        GPIOE->BSRR = (1U << (9 + 16));                    // LED OFF
-        for (volatile uint32_t i = 0; i < 400000; i++);
-    }
 
     //Init phase 
     Bootloader_Init();
