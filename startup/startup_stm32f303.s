@@ -146,29 +146,29 @@ Reset_Handler:
 
 
 /* Blink très tôt sur PE9 pour prouver que Reset_Handler s’exécute */
-  ldr r3, =0x40021014      /* RCC->AHBENR */
-  ldr r2, =0x00200000      /* bit21: GPIOEEN */
-  ldr r1, [r3]
-  orr r1, r1, r2
-  str r1, [r3]
+  //ldr r3, =0x40021014      /* RCC->AHBENR */
+  //ldr r2, =0x00200000      /* bit21: GPIOEEN */
+  //ldr r1, [r3]
+  //orr r1, r1, r2
+  //str r1, [r3]
 
-  ldr r3, =0x48001000      /* GPIOE base */
-  ldr r1, [r3, #0x00]      /* MODER */
-  ldr r2, =(1<<(10*2))      /* PE9 en sortie */
-  ldr r0, =(3<<(10*2))
-  bic r1, r1, r0
-  orr r1, r1, r2
-  str r1, [r3, #0x00]
+  //ldr r3, =0x48001000      /* GPIOE base */
+  //ldr r1, [r3, #0x00]      /* MODER */
+  //ldr r2, =(1<<(10*2))      /* PE9 en sortie */
+  //ldr r0, =(3<<(10*2))
+  //bic r1, r1, r0
+  //orr r1, r1, r2
+  //str r1, [r3, #0x00]
 
-  ldr r2, =(1<<10)          /* BSRR set */
-  str r2, [r3, #0x18]
-  movs r0, #0
-1:
-  adds r0, r0, #1
-  cmp  r0, #0
-  bne 1b
-  ldr r2, =(1<<(10+16))     /* BSRR reset */
-  str r2, [r3, #0x18]
+  //ldr r2, =(1<<10)          /* BSRR set */
+  //str r2, [r3, #0x18]
+  //movs r0, #0
+//1:
+  //adds r0, r0, #1
+  //cmp  r0, #0
+  //bne 1b
+  //ldr r2, =(1<<(10+16))     /* BSRR reset */
+  //str r2, [r3, #0x18]
 
 
   /* Call SystemInit and main() */
