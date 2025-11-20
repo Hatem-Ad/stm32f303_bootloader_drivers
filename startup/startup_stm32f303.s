@@ -124,8 +124,8 @@ EXTI4_IRQHandler:      b Default_Handler
 Reset_Handler:
   /* Copy .data from FLASH to RAM */
   ldr r0, =_sidata
-  ldr r1, =_sdata
-  ldr r2, =_edata
+  ldr r1, =_sdata // start
+  ldr r2, =_edata // enc
 1:
   cmp r1, r2
   ittt lt
