@@ -129,8 +129,8 @@ Reset_Handler:
 1:
   cmp r1, r2
   ittt lt
-  ldrlt r3, [r0], #4
-  strlt r3, [r1], #4
+  ldrlt r3, [r0], #4 // load
+  strlt r3, [r1], #4 // load
   blt 1b
 
   // Zero .bss
