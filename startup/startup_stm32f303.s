@@ -170,7 +170,6 @@ Reset_Handler:
   //ldr r2, =(1<<(10+16))     /* BSRR reset */
   //str r2, [r3, #0x18]
 
-
   /* Call SystemInit and main() */
 bl SystemInit
 bl main
