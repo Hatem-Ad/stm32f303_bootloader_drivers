@@ -24,3 +24,9 @@ void SysTick_DelayMs(uint32_t delay)
     uint32_t start = V_TickCount;
     while ((V_TickCount - start) < delay);
 }
+
+void SysTick_Disable(uint32_t ticks_per_second)
+{
+    // Disable SysTck
+    SysTick->CTRL = ~C_SysTick_CTRL_ENABLE_Msk;
+}
