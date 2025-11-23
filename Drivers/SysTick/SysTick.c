@@ -25,8 +25,9 @@ void SysTick_DelayMs(uint32_t delay)
     while ((V_TickCount - start) < delay);
 }
 
-void SysTick_Disable()
+void SysTick_Disable(void)
 {
-    // Disable SysTck
-    SysTick->CTRL = ~C_SysTick_CTRL_ENABLE_Msk;
+    SysTick->CTRL = 0;   // disable counter + interrupts + clock
+    SysTick->LOAD = 0;   // clear reload register
+    SysTick->VAL  = 0;   // clear current value
 }
