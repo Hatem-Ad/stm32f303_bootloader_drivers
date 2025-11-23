@@ -157,9 +157,11 @@ void Bootloader_JumpToApp(void) {
     // Disable interrupts
     __disable_irq();
 
-    SysTick->CTRL = 0U; // Disable SysTick before jumping
-    SysTick->LOAD = 0U;
-    SysTick->VAL  = 0U;
+    //SysTick->CTRL = 0U; // Disable SysTick before jumping
+    //SysTick->LOAD = 0U;
+    //SysTick->VAL  = 0U;
+
+    void SysTick_Disable();
 
 
     // Relocate vector table - give the offset

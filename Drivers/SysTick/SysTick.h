@@ -48,4 +48,6 @@ void SysTick_DelayMs(uint32_t delay);
  */
 void SysTick_Handler(void);
 
+void SysTick_Disable(void);
+
 #endif // SysTick_H
