@@ -48,6 +48,20 @@ void SysTick_DelayMs(uint32_t delay);
  */
 void SysTick_Handler(void);
 
+/**
+ * @brief  Completely disables the SysTick timer.
+ *
+ * This function stops the SysTick counter, disables its interrupt,
+ * clears the reload value, and resets the current counter.
+ * It ensures the SysTick timer from the bootloader does not continue
+ * running when jumping to the user application.
+ *
+ * @note
+ *  - Call this function *after* disabling global interrupts (`__disable_irq()`).
+ *  - Must be called *before* executing the application's reset handler.
+ *  - Prevents unexpected SysTick interrupts from interfering with the user app.
+ *  - Required when switching context from bootloader to application.
+ */
 void SysTick_Disable(void);
 
 #endif // SysTick_H
