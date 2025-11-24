@@ -55,6 +55,19 @@ typedef enum {
     E_GPIO_PULLDOWN = 2
 } TE_GPIO_pull_t;
 
+//GPIO pins declaration
+#define C_GPIO_Pin_0    0
+#define C_GPIO_Pin_1    1
+#define C_GPIO_Pin_2    2
+#define C_GPIO_Pin_3    3
+#define C_GPIO_Pin_4    4
+#define C_GPIO_Pin_5    5
+#define C_GPIO_Pin_6    6
+#define C_GPIO_Pin_7    7
+#define C_GPIO_Pin_8    8
+#define C_GPIO_Pin_9    9
+#define C_GPIO_Pin_10   10
+
 
 /**
  * @brief Initialize all used GPIO ports.
