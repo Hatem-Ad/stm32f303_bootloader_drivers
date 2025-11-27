@@ -22,7 +22,7 @@ int main(void)
         UART_SendString("App running OK\r\n");
         GPIO_Toggle(GPIOE, C_GPIO_Pin_9);   // Blink LED
         SysTick_DelayMs(500);
-        GPIO_InitPort(GPIOE);
+        //GPIO_InitPort(GPIOE);
         GPIO_Toggle(GPIOE, C_GPIO_Pin_8);
         for (volatile int i = 0; i < 1000000; i++);
     }
