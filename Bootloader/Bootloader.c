@@ -201,7 +201,7 @@ void Bootloader_run() {
             UART_SendString("BL: update failed, staying in bootloader\r\n");
             while (1)
             {
-                GPIO_Toggle(GPIOE, 9);
+                GPIO_Toggle(GPIOE, C_GPIO_Pin_9);
                 SysTick_DelayMs(500);
             }
         } 
@@ -219,7 +219,7 @@ void Bootloader_run() {
             UART_SendString("BL: no valid app\r\n");
             while (1)
             {
-                GPIO_Toggle(GPIOE, 9);
+                GPIO_Toggle(GPIOE, C_GPIO_Pin_9);
                 SysTick_DelayMs(500); 
             }
             
