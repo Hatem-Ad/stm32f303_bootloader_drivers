@@ -4,5 +4,5 @@ int main(void) {
 //Execute main program logic
     Bootloader_run();
 // loop while current is on
-    while (1){ /* never return */}
+    while (1);
 }
