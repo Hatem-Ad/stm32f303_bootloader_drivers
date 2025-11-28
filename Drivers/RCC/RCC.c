@@ -4,8 +4,5 @@
 void RCC_EnableLSI(void)
 {
     RCC->CSR |= C_RCC_CSR_LSION;
-    while ((RCC->CSR & C_RCC_CSR_LSIRDY) == 0U)
-    {
-        // wait
-    }
+    while ((RCC->CSR & C_RCC_CSR_LSIRDY) == 0U);
 }
