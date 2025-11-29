@@ -7,10 +7,7 @@ void SystemInit(void)
 {
     /* 1. Enable HSI (8 MHz internal oscillator) */
     RCC->CR |= C_RCC_CR_HSION;
-    while ((RCC->CR & C_RCC_CR_HSIRDY) == 0)
-    {
-        // Wait until HSI ready
-    }   
+    while ((RCC->CR & C_RCC_CR_HSIRDY) == 0);   // Wait until HSI ready
 
     /* 2. Reset CFGR*/
     RCC->CFGR = 0x00000000;
@@ -33,7 +30,7 @@ void SystemInit(void)
     while ((RCC->CFGR & C_RCC_CFGR_SWS_Msk) != C_RCC_CFGR_SWS_PLL);
 
     /* 7. Set Vector Table offset */
-    SCB->VTOR = FLASH_BASE;
+    SCB->VTOR = C_FLASH_BASE;
 
     /* Update System Core Clock variable */
     SystemCoreClock = 72000000; // 72 MHz default
