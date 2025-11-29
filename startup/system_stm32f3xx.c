@@ -27,10 +27,13 @@ void SystemInit(void)
     RCC->CR |= C_RCC_CR_PLLON;
     while (!(RCC->CR & C_RCC_CR_PLLRDY));   // Wait until PLL locked
 
-    /* Select PLL as system clock */
+    /* 6. Select PLL as system clock */
     RCC->CFGR &= ~C_RCC_CFGR_SW_Msk;
     RCC->CFGR |=  C_RCC_CFGR_SW_PLL;
     while ((RCC->CFGR & C_RCC_CFGR_SWS_Msk) != C_RCC_CFGR_SWS_PLL);
+
+    /* 7. Set Vector Table offset */
+    SCB->VTOR = FLASH_BASE;
 
     /* Update System Core Clock variable */
     SystemCoreClock = 72000000; // 72 MHz default
