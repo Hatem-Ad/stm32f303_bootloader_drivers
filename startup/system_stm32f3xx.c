@@ -5,11 +5,17 @@ uint32_t SystemCoreClock = 8000000U;        //default HSI frequency before PLL s
 
 void SystemInit(void)
 {
-    /* Enable HSI (8 MHz internal oscillator) */
+    /* 1. Enable HSI (8 MHz internal oscillator) */
     RCC->CR |= C_RCC_CR_HSION;
-    while (!(RCC->CR & C_RCC_CR_HSIRDY));   // Wait until HSI ready
+    while ((RCC->CR & C_RCC_CR_HSIRDY) == 0)
+    {
+        // Wait until HSI ready
+    }   
 
-    /* Configure Flash latency for 72 MHz */
+    /* 2. Reset CFGR*/
+    RCC->CFGR = 0x00000000;
+
+    /* 3. Configure Flash latency for 72 MHz */
     FLASH->ACR |= C_FLASH_ACR_PRFTBE;       // Enable prefetch buffer
     FLASH->ACR &= ~C_FLASH_ACR_LATENCY;     // Clear latency bits
     FLASH->ACR |= C_FLASH_ACR_LATENCY_2;    // Set 2 wait states
