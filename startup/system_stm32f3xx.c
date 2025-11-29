@@ -15,16 +15,15 @@ void SystemInit(void)
     /* 2. Reset CFGR*/
     RCC->CFGR = 0x00000000;
 
-    /* 3. Configure Flash latency for 72 MHz */
-    FLASH->ACR |= C_FLASH_ACR_PRFTBE;       // Enable prefetch buffer
-    FLASH->ACR &= ~C_FLASH_ACR_LATENCY;     // Clear latency bits
-    FLASH->ACR |= C_FLASH_ACR_LATENCY_2;    // Set 2 wait states
+    /* 3. Configure Flash latency for 72 MHz (2 wait states for 72 MHz)*/
+    FLASH->ACR = C_FLASH_ACR_PRFTBE | C_FLASH_ACR_LATENCY_2;
+    
 
-    /* Configure the PLL: source = HSI/2 = 4 MHz, multiply by 18 → 72 MHz */
+    /* 4. Configure the PLL: source = HSI/2 = 4 MHz, multiply by 18 → 72 MHz */
     RCC->CFGR &= ~(C_RCC_CFGR_PLLSRC | C_RCC_CFGR_PLLXTPRE | C_RCC_CFGR_PLLMUL_Msk);
     RCC->CFGR |=  (C_RCC_CFGR_PLLSRC_HSI_Div2 | C_RCC_CFGR_PLLMUL18);
 
-    /* Enable PLL */
+    /* 5. Enable PLL */
     RCC->CR |= C_RCC_CR_PLLON;
     while (!(RCC->CR & C_RCC_CR_PLLRDY));   // Wait until PLL locked
 
