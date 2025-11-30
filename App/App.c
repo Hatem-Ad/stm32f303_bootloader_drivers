@@ -7,6 +7,8 @@
 
 int main(void)
 {
+
+    SysTick_Init(1000);
     // Initialize UART for debugging
     UART_Init();
     UART_SendString("Hello from the Application !\r\n");
