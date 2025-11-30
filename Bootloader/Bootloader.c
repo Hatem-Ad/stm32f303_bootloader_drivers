@@ -42,6 +42,15 @@ void Bootloader_Init(void) {
                 E_GPIO_SPEED_LOW, 
                 E_GPIO_PULLUP);
 
+    // LED pins
+    GPIO_InitPort(GPIOE);
+    GPIO_Config(GPIOE, C_GPIO_Pin_9, E_GPIO_MODE_OUTPUT,
+                E_GPIO_OTYPE_PP, E_GPIO_SPEED_HIGH, E_GPIO_NPULL);
+    GPIO_Config(GPIOE, C_GPIO_Pin_8, E_GPIO_MODE_OUTPUT,
+                E_GPIO_OTYPE_PP, E_GPIO_SPEED_HIGH, E_GPIO_NPULL);
+
+    
+    GPIO_Init();
     UART_Init();
     SysTick_Init(1000);     // 1 ms tick for delays and timeouts
     __enable_irq();
@@ -161,7 +170,7 @@ void Bootloader_JumpToApp(void) {
     //SysTick->LOAD = 0U;
     //SysTick->VAL  = 0U;
 
-    void SysTick_Disable();
+    SysTick_Disable();
 
 
     // Relocate vector table - give the offset
@@ -178,7 +187,7 @@ void Bootloader_JumpToApp(void) {
     __DSB();
     __ISB();
 
-    //__enable_irq();    
+    __enable_irq();    
     // Jump to application
     App_reset_handler(); // if it arrived here, never returns
 }

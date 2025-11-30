@@ -11,7 +11,9 @@ void SystemInit(void)
 
     /* 2. Reset CFGR*/
     RCC->CFGR = 0x00000000;
+    RCC->CFGR2 = 0x00000000;    // IMPORTANT: PREDIV = 1 (needed for PLL)
 
+// bootloader vector table
     /* 3. Configure Flash latency for 72 MHz (2 wait states for 72 MHz)*/
     FLASH->ACR = C_FLASH_ACR_PRFTBE | C_FLASH_ACR_LATENCY_2;
     
@@ -30,7 +32,9 @@ void SystemInit(void)
     while ((RCC->CFGR & C_RCC_CFGR_SWS_Msk) != C_RCC_CFGR_SWS_PLL);
 
     /* 7. Set Vector Table offset */
-    SCB->VTOR = C_FLASH_BASE;
+    #ifdef BOOTLOADER
+    SCB->VTOR = 0x8000000;  // bootloader vector table
+    #endif
 
     /* Update System Core Clock variable */
     SystemCoreClock = 72000000; // 72 MHz default
