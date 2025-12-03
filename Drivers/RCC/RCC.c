@@ -4,5 +4,5 @@
 void RCC_EnableLSI(void)
 {
     RCC->CSR |= C_RCC_CSR_LSION;
-    while ((RCC->CSR & C_RCC_CSR_LSIRDY) == 0U);
+    while ((RCC->CSR & C_RCC_CSR_LSIRDY) == 0U); // Repeat until the ready bit is raised
 }
