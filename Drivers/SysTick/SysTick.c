@@ -21,7 +21,7 @@ void SysTick_Handler(void)
 
 void SysTick_DelayMs(uint32_t delay)
 {
-    uint32_t start = V_TickCount;
+    uint32_t start = V_TickCount; // Take an image for the global data
     while ((V_TickCount - start) < delay);
 }
 
