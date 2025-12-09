@@ -13,7 +13,7 @@ static Boolean_t Bootloader_IsValidApp(void)
     uint32_t AppStack = *(volatile uint32_t *)C_FLASH_APP_BASE;        // APP MSP
     uint32_t AppReset = *(volatile uint32_t *)(C_FLASH_APP_BASE + 4U); // APP ResetHandler
 
-    // 1. Check that the initial stack pinter is in valid SRAM range
+    /*// 1. Check that the initial stack pinter is in valid SRAM range
     if (!((AppStack >= 0x20000000U && AppStack <= 0x2000A000U) ||
        (AppStack >= 0x10000000U && AppStack <= 0x10002000U)))
     {
@@ -26,6 +26,22 @@ static Boolean_t Bootloader_IsValidApp(void)
         return FALSE;
     }
     
+    return FALSE; // DEBUG: forcer le clignotement LED*/
+
+        // 1) Stack doit être dans la SRAM
+    if ((AppStack & C_BL_VALID_SRAM_MASK) != C_BL_VALID_SRAM_ADDR)
+    {
+        return FALSE;
+    }
+
+    // 2) Reset handler doit pointer dans la zone flash de l'app
+    if ((AppReset < C_APP_START_ADDRESS) ||
+        (AppReset > C_APP_END_ADDRESS)   ||
+        (AppReset & 0x1U))               // Doit être adresse Thumb (bit0 = 1)
+    {
+        return FALSE;
+    }
+
     return TRUE;
 }
 
@@ -196,6 +212,8 @@ void Bootloader_run() {
 
     //Init phase 
     Bootloader_Init();
+    GPIO_Toggle(GPIOE, C_GPIO_Pin_9);
+            SysTick_DelayMs(5000);
     
     //Check the bootloader update
     if (Bootloader_CheckForUpdate()) {
@@ -203,6 +221,8 @@ void Bootloader_run() {
         if (Bootloader_ReceiveFirmware() == E_BL_OK)
         {
             UART_SendString("BL: update successful\r\n");
+            GPIO_Toggle(GPIOE, C_GPIO_Pin_9);
+            SysTick_DelayMs(5000);
             Bootloader_JumpToApp(); //Jump to user application in flash
         }
         else
