@@ -83,13 +83,29 @@ typedef struct {
 #define C_RCC_CFGR_PLLSRC_Pos     16U
 #define C_RCC_CFGR_PLLSRC         (1U << C_RCC_CFGR_PLLSRC_Pos)
 #define C_RCC_CFGR_PLLXTPRE       (1U << 17)
-#define C_RCC_CFGR_PLLMUL_Pos     9U
+#define C_RCC_CFGR_PLLMUL_Pos     18U
 #define C_RCC_CFGR_PLLMUL_Msk     (0xFU << C_RCC_CFGR_PLLMUL_Pos)
 
 #define C_RCC_CFGR_PLLSRC_HSI_Div2  (0U << C_RCC_CFGR_PLLSRC_Pos) // HSI/2 input
 //#define C_RCC_CFGR_PLLMUL18       (9U << C_RCC_CFGR_PLLMUL_Pos) // x18 = 72 MHz
-#define C_RCC_CFGR_PLLMUL9          (9U << C_RCC_CFGR_PLLMUL_Pos) // x9 = 72 MHz
+//#define C_RCC_CFGR_PLLMUL9          (9U << C_RCC_CFGR_PLLMUL_Pos) // x9 = 72 MHz
 #define C_RCC_CFGR_PLLSRC_HSE_PREDIV   (1U << 16)
+
+#define C_RCC_CFGR_PLLMUL2    (0x0U << 18)
+#define C_RCC_CFGR_PLLMUL3    (0x1U << 18)
+#define C_RCC_CFGR_PLLMUL4    (0x2U << 18)
+#define C_RCC_CFGR_PLLMUL5    (0x3U << 18)
+#define C_RCC_CFGR_PLLMUL6    (0x4U << 18)
+#define C_RCC_CFGR_PLLMUL7    (0x5U << 18)
+#define C_RCC_CFGR_PLLMUL8    (0x6U << 18)
+#define C_RCC_CFGR_PLLMUL9    (0x7U << 18)
+#define C_RCC_CFGR_PLLMUL10   (0x8U << 18)
+#define C_RCC_CFGR_PLLMUL11   (0x9U << 18)
+#define C_RCC_CFGR_PLLMUL12   (0xAU << 18)
+#define C_RCC_CFGR_PLLMUL13   (0xBU << 18)
+#define C_RCC_CFGR_PLLMUL14   (0xCU << 18)
+#define C_RCC_CFGR_PLLMUL15   (0xDU << 18)
+#define C_RCC_CFGR_PLLMUL16   (0xEU << 18)
 
 
 /* Combined PLL masks */
