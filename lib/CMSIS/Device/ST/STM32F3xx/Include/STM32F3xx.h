@@ -61,8 +61,12 @@ typedef struct {
 /*-------------------- Controle register Bits --------------------*/
 #define C_RCC_CR_HSION            (1U << 0)   // Enable HSI
 #define C_RCC_CR_HSIRDY           (1U << 1)   // HSI ready flag
+#define C_RCC_CR_HSEON            (1U << 16)  // Enable HSE
+#define C_RCC_CR_HSERDY           (1U << 17)  // HSE ready flag
 #define C_RCC_CR_PLLON            (1U << 24)  // Enable PLL
 #define C_RCC_CR_PLLRDY           (1U << 25)  // PLL ready flag
+
+
 
 /*-------------------- Configure register Bits --------------------*/
 #define C_RCC_CFGR_SW_Pos         0U
@@ -79,11 +83,14 @@ typedef struct {
 #define C_RCC_CFGR_PLLSRC_Pos     16U
 #define C_RCC_CFGR_PLLSRC         (1U << C_RCC_CFGR_PLLSRC_Pos)
 #define C_RCC_CFGR_PLLXTPRE       (1U << 17)
-#define C_RCC_CFGR_PLLMUL_Pos     18U
+#define C_RCC_CFGR_PLLMUL_Pos     9U
 #define C_RCC_CFGR_PLLMUL_Msk     (0xFU << C_RCC_CFGR_PLLMUL_Pos)
 
 #define C_RCC_CFGR_PLLSRC_HSI_Div2  (0U << C_RCC_CFGR_PLLSRC_Pos) // HSI/2 input
-#define C_RCC_CFGR_PLLMUL18         (9U << C_RCC_CFGR_PLLMUL_Pos) // x18 = 72 MHz
+//#define C_RCC_CFGR_PLLMUL18       (9U << C_RCC_CFGR_PLLMUL_Pos) // x18 = 72 MHz
+#define C_RCC_CFGR_PLLMUL9          (9U << C_RCC_CFGR_PLLMUL_Pos) // x9 = 72 MHz
+#define C_RCC_CFGR_PLLSRC_HSE_PREDIV   (1U << 16)
+
 
 /* Combined PLL masks */
 #define C_RCC_CFGR_PLL_MASK   (C_RCC_CFGR_PLLSRC | C_RCC_CFGR_PLLXTPRE | C_RCC_CFGR_PLLMUL_Msk)
