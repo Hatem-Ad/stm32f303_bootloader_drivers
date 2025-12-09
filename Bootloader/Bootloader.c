@@ -37,7 +37,7 @@ static Boolean_t Bootloader_IsValidApp(void)
     // 2) Reset handler doit pointer dans la zone flash de l'app
     if ((AppReset < C_APP_START_ADDRESS) ||
         (AppReset > C_APP_END_ADDRESS)   ||
-        (AppReset & 0x1U))               // Doit être adresse Thumb (bit0 = 1)
+        (AppReset & 0x1U) == 0U)          // Invalid if bit0 = 0 (no Thumb)
     {
         return FALSE;
     }
@@ -188,14 +188,16 @@ void Bootloader_JumpToApp(void) {
 
     SysTick_Disable();
 
+        
+    // Set MSP from app's vector table to load new stack pointer
+    __set_MSP(msp0);
 
     // Relocate vector table - give the offset
     //SCB->VTOR = (C_FLASH_APP_BASE & 0xFFFFFF00U);  // 0x08004000 for your map
-    SCB->VTOR = 0x08004000;
+    //SCB->VTOR = 0x08004000;
+    SCB->VTOR = C_APP_START_ADDRESS;
 
-    
-    // Set MSP from app's vector table to load new stack pointer
-    __set_MSP(msp0);
+
 
     //__set_CONTROL(0);  /* Ensure previleged mode + MSP usage*/
 
@@ -208,7 +210,7 @@ void Bootloader_JumpToApp(void) {
     App_reset_handler(); // if it arrived here, never returns
 }
 
-void Bootloader_run() {
+/*void Bootloader_run() {
 
     //Init phase 
     Bootloader_Init();
@@ -255,5 +257,16 @@ void Bootloader_run() {
         }
     }
 
+}*/
+
+void Bootloader_run() 
+{
+    Bootloader_Init();
+
+    while (1)
+    {
+        GPIO_Toggle(GPIOE, C_GPIO_Pin_9);
+        SysTick_DelayMs(500);
+    }
 }
 
