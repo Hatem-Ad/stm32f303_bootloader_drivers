@@ -5,35 +5,35 @@ uint32_t SystemCoreClock = 8000000U;        //default HSI frequency before PLL s
 
 void SystemInit(void)
 {
-    /* 1. Enable HSI (always present) */
-    RCC->CR |= C_RCC_CR_HSION;
-    while (!(RCC->CR & C_RCC_CR_HSIRDY));
+/* 1. Enable HSI (always present) */
+RCC->CR |= C_RCC_CR_HSION;
+while (!(RCC->CR & C_RCC_CR_HSIRDY));
 
-    /* 2. Flash latency for 64 MHz */
-    FLASH->ACR = C_FLASH_ACR_PRFTBE | C_FLASH_ACR_LATENCY_2;
+/* 2. Flash latency for 64 MHz */
+FLASH->ACR = C_FLASH_ACR_PRFTBE | C_FLASH_ACR_LATENCY_2;
 
-    /* 3. PLL config: HSI/2 = 4 MHz → 4 * 16 = 64 MHz */
-    RCC->CFGR2 = 0x00000000;        // PREDIV = 1
-    RCC->CFGR &= ~(C_RCC_CFGR_PLLSRC | C_RCC_CFGR_PLLMUL_Msk);
+/* 3. PLL config: HSI/2 = 4 MHz → 4 * 16 = 64 MHz */
+RCC->CFGR2 = 0x00000000;        // PREDIV = 1
+RCC->CFGR &= ~(C_RCC_CFGR_PLLSRC | C_RCC_CFGR_PLLMUL_Msk);
+/* PLL source = HSI/2 (PLLSRC = 0) */
+RCC->CFGR |= C_RCC_CFGR_PLLMUL16;
 
-    /* PLL source = HSI/2 (PLLSRC = 0) */
-    RCC->CFGR |= C_RCC_CFGR_PLLMUL16;
+/* 4. Enable PLL */
+RCC->CR |= C_RCC_CR_PLLON;
+while (!(RCC->CR & C_RCC_CR_PLLRDY));
 
-    /* 4. Enable PLL */
-    RCC->CR |= C_RCC_CR_PLLON;
-    while (!(RCC->CR & C_RCC_CR_PLLRDY));
-
-    /* 5. SYSCLK = PLL */
-    RCC->CFGR &= ~C_RCC_CFGR_SW_Msk;
-    RCC->CFGR |=  C_RCC_CFGR_SW_PLL;
-    while ((RCC->CFGR & C_RCC_CFGR_SWS_Msk) != C_RCC_CFGR_SWS_PLL);
+/* 5. SYSCLK = PLL */
+RCC->CFGR &= ~C_RCC_CFGR_SW_Msk;
+RCC->CFGR |=  C_RCC_CFGR_SW_PLL;
+while ((RCC->CFGR & C_RCC_CFGR_SWS_Msk) != C_RCC_CFGR_SWS_PLL);
 
 #ifdef BOOTLOADER
     SCB->VTOR = 0x08000000;
 #endif
 
-    /* 6. Update clock */
-    SystemCoreClock = 64000000;
+/* 6. Update clock */
+SystemCoreClock = 64000000;
+
 }
 
 
