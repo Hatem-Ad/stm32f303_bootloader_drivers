@@ -34,6 +34,7 @@ while ((RCC->CFGR & C_RCC_CFGR_SWS_Msk) != C_RCC_CFGR_SWS_PLL);
 /* 6. Update clock */
 SystemCoreClock = 64000000;
 
+
 }
 
 

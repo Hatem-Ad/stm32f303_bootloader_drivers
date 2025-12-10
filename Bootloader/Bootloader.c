@@ -210,7 +210,7 @@ void Bootloader_JumpToApp(void) {
     App_reset_handler(); // if it arrived here, never returns
 }
 
-/*void Bootloader_run() {
+void Bootloader_run() {
 
     //Init phase 
     Bootloader_Init();
@@ -257,9 +257,9 @@ void Bootloader_JumpToApp(void) {
         }
     }
 
-}*/
+}
 
-void Bootloader_run() 
+/*void Bootloader_run() 
 {
     Bootloader_Init();
 
@@ -268,5 +268,5 @@ void Bootloader_run()
         GPIO_Toggle(GPIOE, C_GPIO_Pin_9);
         SysTick_DelayMs(500);
     }
-}
+}*/
 
