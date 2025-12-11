@@ -119,3 +119,23 @@ Forever:
     b Forever
 
 .size Reset_Handler, .-Reset_Handler
+
+/* Force blink VERY early to see if CPU is alive */
+ldr r3, =0x40021014      /* RCC->AHBENR */
+ldr r2, =0x00200000      /* GPIOEEN bit21 */
+ldr r1, [r3]
+orr r1, r1, r2
+str r1, [r3]
+
+/* PE9 output */
+ldr r3, =0x48001000      /* GPIOE */
+ldr r1, [r3]
+ldr r2, =(1<<(9*2))
+ldr r0, =(3<<(9*2))
+bic r1, r1, r0
+orr r1, r1, r2
+str r1, [r3]
+
+/* Turn LED ON */
+ldr r2, =(1<<9)
+str r2, [r3, #0x18]
