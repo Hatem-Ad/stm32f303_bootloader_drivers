@@ -69,7 +69,7 @@ SysTick_Handler:       b Default_Handler
 .extern _ebss
 
 .extern SystemInit
-.extern main          /* <-- ENTRYPOINT correct */
+.extern main
 
 /*-----------------------------------------------------------
  *  Reset Handler
@@ -80,6 +80,27 @@ SysTick_Handler:       b Default_Handler
 
 .thumb_func
 Reset_Handler:
+
+    /* ==== DEBUG: Force LED PE9 ON very early ==== */
+    ldr r3, =0x40021014      /* RCC->AHBENR */
+    ldr r2, =0x00200000      /* GPIOEEN bit21 */
+    ldr r1, [r3]
+    orr r1, r1, r2
+    str r1, [r3]
+
+    ldr r3, =0x48001000      /* GPIOE base */
+    ldr r1, [r3, #0x00]      /* MODER */
+    ldr r2, =(1<<(9*2))      /* PE9 output */
+    ldr r0, =(3<<(9*2))
+    bic r1, r1, r0
+    orr r1, r1, r2
+    str r1, [r3, #0x00]
+
+    /* Turn LED ON */
+    ldr r2, =(1<<9)
+    str r2, [r3, #0x18]
+
+    /* ==== Normal startup: init .data/.bss ==== */
 
     /* Copy .data from FLASH to RAM */
     ldr r0, =_sidata
@@ -111,7 +132,7 @@ DoZero:
 CallSystemInit:
     bl  SystemInit
 
-/* Jump to main() */
+/* Call main() (which calls Bootloader_run) */
     bl  main
 
 /* If main() returns, loop forever */
@@ -119,23 +140,3 @@ Forever:
     b Forever
 
 .size Reset_Handler, .-Reset_Handler
-
-/* Force blink VERY early to see if CPU is alive */
-ldr r3, =0x40021014      /* RCC->AHBENR */
-ldr r2, =0x00200000      /* GPIOEEN bit21 */
-ldr r1, [r3]
-orr r1, r1, r2
-str r1, [r3]
-
-/* PE9 output */
-ldr r3, =0x48001000      /* GPIOE */
-ldr r1, [r3]
-ldr r2, =(1<<(9*2))
-ldr r0, =(3<<(9*2))
-bic r1, r1, r0
-orr r1, r1, r2
-str r1, [r3]
-
-/* Turn LED ON */
-ldr r2, =(1<<9)
-str r2, [r3, #0x18]
