@@ -14,8 +14,8 @@
 .type g_pfnVectors, %object
 
 g_pfnVectors:
-    .word   _estack                /* 0: Initial Stack Pointer */
-    .word   Reset_Handler          /* 1: Reset Handler */
+    .word   _estack
+    .word   Reset_Handler
     .word   NMI_Handler
     .word   HardFault_Handler
     .word   MemManage_Handler
@@ -32,14 +32,13 @@ g_pfnVectors:
     .word   SysTick_Handler
 
 /*-----------------------------------------------------------
- *  Default Interrupt Handlers
+ *  Default Handlers
  *----------------------------------------------------------*/
 .section .text.Default_Handler,"ax",%progbits
 Default_Handler:
 Infinite_Loop:
     b Infinite_Loop
 
-/* Weak handlers */
 .weak NMI_Handler
 .weak HardFault_Handler
 .weak MemManage_Handler
@@ -70,54 +69,53 @@ SysTick_Handler:       b Default_Handler
 .extern _ebss
 
 .extern SystemInit
-.extern main     /* <-- IMPORTANT :  entrypoint */
+.extern main          /* <-- ENTRYPOINT correct */
 
 /*-----------------------------------------------------------
  *  Reset Handler
  *----------------------------------------------------------*/
-.section .text.Reset_Handler, "ax", %progbits
+.section .text.Reset_Handler,"ax",%progbits
 .global Reset_Handler
-.type Reset_Handler, %function
+.type Reset_Handler,%function
 
 .thumb_func
 Reset_Handler:
 
-/* Copy .data from Flash to RAM */
+    /* Copy .data from FLASH to RAM */
     ldr r0, =_sidata
     ldr r1, =_sdata
     ldr r2, =_edata
 CopyData:
     cmp r1, r2
-    bcc 1f
-    b   InitBss
-1:
+    bcc DoCopy
+    b   InitBSS
+DoCopy:
     ldr r3, [r0], #4
     str r3, [r1], #4
     b   CopyData
 
-/* Zero-initialize .bss */
-InitBss:
+/* Zero .bss */
+InitBSS:
     ldr r0, =_sbss
     ldr r1, =_ebss
     movs r2, #0
-ZeroBss:
+ZeroLoop:
     cmp r0, r1
-    bcc 1f
+    bcc DoZero
     b   CallSystemInit
-1:
+DoZero:
     str r2, [r0], #4
-    b   ZeroBss
+    b   ZeroLoop
 
 /* Call SystemInit() */
 CallSystemInit:
     bl  SystemInit
 
-/* Jump to Bootloader_run() */
-CallBootloader:
-    bl  Bootloader_run
+/* Jump to main() */
+    bl  main
 
-/* If Bootloader_run returns, infinite loop */
-Hang:
-    b   Hang
+/* If main() returns, loop forever */
+Forever:
+    b Forever
 
-.size Reset_Handler, . - Reset_Handler
+.size Reset_Handler, .-Reset_Handler
