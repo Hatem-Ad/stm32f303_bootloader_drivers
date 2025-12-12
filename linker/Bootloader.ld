@@ -51,4 +51,10 @@ SECTIONS
 
     /* Flash load address for .data copy */
     _sidata = LOADADDR(.data);
+
+    .debugvars (NOLOAD) :
+{
+    *(.debugvars)
+} > RAM
+
 }

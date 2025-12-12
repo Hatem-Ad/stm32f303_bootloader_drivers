@@ -14,8 +14,8 @@
 .type g_pfnVectors, %object
 
 g_pfnVectors:
-    .word   _estack
-    .word   Reset_Handler
+    .word   _estack                /* Initial Stack Pointer */
+    .word   Reset_Handler          /* Reset Handler */
     .word   NMI_Handler
     .word   HardFault_Handler
     .word   MemManage_Handler
@@ -32,7 +32,7 @@ g_pfnVectors:
     .word   SysTick_Handler
 
 /*-----------------------------------------------------------
- *  Default Handlers
+ *  Default Handlers (weak definitions)
  *----------------------------------------------------------*/
 .section .text.Default_Handler,"ax",%progbits
 Default_Handler:
@@ -60,7 +60,7 @@ PendSV_Handler:        b Default_Handler
 SysTick_Handler:       b Default_Handler
 
 /*-----------------------------------------------------------
- *  External Symbols
+ *  External symbols
  *----------------------------------------------------------*/
 .extern _sidata
 .extern _sdata
@@ -76,66 +76,55 @@ SysTick_Handler:       b Default_Handler
  *----------------------------------------------------------*/
 .section .text.Reset_Handler,"ax",%progbits
 .global Reset_Handler
-.type Reset_Handler,%function
+.type Reset_Handler, %function
 
 .thumb_func
 Reset_Handler:
 
-    /* ==== DEBUG: Force LED PE9 ON very early ==== */
-    ldr r3, =0x40021014      /* RCC->AHBENR */
-    ldr r2, =0x00200000      /* GPIOEEN bit21 */
-    ldr r1, [r3]
-    orr r1, r1, r2
-    str r1, [r3]
-
-    ldr r3, =0x48001000      /* GPIOE base */
-    ldr r1, [r3, #0x00]      /* MODER */
-    ldr r2, =(1<<(9*2))      /* PE9 output */
-    ldr r0, =(3<<(9*2))
-    bic r1, r1, r0
-    orr r1, r1, r2
-    str r1, [r3, #0x00]
-
-    /* Turn LED ON */
-    ldr r2, =(1<<9)
-    str r2, [r3, #0x18]
-
-    /* ==== Normal startup: init .data/.bss ==== */
-
-    /* Copy .data from FLASH to RAM */
-    ldr r0, =_sidata
-    ldr r1, =_sdata
-    ldr r2, =_edata
+    /*-------------------------------------------------------
+     * Copy .data section from FLASH to RAM
+     *------------------------------------------------------*/
+    ldr r0, =_sidata     /* src */
+    ldr r1, =_sdata      /* dest */
+    ldr r2, =_edata      /* end */
 CopyData:
     cmp r1, r2
-    bcc DoCopy
+    bcc CopyNext
     b   InitBSS
-DoCopy:
+CopyNext:
     ldr r3, [r0], #4
     str r3, [r1], #4
     b   CopyData
 
-/* Zero .bss */
+    /*-------------------------------------------------------
+     * Zero fill the .bss section
+     *------------------------------------------------------*/
 InitBSS:
     ldr r0, =_sbss
     ldr r1, =_ebss
     movs r2, #0
 ZeroLoop:
     cmp r0, r1
-    bcc DoZero
+    bcc ZeroNext
     b   CallSystemInit
-DoZero:
+ZeroNext:
     str r2, [r0], #4
     b   ZeroLoop
 
-/* Call SystemInit() */
+    /*-------------------------------------------------------
+     * Call SystemInit()
+     *------------------------------------------------------*/
 CallSystemInit:
     bl  SystemInit
 
-/* Call main() (which calls Bootloader_run) */
+    /*-------------------------------------------------------
+     * Call main() → Bootloader_run()
+     *------------------------------------------------------*/
     bl  main
 
-/* If main() returns, loop forever */
+    /*-------------------------------------------------------
+     * If main returns → loop forever
+     *------------------------------------------------------*/
 Forever:
     b Forever
 
