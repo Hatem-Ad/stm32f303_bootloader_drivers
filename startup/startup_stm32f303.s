@@ -81,12 +81,21 @@ SysTick_Handler:       b Default_Handler
 .thumb_func
 Reset_Handler:
 
+ldr r0, =dbg_reset
+ldr r1, =0x11111111
+str r1, [r0]
+
     /*-------------------------------------------------------
      * Copy .data section from FLASH to RAM
      *------------------------------------------------------*/
     ldr r0, =_sidata     /* src */
     ldr r1, =_sdata      /* dest */
     ldr r2, =_edata      /* end */
+
+ldr r0, =dbg_reset
+ldr r1, =0x22222222
+str r1, [r0]
+
 CopyData:
     cmp r1, r2
     bcc CopyNext
@@ -99,6 +108,11 @@ CopyNext:
     /*-------------------------------------------------------
      * Zero fill the .bss section
      *------------------------------------------------------*/
+
+ldr r0, =dbg_reset
+ldr r1, =0x33333333
+str r1, [r0]
+
 InitBSS:
     ldr r0, =_sbss
     ldr r1, =_ebss
