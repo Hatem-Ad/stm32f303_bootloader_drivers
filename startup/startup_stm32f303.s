@@ -109,7 +109,7 @@ ZeroNext:
     b   ZeroLoop
 
 AfterBSS:
-    /* DEBUG SAFE (after BSS) */
+    /* DEBUG SAFE (after BSS) */ 
     ldr r4, =dbg_reset
     ldr r5, =0x44444444
     str r5, [r4]

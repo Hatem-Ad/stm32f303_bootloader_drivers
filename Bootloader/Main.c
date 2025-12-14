@@ -1,7 +1,6 @@
 #include "Bootloader.h"
 
-__attribute__((section(".debugvars")))
-volatile uint32_t maindbg = 0;
+extern volatile uint32_t maindbg;
 
 int main(void) {
 
