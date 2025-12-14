@@ -34,6 +34,7 @@ LDFLAGS = -T linker/Bootloader.ld
 SRCS = \
      Bootloader/Main.c \
      Bootloader/Bootloader.c \
+     Bootloader/DebugVars.c \
      Drivers/GPIO/GPIO.c \
      Drivers/UART/UART.c \
      Drivers/FLASH/FLASH.c \

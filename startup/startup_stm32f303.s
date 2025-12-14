@@ -68,6 +68,8 @@ SysTick_Handler:       b Default_Handler
 .extern _sbss
 .extern _ebss
 
+.extern dbg_reset
+
 .extern SystemInit
 .extern main
 
