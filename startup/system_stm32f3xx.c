@@ -1,10 +1,13 @@
 #include <stdint.h>
 #include "STM32F3xx.h"
 
+//volatile uint32_t sysdbg = 0;
+__attribute__((section(".debugvars"))) 
+volatile uint32_t sysdbg;
+
 uint32_t SystemCoreClock = 8000000U;        //default HSI frequency before PLL setup
 
-//volatile uint32_t sysdbg = 0;
-__attribute__((section(".debugvars"))) volatile uint32_t sysdbg;
+
 
 void SystemInit(void)
 {

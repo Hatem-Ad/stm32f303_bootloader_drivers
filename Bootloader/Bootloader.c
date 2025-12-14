@@ -7,6 +7,11 @@
 #include "SysTick.h"        // SysTick for delay/timeouts
 #include "Types.h"          // Defined types
 
+#include <stdint.h>
+
+__attribute__((section(".debugvars")))
+volatile uint32_t dbg_reset = 0;
+
 // -------------------- Local helpers --------------------
 static Boolean_t Bootloader_IsValidApp(void)
 {

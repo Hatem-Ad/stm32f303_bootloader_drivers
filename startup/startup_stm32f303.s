@@ -79,23 +79,13 @@ SysTick_Handler:       b Default_Handler
 .type Reset_Handler, %function
 
 .thumb_func
+
 Reset_Handler:
 
-ldr r0, =dbg_reset  // debug
-ldr r1, =0x11111111  // debug
-str r1, [r0]  // debug
-
-    /*-------------------------------------------------------
-     * Copy .data section from FLASH to RAM
-     *------------------------------------------------------*/
-    ldr r0, =_sidata     /* src */
-    ldr r1, =_sdata      /* dest */
-    ldr r2, =_edata      /* end */
-
-ldr r0, =dbg_reset  // debug
-ldr r1, =0x22222222  // debug
-str r1, [r0]  // debug
-
+    /* Copy .data */
+    ldr r0, =_sidata
+    ldr r1, =_sdata
+    ldr r2, =_edata
 CopyData:
     cmp r1, r2
     bcc CopyNext
@@ -105,14 +95,7 @@ CopyNext:
     str r3, [r1], #4
     b   CopyData
 
-    /*-------------------------------------------------------
-     * Zero fill the .bss section
-     *------------------------------------------------------*/
-
-ldr r0, =dbg_reset  // debug
-ldr r1, =0x33333333  // debug
-str r1, [r0]  // debug
-
+    /* Zero .bss */
 InitBSS:
     ldr r0, =_sbss
     ldr r1, =_ebss
@@ -120,25 +103,23 @@ InitBSS:
 ZeroLoop:
     cmp r0, r1
     bcc ZeroNext
-    b   CallSystemInit
+    b   AfterBSS
 ZeroNext:
     str r2, [r0], #4
     b   ZeroLoop
 
-    /*-------------------------------------------------------
-     * Call SystemInit()
-     *------------------------------------------------------*/
-CallSystemInit:
+AfterBSS:
+    /* DEBUG SAFE (after BSS) */
+    ldr r4, =dbg_reset
+    ldr r5, =0x44444444
+    str r5, [r4]
+
+    /* Call SystemInit */
     bl  SystemInit
 
-    /*-------------------------------------------------------
-     * Call main() → Bootloader_run()
-     *------------------------------------------------------*/
+    /* Call main */
     bl  main
 
-    /*-------------------------------------------------------
-     * If main returns → loop forever
-     *------------------------------------------------------*/
 Forever:
     b Forever
 
