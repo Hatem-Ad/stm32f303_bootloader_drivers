@@ -117,7 +117,7 @@ AfterBSS:
     str r5, [r4]
 
     /* Call SystemInit */
-    bl  SystemInit
+    //bl  SystemInit
 
     /* Call main */
     bl  main

@@ -9,6 +9,9 @@
 
 #include <stdint.h>
 
+extern volatile uint32_t maindbg;
+
+
 
 // -------------------- Local helpers --------------------
 static Boolean_t Bootloader_IsValidApp(void)
@@ -266,6 +269,7 @@ void Bootloader_JumpToApp(void) {
 
 void Bootloader_run(void)
 {
+    maindbg = 0xBBBBBBBB;
     /* Activer horloge GPIOE */
     RCC->AHBENR |= (1 << 21);
 
