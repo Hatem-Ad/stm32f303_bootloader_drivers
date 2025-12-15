@@ -269,17 +269,23 @@ void Bootloader_JumpToApp(void) {
 
 void Bootloader_run(void)
 {
-    maindbg = 0xBBBBBBBB;
-    /* Activer horloge GPIOE */
-    RCC->AHBENR |= (1 << 21);
+    volatile uint32_t *RCC_AHBENR = (uint32_t *)0x40021014U;
+    volatile uint32_t *GPIOE_MODER = (uint32_t *)0x48001000U;
+    volatile uint32_t *GPIOE_BSRR  = (uint32_t *)0x48001018U;
 
-    /* PE9 en sortie */
-    GPIOE->MODER &= ~(3 << (9 * 2));
-    GPIOE->MODER |=  (1 << (9 * 2));
+    /* GPIOE clock enable (bit21) */
+    *RCC_AHBENR |= (1U << 21);
+
+    /* PE9 output */
+    *GPIOE_MODER &= ~(3U << (9U * 2U));
+    *GPIOE_MODER |=  (1U << (9U * 2U));
 
     while (1)
     {
-        GPIOE->ODR ^= (1 << 9);
+        *GPIOE_BSRR = (1U << 9);         // ON
+        for (volatile uint32_t i = 0; i < 1000000; i++);
+
+        *GPIOE_BSRR = (1U << (9 + 16));  // OFF
         for (volatile uint32_t i = 0; i < 1000000; i++);
     }
 }
