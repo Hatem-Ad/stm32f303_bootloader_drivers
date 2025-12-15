@@ -71,8 +71,8 @@ void Bootloader_Init(void) {
     
     GPIO_Init();
     UART_Init();
-    SysTick_Init(1000);     // 1 ms tick for delays and timeouts
-    __enable_irq();
+    //SysTick_Init(1000);     // 1 ms tick for delays and timeouts
+    __disable_irq();
     UART_SendString("UART OK @72MHz\r\n");
 }
 
@@ -213,7 +213,7 @@ void Bootloader_JumpToApp(void) {
     App_reset_handler(); // if it arrived here, never returns
 }
 
-void Bootloader_run() {
+/*void Bootloader_run() {
 
     //Init phase 
     Bootloader_Init();
@@ -260,16 +260,16 @@ void Bootloader_run() {
         }
     }
 
-}
+}*/
 
-/*void Bootloader_run() 
+void Bootloader_run() 
 {
     Bootloader_Init();
 
     while (1)
     {
         GPIO_Toggle(GPIOE, C_GPIO_Pin_9);
-        SysTick_DelayMs(500);
+        for (volatile uint32_t i = 0; i < 500000; i++);
     }
-}*/
+}
 
