@@ -52,6 +52,8 @@ static Boolean_t Bootloader_IsValidApp(void)
 
 void Bootloader_Init(void) {
     // Initialize peripherals needed for bootloader
+    RCC->AHBENR |= (1 << 21); // GPIOE clock enable (force)
+
     GPIO_InitPort(C_BL_TRIGGER_PORT);
 
     GPIO_Config(C_BL_TRIGGER_PORT, 
@@ -262,14 +264,20 @@ void Bootloader_JumpToApp(void) {
 
 }*/
 
-void Bootloader_run() 
+void Bootloader_run(void)
 {
-    Bootloader_Init();
+    /* Activer horloge GPIOE */
+    RCC->AHBENR |= (1 << 21);
+
+    /* PE9 en sortie */
+    GPIOE->MODER &= ~(3 << (9 * 2));
+    GPIOE->MODER |=  (1 << (9 * 2));
 
     while (1)
     {
-        GPIO_Toggle(GPIOE, C_GPIO_Pin_9);
-        for (volatile uint32_t i = 0; i < 500000; i++);
+        GPIOE->ODR ^= (1 << 9);
+        for (volatile uint32_t i = 0; i < 1000000; i++);
     }
 }
+
 

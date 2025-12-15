@@ -176,6 +176,8 @@ typedef struct {
 /*-------------------- Convenient Aliases --------------------*/
 #define C_FLASH_ACR_LATENCY        C_FLASH_ACR_LATENCY_Msk
 #define C_FLASH_ACR_LATENCY_2      C_FLASH_ACR_LATENCY_2WS
+#define C_FLASH_ACR_LATENCY_0   0x00000000U
+
 
 // Flash layout (STM32F303xC)
 #define C_FLASH_BASE_ADDR     (0x08000000UL)
@@ -185,6 +187,7 @@ typedef struct {
 // Device specifics
 #define C_FLASH_PAGE_SIZE     (2048U)                // 2 KB per page on F303xC
 #define C_FLASH_TOTAL_SIZE    (256U * 1024U)         // 256 KB total (F303VC)
+
 
 //--------------------//
 //        GPIO        //
