@@ -269,25 +269,25 @@ void Bootloader_JumpToApp(void) {
 
 void Bootloader_run(void)
 {
-    volatile uint32_t *RCC_AHBENR = (uint32_t *)0x40021014U;
-    volatile uint32_t *GPIOE_MODER = (uint32_t *)0x48001000U;
-    volatile uint32_t *GPIOE_BSRR  = (uint32_t *)0x48001018U;
-
-    /* GPIOE clock enable (bit21) */
-    *RCC_AHBENR |= (1U << 21);
-
-    /* PE9 output */
-    *GPIOE_MODER &= ~(3U << (9U * 2U));
-    *GPIOE_MODER |=  (1U << (9U * 2U));
-
     while (1)
     {
-        *GPIOE_BSRR = (1U << 9);         // ON
+        __asm volatile (
+            "ldr r0, =0x48001018 \n"   /* GPIOE_BSRR */
+            "ldr r1, =0x00000200 \n"   /* PE9 ON */
+            "str r1, [r0]        \n"
+        );
+
         for (volatile uint32_t i = 0; i < 1000000; i++);
 
-        *GPIOE_BSRR = (1U << (9 + 16));  // OFF
+        __asm volatile (
+            "ldr r0, =0x48001018 \n"
+            "ldr r1, =0x02000000 \n"   /* PE9 OFF */
+            "str r1, [r0]        \n"
+        );
+
         for (volatile uint32_t i = 0; i < 1000000; i++);
     }
 }
+
 
 
